@@ -1,10 +1,12 @@
-#/usr/bin/python
+#!/usr/bin/python
 
-#########################################################################################
-#		Generates a smoothed line from a standard X,Y dataset			#
-#											#
-#			Author: Bassam Haddad and Matthew Veter				#
-#########################################################################################
+##########################################################################################
+##		Generates a smoothed line from a standard X,Y dataset			##
+##											##
+##	Portland State University							##
+##	P.I.	: Steve Reichow								##
+##	Author	: Bassam Haddad and Matthew Veter					##
+##########################################################################################
 
 import matplotlib.pyplot as plt
 import numpy as np
