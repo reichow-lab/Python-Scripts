@@ -17,7 +17,7 @@ from sys import argv
 script, infile	=	argv
 
 x_lab	=	input("Name the x-axis: ")
-num_bins=	input("How many bins? ")
+num_bins=	int(input("How many bins? "))
 pdf_col	=	input("Color of the pdf? ")
 
 # Unloading data file
