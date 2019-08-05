@@ -1,11 +1,12 @@
 #!/home/bassam/anaconda3/envs/matt/bin/python
-
-# trace.py
-# by Umair Khan
-# Reichow Lab
-
-# 3D plotting experiments.
-
+##########################################################################
+##	3D tracing of a trajectory obtained by CoM trajectory		##
+##	produced by the center_of_mass proc in Analysis			##
+##									##
+##	Portland State University					##
+##	P.I.	: Steve Reichow						##
+##	Author	: Umair Khan						##
+##########################################################################
 
 # Imports
 import sys
@@ -23,12 +24,12 @@ z = []
 # Read data from file
 # (each line is formatted "x y z")
 with open(filename, "r") as f:
-	
+
 	# Go through each line
 	for line in f:
 	
 		# Append to appropriate lists
-		line = line.split()
+		line	=	line.split()
 		x.append(float(line[0]))
 		y.append(float(line[1]))
 		z.append(float(line[2]))
