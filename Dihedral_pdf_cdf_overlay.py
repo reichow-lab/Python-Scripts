@@ -18,6 +18,7 @@ script, infile	=	argv
 
 num_bins=	int(input("How many bins? "))
 pdf_col	=	input("Color of the pdf? ")
+title	=	input("Title of the figure? ")
 
 # Unloading data file
 x, y	=	np.loadtxt(infile, delimiter='\t', unpack=True)
@@ -58,5 +59,5 @@ xlabel("Dihedral angle (degrees)")
 ylabel("Cumulative density")
 
 # Creating shared traits and the figure
-plt.title("Frequency of glycosidic bond dihedral angles on cAMP in Cx46")
+plt.title(title)
 plt.show()

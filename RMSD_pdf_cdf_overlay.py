@@ -18,6 +18,7 @@ script, infile  =       argv
 
 num_bins=       int(input("How many bins? "))
 pdf_col =       input("Color of the pdf? ")
+title	=	input("Title of the figure? ")
 
 # Unloading data file
 x, y    =       np.loadtxt(infile, delimiter='\t', unpack=True)
@@ -31,9 +32,9 @@ n, bins, patches        =       ax1.hist(y, num_bins, density=1, histtype='stepf
 
 # Establishing the y-axis of the pdf and the x-axis
 ylabel("Probability density")
-plt.ylim(0, 2.25)
-plt.xlim(0, 2.52)
-plt.xticks(np.arange(0, 3, step=0.5))
+plt.ylim(0, 3.0)
+plt.xlim(0, 3.0)
+plt.xticks(np.arange(0, 3.0, step=0.5))
 
 # Overlaying the line of the pdf to give the edge definition
 ax2     =       fig1.add_subplot(111, sharex=ax1, sharey=ax1, frameon=False)
@@ -58,6 +59,6 @@ xlabel("RMSD (Angstroms)")
 ylabel("Cumulative density")
 
 # Creating shared traits and the figure
-plt.title("RMSD of cAMP in bulk solvent")
+plt.title(title)
 plt.show()
 

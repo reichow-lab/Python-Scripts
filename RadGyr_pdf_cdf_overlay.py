@@ -18,6 +18,7 @@ script, infile  =       argv
 
 num_bins=       int(input("How many bins? "))
 pdf_col =       input("Color of the pdf? ")
+title	=	input("Title of the figure? ")
 
 # Unloading data file
 x, y    =       np.loadtxt(infile, delimiter='\t', unpack=True)
@@ -31,9 +32,9 @@ n, bins, patches        =       ax1.hist(y, num_bins, density=1, histtype='stepf
 
 # Establishing the y-axis of the pdf and the x-axis
 ylabel("Probability density")
-plt.ylim(0, 8)
-plt.xlim(3.35, 3.93)
-plt.xticks(np.arange(3.3,3.95, step=0.1))
+plt.ylim(0, 9)
+plt.xlim(3.35, 3.85)
+plt.xticks(np.arange(3.4,3.81, step=0.1))
 
 # Overlaying the line of the pdf to give the edge definition
 ax2     =       fig1.add_subplot(111, sharex=ax1, sharey=ax1, frameon=False)
@@ -58,6 +59,6 @@ xlabel("Radius of gyration (Angstroms)")
 ylabel("Cumulative density")
 
 # Creating shared traits and the figure
-plt.title("Radius of gyration for cAMP in bulk solvent")
+plt.title(title)
 plt.show()
 
