@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!~/miniconda2/envs/detba/bin/python
 #
 #	Program	: Ion_Tracker.py
 #	Author	: Bassam Haddad

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/bassamh/miniconda2/envs/detba/bin/python
 #
 #	Program:	process_ion.py
 #	Author:		Bassam Haddad

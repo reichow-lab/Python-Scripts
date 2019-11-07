@@ -2,7 +2,7 @@
 #
 #	Program	: Calculator.py
 #	Author	: Bassam Haddad
-#	
+#
 #	This module replaces both 'pop2matrix.py', and 'rate2gibbs.py' from the previous iteration of DetBa_2.sh.
 #	Calculator.py has three methods build into it:
 #
@@ -12,12 +12,12 @@
 #			Outputs	: Rate Matrix (markov)
 #
 #
-#		- rate2gibbs	: Uses values from the matrix matrix, and calculates the gibbs free energy for the transitions between bins. 
+#		- rate2gibbs	: Uses values from the matrix matrix, and calculates the gibbs free energy for the transitions between bins.
 #
 #			Inputs 	: Initial bin (init), Final bin (fina), rates matrix (matrix), bin size (bin_size), output file (outname)
 #			Outputs	: 'Free-Energy vs. Position'
 #
-#		- hist_write	: 
+#		- hist_write	:
 #
 #
 #
@@ -70,7 +70,7 @@ def rate2gibbs(init, fina, matrix, bin_size, outname):
 
 	out_file = str(outname) + "_penult.dat"
 
-	out	 = open(out_file, 'w') 
+	out	 = open(out_file, 'w')
 
 	gibbs = np.zeros((num_bins,2))
 
@@ -142,7 +142,7 @@ def hist_write(init, pop_matrix, outname, bin_size, num_bins):
 		val_1	= str(val1)
 		val_2	= str(val2)
 
-		out.write(val_1 + ' ' + val_2 + '\n')  
+		out.write(val_1 + ' ' + val_2 + '\n')
 
 		bin_init = bin_init + bin_size
 
@@ -160,4 +160,4 @@ def hist_write(init, pop_matrix, outname, bin_size, num_bins):
 
 
 
-	
+

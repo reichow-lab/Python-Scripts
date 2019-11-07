@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/home/bassamh/miniconda2/envs/PY3/bin/python
 
 from sys import argv
 from math import sqrt
 import statistics as stat
 
-script, CentersFile = argv
+script, CentersFile, LipNum = argv
 
 # Generate Dictionary containing all of the x,y data for each lipid, this dictionary will be used to calculate all 66 pairwise distances
 
@@ -12,9 +12,9 @@ Chains  =   ['A','B','C','D','E','F','G','H','I','J','K','L']
 
 DenCen  =   {}
 
-LipNum  =   12
+LipNum  =   int(LipNum)
 
-with open('TEST.txt') as centers:
+with open(CentersFile) as centers:
 
     for i in range(0,len(Chains),1):
 
@@ -64,7 +64,10 @@ for k in range(0,len(Chains),1):
 
 # Generate dictionary of the variance in the pairwise distances
 
-PWSDev  =   {}
+PWSDev      =   {}
+
+PWSDev['AVG'] =   {}
+PWSDev['STD'] =   {}
 
 for i in range(1,(LipNum + 1),1):
 
@@ -78,35 +81,24 @@ for i in range(1,(LipNum + 1),1):
 
             tmp.append(PWDist[Chains[k]][key])
 
-        PWSDev[key]  =   sqrt(stat.variance(tmp))
+        PWSDev['STD'][key]   =    sqrt(stat.variance(tmp))
+
+        PWSDev['AVG'][key]   =    stat.mean(tmp)
 
 # Write out the variances to a text file
 
 with open((CentersFile + '_PWSDeviation'), 'w') as ofile:
 
-    ofile.write('Pair' + '\t' + 'SDev (\u212B)' + '\n')
+    ofile.write('Pair' + '\t' + 'Avg (\u212B)' + '\t\t\t' + 'SDev (\u212B)' + '\n')
 
     tmp =   []
 
-    for key in PWSDev:
+    for key in PWSDev['STD']:
 
-        ofile.write(str(key) + '\t' + str(PWSDev[key]) + '\n')
+        ofile.write(str(key) + '\t' + str(PWSDev['AVG'][key]) + '\t' + str(PWSDev['STD'][key]) + '\n')
 
-        tmp.append(PWSDev[key])
+        tmp.append(PWSDev['STD'][key])
 
     avg =   stat.mean(tmp)
 
     ofile.write('The average standard deviation in Lipid Center assignment is ' + str(avg) + '\u212B')
-
-
-
-
-
-
-
-
-
-
-
-
-

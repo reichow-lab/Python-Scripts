@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/bassamh/miniconda2/envs/detba/bin/python
 #
 #	Program: DetBa.py
 #
@@ -101,6 +101,33 @@ from PMF_Prep		import Prep
 #	Main Program		#
 #				#
 #################################
+
+
+#   linput: prefix  num_files   init    fina    bin_size    d_col   outname     DictName
+#              0        1        2       3         4          5        6           7
+
+def DPGen(lintext):
+
+    with open(lintext) as linput:
+
+        global  MasterDic
+
+        MasterDic   = {}
+
+        for line in linput:
+
+            val     =   line.split()
+
+            MasterDic[str(val[7])]  =   dict([('prefix', str(val[0])),('num_files', int(val[1])),('init', int(val[2])),('fina', int(val[3])),('bin_size', float(val[4])),('d_col', int(val[5])),('outname', str(val[6]))])
+
+def numb(init,fina,bins):
+
+    MatLength   =   int(abs(init) + abs(fina))
+
+    NumBins     =   MatLength / bins
+
+    return  int(NumBins)
+
 def R(DP):
 
     out_pop_mat =       DP["outname"] + "_pop.mat"
@@ -109,15 +136,17 @@ def R(DP):
 
     out_final   =       DP["outname"] + "_final.txt"
 
+    num_bins    =       numb(DP["init"],DP["fina"],DP["bin_size"])
+
     array_dim	=	1
 
     init_matrix	=	initialize(DP["init"], DP["fina"], DP["bin_size"], DP["outname"], array_dim)
 
-    pop_matrix	=	populate(init_matrix, DP["prefix"], DP["num_files"], DP["fina"], DP["bin_size"], DP["num_bins"], DP["array_dim"], DP["d_col"])
+    pop_matrix	=	populate(init_matrix, DP["prefix"], DP["num_files"], DP["fina"], DP["bin_size"], num_bins, array_dim, DP["d_col"])
 
     pop_matrix.dump(out_pop_mat)
 
-    rate_matrix	=	pop2rate(DP["init"], DP["fina"], DP["pop_matrix"], DP["bin_size"])
+    rate_matrix	=	pop2rate(DP["init"], DP["fina"], pop_matrix, DP["bin_size"])
 
     rate_matrix.dump(out_rate_mat)
 
@@ -127,13 +156,15 @@ def R(DP):
 
 def H(DP):
 
+    num_bins    =       numb(DP["init"],DP["fina"],DP["bin_size"])
+
     array_dim	=	0
 
     init_matrix	=	initialize(DP["init"], DP["fina"], DP["bin_size"], DP["outname"], array_dim)
 
-    pop_matrix	=	populate(init_matrix, DP["prefix"], DP["num_files"], DP["fina"], DP["bin_size"], DP["num_bins"], array_dim, DP["d_col"])
+    pop_matrix	=	populate(init_matrix, DP["prefix"], DP["num_files"], DP["fina"], DP["bin_size"], num_bins, array_dim, DP["d_col"])
 
-    write_mat	=	hist_write(DP["init"], pop_matrix, DP["outname"], DP["bin_size"], DP["num_bins"])
+    write_mat	=	hist_write(DP["init"], pop_matrix, DP["outname"], DP["bin_size"], num_bins)
 
 def T(DP):
 
