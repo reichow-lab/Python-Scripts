@@ -1,4 +1,3 @@
-#!/home/bassamh/miniconda2/envs/detba/bin/python
 #
 #	Program:	process_ion.py
 #	Author:		Bassam Haddad
@@ -8,19 +7,19 @@
 #	two halves, then I will end up with 200 ion trajectory files. such that ion_firsthalf_13 and ion_secondhalf_13 are the same ion
 #	but their trajectories are split into two separate files. This convention makes future applications of DetBa.py problematic
 #	specifically the ability to track the permeation of a single ion. Thus it would help to have a 1 file per ion. This program does
-#	just that, it appends the trajectories of the "second half" to the "first half" and adjusts the time value such that it is a 
+#	just that, it appends the trajectories of the "second half" to the "first half" and adjusts the time value such that it is a
 #	continuous process.
 #
 #	To run the program simply type:
 #
 #		$ process_ion.py xxxx
 #
-#	where 'xxxx' is the adjustment needed to make to the time column of the "second half" data ... for example, them time in 
+#	where 'xxxx' is the adjustment needed to make to the time column of the "second half" data ... for example, them time in
 #	'ion_firsthalf_13' goes from 0 - 10000, and the time in 'ion_secondhalf_13' also goes from 0 - 10000, the slide amount (xxxx)
 #	will be 10000, such that your resulting file, 'ion_total_13', goes from 0 - 20000.
 #
 #	The prefix refers to the string up to the number, using our prior examples, the prefix for 'ion_firsthalf_13' would be
-#	'ion_firsthalf_'. 
+#	'ion_firsthalf_'.
 
 from tqdm	import tqdm
 from sys        import argv

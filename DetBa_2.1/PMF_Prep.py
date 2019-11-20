@@ -1,4 +1,3 @@
-#!/usr/bin/python
 
 import numpy as np
 from math import sqrt
@@ -80,7 +79,7 @@ def error(PMF_for, PMF_rev, cut_num):
 
 	print Error
 
-	return PMF_avg	 
+	return PMF_avg
 
 #################################################################
 
