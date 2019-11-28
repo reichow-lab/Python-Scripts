@@ -1,6 +1,8 @@
-#!/usr/bin/python
+#!/home/bassam/anaconda3/envs/detba/bin/python
 
 import numpy as np
+import matplotlib.pyplot as plt
+from scipy import interpolate
 from math import sqrt
 
 Error	= {}			# Dictionary keeping track of which "cut_num" provides the smallest error
@@ -11,17 +13,8 @@ limit	= 70			# What the final PMF 'pore-axis' will be trimmed down to
 
 def trim(PMF_in, cut_num, final=False):	# cut_num is the number of values from PMF_for[pore-axis] to cut.
 
-	PMF_for		= [[],[]]               # Forward PMF, [[pore-axis],[PMF_for]]
+	PMF_for		= PMF_in               # Forward PMF, [[pore-axis],[PMF_for]]
 	PMF_rev		= [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev]]
-
-	with open(PMF_in, 'r') as data:
-
-		for line in data:
-
-			val	= line.split()
-
-			PMF_for[0].append(float(val[0]))
-			PMF_for[1].append(float(val[1]))
 
 	for i in range(0,cut_num,1):			# This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
 
@@ -80,7 +73,7 @@ def error(PMF_for, PMF_rev, cut_num):
 
 	print Error
 
-	return PMF_avg	 
+	return PMF_avg
 
 #################################################################
 
@@ -101,6 +94,39 @@ def final(PMF_avg):
 	return PMF_fin
 
 #################################################################
+
+def interp(PMF_in):
+
+    PMF_IN  =   [[],[]]
+    PMF_fix =   [[],[]]
+
+    with open(PMF_in, 'r') as data:
+
+        for line in data:
+
+            val     = line.split()
+            PMF_IN[0].append(float(val[0]))
+            PMF_IN[1].append(float(val[1]))
+
+    del PMF_IN[0][-1]
+    del PMF_IN[1][-1]
+
+    xin     =   np.array(PMF_IN[0])
+   # xin     =   PMF_IN[0]
+    yin     =   np.array(PMF_IN[1])
+   # yin     =   PMF_IN[1]
+
+    f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
+
+    xout    =   np.arange(PMF_IN[0][0],PMF_IN[0][-1] + 1,1)
+    yout    =   f(xout)
+
+    PMF_fix[0]  =   xout.tolist()
+    PMF_fix[1]  =   yout.tolist()
+
+    return  PMF_fix
+
+#################################################################
 #								#
 #			Main Program				#
 #								#
@@ -110,13 +136,16 @@ def Prep(PMF_in, outname):
 
 	CUT_NUMS = [0,1,2,3,4,5]	# Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
 					# of these cuts (usually it's around 3) and then finding the minimum should work well for now...
+
+        PMF_fix  =  interp(PMF_in)
+
 	for x in CUT_NUMS:
 
-		trim(PMF_in, x)
+		trim(PMF_fix, x)
 
 	BESTCUT		= min(Error, key=Error.get)
 
-	Average_PMF	= trim(PMF_in, BESTCUT, True)
+	Average_PMF	= trim(PMF_fix, BESTCUT, True)
 
 	Final_PMF	= final(Average_PMF)
 
