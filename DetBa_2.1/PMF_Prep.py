@@ -13,10 +13,12 @@ limit	= 70			# What the final PMF 'pore-axis' will be trimmed down to
 
 def trim(PMF_in, cut_num, final=False):	# cut_num is the number of values from PMF_for[pore-axis] to cut.
 
-	PMF_for		= list(PMF_in)               # Forward PMF, [[pore-axis],[PMF_for]]
+	PMF_for		= [[],[]]               # Forward PMF, [[pore-axis],[PMF_for]]
+        PMF_for[0]      = list(PMF_in[0])
+        PMF_for[1]      = list(PMF_in[1])
 	PMF_rev		= [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev]]
 
-	for i in range(0,cut_num,1):			# This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
+	for i in range(0,cut_num,1):                    # This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
 
 		del PMF_for[0][0]
 
