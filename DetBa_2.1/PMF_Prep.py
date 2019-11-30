@@ -13,7 +13,7 @@ limit	= 70			# What the final PMF 'pore-axis' will be trimmed down to
 
 def trim(PMF_in, cut_num, final=False):	# cut_num is the number of values from PMF_for[pore-axis] to cut.
 
-	PMF_for		= PMF_in               # Forward PMF, [[pore-axis],[PMF_for]]
+	PMF_for		= list(PMF_in)               # Forward PMF, [[pore-axis],[PMF_for]]
 	PMF_rev		= [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev]]
 
 	for i in range(0,cut_num,1):			# This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
@@ -37,7 +37,7 @@ def trim(PMF_in, cut_num, final=False):	# cut_num is the number of values from P
 		del PMF_for[1][-1]
 
 
-	PMF_rev[0]	=	PMF_for[0]		# Creates the PMF reverse PMF...same pore axis
+        PMF_rev[0]	=	PMF_for[0][:]		# Creates the PMF reverse PMF...same pore axis
 
 	PMF_rev[1]	=	PMF_for[1][::-1]	# but reversed PMF values...the list slice [::-1] is reversing the second column
 
@@ -55,7 +55,7 @@ def error(PMF_for, PMF_rev, cut_num):
 
 	PMF_avg		= [[],[],[]]	# Average PMF, [[pore-axis],[PMF_avg],[SEM]]. I am reassigning this everytime I call it to clear out the columns
 
-	PMF_avg[0]	= PMF_for[0]
+        PMF_avg[0]	= PMF_for[0][:]
 
 	hold            = np.zeros([1,2])
 
@@ -81,7 +81,7 @@ def final(PMF_avg):
 
 	PMF_fin = [[],[],[],[]]         # Final PMF  , [[pore-axis],[PMF_avg_adj],[Avg+SEM],[Avg-SEM]]
 
-	PMF_fin[0] 	= PMF_avg[0]
+        PMF_fin[0] 	= PMF_avg[0][:]
 
 	for i in range(0,len(PMF_avg[0]),1):
 
@@ -112,9 +112,8 @@ def interp(PMF_in):
     del PMF_IN[1][-1]
 
     xin     =   np.array(PMF_IN[0])
-   # xin     =   PMF_IN[0]
+
     yin     =   np.array(PMF_IN[1])
-   # yin     =   PMF_IN[1]
 
     f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
 
@@ -139,9 +138,11 @@ def Prep(PMF_in, outname):
 
         PMF_fix  =  interp(PMF_in)
 
+        PMF_trim =  list(PMF_fix)
+
 	for x in CUT_NUMS:
 
-		trim(PMF_fix, x)
+		trim(PMF_trim, x)
 
 	BESTCUT		= min(Error, key=Error.get)
 
