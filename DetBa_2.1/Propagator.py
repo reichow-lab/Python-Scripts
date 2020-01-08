@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #
 #	Program	: Propogator.py
 #	Author	: Bassam Haddad
@@ -26,7 +25,7 @@ from tqdm import tqdm
 
 def initialize(bin_init, bin_fina, bin_size, outname, array_dim):
 
-	out_log		=	str(outname) + ".log"		
+	out_log		=	str(outname) + ".log"
 	L		=	open(out_log, 'w')
 
 	matrix_length	=	int(abs(bin_init) + abs(bin_fina))
@@ -47,7 +46,7 @@ def initialize(bin_init, bin_fina, bin_size, outname, array_dim):
 		population_matrix=np.zeros((num_bins,num_bins))
 		return population_matrix
 
-# This method populates a transition matrix from 1D data (e.g. ion trajectories along z-coordinate) 
+# This method populates a transition matrix from 1D data (e.g. ion trajectories along z-coordinate)
 
 def populate(matrix, prefix, num_files, bin_fina, bin_s, num_bins, array_dim, d_col):
 
@@ -65,7 +64,7 @@ def populate(matrix, prefix, num_files, bin_fina, bin_s, num_bins, array_dim, d_
 
 				to = neg*(bin_s) - bin_fina	# The purpose of this statement is to allow for variable sized bins. Thus the zcoord must be located within a range,
 				fro = to - bin_s		# the range is then associated with a particular bin. 'to' & 'fro' are the edges of the bin, this code cycles through
-								# all of the available bins, and asks whether or not the zcoord is within it. 
+								# all of the available bins, and asks whether or not the zcoord is within it.
 				if (zcoord >= fro) and (zcoord <= to):
 
 					found_bin = True	# This, and the next if-statement seem confusing, but if you work it out on paper, it'll make sense.
@@ -111,7 +110,7 @@ def populate(matrix, prefix, num_files, bin_fina, bin_s, num_bins, array_dim, d_
 		matrix[bin_now, 1] = matrix[bin_now,1] + 1
 
 		return 0
-	
+
 	###################################################################
 
 	bin_j	=	0
@@ -134,13 +133,13 @@ def populate(matrix, prefix, num_files, bin_fina, bin_s, num_bins, array_dim, d_
 
 				bin_i = bin_j
 				bin_j = Which_Bin(float(val[d_col]))
-				
+
 				if array_dim == 1:	# Rates calculation: choice == 'R'
 
-					hold = Populator(bin_i, bin_j)	
+					hold = Populator(bin_i, bin_j)
 
 				elif array_dim == 0:	# Histogram calculation: choice == 'H'
 
 					hold = hist_pop(bin_j)
-		
+
 	return matrix

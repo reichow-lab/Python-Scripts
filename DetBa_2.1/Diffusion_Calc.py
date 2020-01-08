@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #
 #	Program	: Diffusion_Calc.py
 #	Author	: Bassam Haddad
@@ -37,14 +36,14 @@ def normalize(pop_mat):
 
 			else:
 				trans_mat[r,t]	= pop_mat[r,t] / row_tot
-			
+
 	return trans_mat
 
 def Diff_Calc(trans_mat,bin_size,sim_min=-110,sim_max=110,pore_min=-60,pore_max=60):
 
 	"""
 	The first set of loops populate a matrix known as 'bin_centers' which gives the center of the bins in units A, and allows for us to use transition matrices with arbitrary
-	bin sizes. The next set of loops are performing the actual calculation of the average Diffusion coefficient within the pore. The bin_centers matrix should corrospond to 
+	bin sizes. The next set of loops are performing the actual calculation of the average Diffusion coefficient within the pore. The bin_centers matrix should corrospond to
 	the bins in the transition matrix. The values: -110, 110, -60, and 60 are chosen based off of all the PMFs I have made during this project, and are specific to Cx46/50
 	or really any connexin gap junction I suppose. Point is, if you have an explicit reason to use a different value, edit it here.
 	"""

@@ -1,14 +1,13 @@
-#!~/miniconda2/envs/detba/bin/python
 #
 #	Program	: Ion_Tracker.py
 #	Author	: Bassam Haddad
 #
 #	This program seeks to count the number of ion permeation events that occur in an all-atom molecular dynamics (MD) simulation of Connexin gap junctions.
-#	
+#
 #	This will be an experimental and new addition that will (hopefully) calculate the number of ion permeation events that satisfy the following scenario:
 #	Given a Bulk_solvent_A (BsA), Protein_channel (Pc), and Bulk_solvent_B (BsB); A proper permeation event will occur if one of the following conditions are met on a per-ion-basis
 #
-#	1)	first[BsA]	second[Pc]	third[BsB]	fourth[N/A] 
+#	1)	first[BsA]	second[Pc]	third[BsB]	fourth[N/A]
 #	2)	first[BsB]	second[Pc]	third[BsA]	fourth[N/A]
 #	3)	first[BsA]	second[BsB]	third[Pc]	fourth[BsA]
 #	4)	first[BsB]	second[BsA]	third[Pc]	fourth[BsB]
@@ -27,7 +26,7 @@
 #		- ION_PERM	: 0/N (where 'N' is a non-zero integer)
 #		- Tracking	: first[BsA/BsB/Pc], second[BsA/BsB/Pc], third[BsA,BsB,Pc], fourth[BsA,BsB,Pc]
 #
-#			- The tracking will be filled based off a series of conditional statements that ensure that it correctly tracks a full permeation event. S.T. the Tracking 
+#			- The tracking will be filled based off a series of conditional statements that ensure that it correctly tracks a full permeation event. S.T. the Tracking
 #			parameters reset when it returns to a previus section (e.g. 'first[BsA] -> second[Pc] -> third[BsA]' will reset the variables, and will not increase ION_PERM)
 #
 
@@ -39,7 +38,7 @@ class ION:
 
 	def __init__(self):
 
-		print	""" 
+		print	"""
 
 				------------------ \n
 				|    top bulk    | \n
@@ -56,7 +55,7 @@ class ION:
 
 		self.BsA_upper	=	int(raw_input("What is the upper boundary of the top bulk-solvent? "))
 
-		self.BsA_lower	=	int(raw_input("What is the lower boundary of the top bulk-solvent? "))       
+		self.BsA_lower	=	int(raw_input("What is the lower boundary of the top bulk-solvent? "))
 
 		self.BsB_upper	=	int(raw_input("What is the upper boundary of the bottom bulk-solvent? "))
 
@@ -78,8 +77,8 @@ class ION:
 
 		""" The boundaries will remain immutable throughout the process of ion tracking, however the values self.first/second/third will be freely adjusted
 		throughout the 'tracker' method. At the end of every loop, a conditional statement will check to see if any of the 4 conditions of permeation are met; if
-		they are indeed met, then 'ION_PERM' will increase by 1."""	
-	
+		they are indeed met, then 'ION_PERM' will increase by 1."""
+
 	###############################################################################################################################################################################################
 	#																							      #
 	#											Tracker Functions										      #
@@ -171,11 +170,11 @@ class ION:
 					print "There is a condition you are not accounting for: 4"
 
 			else:
-				
+
 				print "self.first is %s" % self.first
 				print "bin_now = %s" % bin_now
 				print "There is a condition you are not accounting for: 5"
-		
+
 		def Perm_Check(bin_now):
 
 			if	self.first == "BsA" and self.second == "Pc" and self.third == "BsB":
@@ -245,4 +244,4 @@ class ION:
 
 		Log.write("There were a total of %s ions that permeated." % (self.ION_PERM))
 
-		Log.close()	
+		Log.close()
