@@ -1,6 +1,6 @@
-#!/usr/bin/python
-
 import numpy as np
+import matplotlib.pyplot as plt
+from scipy import interpolate
 from math import sqrt
 
 Error	= {}			# Dictionary keeping track of which "cut_num" provides the smallest error
@@ -12,18 +12,11 @@ limit	= 70			# What the final PMF 'pore-axis' will be trimmed down to
 def trim(PMF_in, cut_num, final=False):	# cut_num is the number of values from PMF_for[pore-axis] to cut.
 
 	PMF_for		= [[],[]]               # Forward PMF, [[pore-axis],[PMF_for]]
+        PMF_for[0]      = list(PMF_in[0])
+        PMF_for[1]      = list(PMF_in[1])
 	PMF_rev		= [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev]]
 
-	with open(PMF_in, 'r') as data:
-
-		for line in data:
-
-			val	= line.split()
-
-			PMF_for[0].append(float(val[0]))
-			PMF_for[1].append(float(val[1]))
-
-	for i in range(0,cut_num,1):			# This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
+	for i in range(0,cut_num,1):                    # This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
 
 		del PMF_for[0][0]
 
@@ -44,7 +37,7 @@ def trim(PMF_in, cut_num, final=False):	# cut_num is the number of values from P
 		del PMF_for[1][-1]
 
 
-	PMF_rev[0]	=	PMF_for[0]		# Creates the PMF reverse PMF...same pore axis
+        PMF_rev[0]	=	PMF_for[0][:]		# Creates the PMF reverse PMF...same pore axis
 
 	PMF_rev[1]	=	PMF_for[1][::-1]	# but reversed PMF values...the list slice [::-1] is reversing the second column
 
@@ -62,11 +55,23 @@ def error(PMF_for, PMF_rev, cut_num):
 
 	PMF_avg		= [[],[],[]]	# Average PMF, [[pore-axis],[PMF_avg],[SEM]]. I am reassigning this everytime I call it to clear out the columns
 
-	PMF_avg[0]	= PMF_for[0]
+        PMF_avg[0]	= PMF_for[0][:]
 
 	hold            = np.zeros([1,2])
 
 	for i in range(0,len(PMF_avg[0]),1):
+
+            if PMF_avg[0][i] == 0:
+
+                hold[0,0]       = PMF_for[1][i-1]
+
+                hold[0,1]       = PMF_rev[1][i-1]
+
+                PMF_avg[1].append(hold.mean())
+
+                PMF_avg[2].append((hold.std())/sqrt(2))
+
+            else:
 
 		hold[0,0]	= PMF_for[1][i]
 
@@ -80,7 +85,7 @@ def error(PMF_for, PMF_rev, cut_num):
 
 	print Error
 
-	return PMF_avg	 
+	return PMF_avg
 
 #################################################################
 
@@ -88,7 +93,7 @@ def final(PMF_avg):
 
 	PMF_fin = [[],[],[],[]]         # Final PMF  , [[pore-axis],[PMF_avg_adj],[Avg+SEM],[Avg-SEM]]
 
-	PMF_fin[0] 	= PMF_avg[0]
+        PMF_fin[0] 	= PMF_avg[0][:]
 
 	for i in range(0,len(PMF_avg[0]),1):
 
@@ -101,6 +106,38 @@ def final(PMF_avg):
 	return PMF_fin
 
 #################################################################
+
+def interp(PMF_in):
+
+    PMF_IN  =   [[],[]]
+    PMF_fix =   [[],[]]
+
+    with open(PMF_in, 'r') as data:
+
+        for line in data:
+
+            val     = line.split()
+            PMF_IN[0].append(float(val[0]))
+            PMF_IN[1].append(float(val[1]))
+
+    del PMF_IN[0][-1]
+    del PMF_IN[1][-1]
+
+    xin     =   np.array(PMF_IN[0])
+
+    yin     =   np.array(PMF_IN[1])
+
+    f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
+
+    xout    =   np.arange(PMF_IN[0][0],PMF_IN[0][-1] + 1,1)
+    yout    =   f(xout)
+
+    PMF_fix[0]  =   xout.tolist()
+    PMF_fix[1]  =   yout.tolist()
+
+    return  PMF_fix
+
+#################################################################
 #								#
 #			Main Program				#
 #								#
@@ -110,13 +147,18 @@ def Prep(PMF_in, outname):
 
 	CUT_NUMS = [0,1,2,3,4,5]	# Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
 					# of these cuts (usually it's around 3) and then finding the minimum should work well for now...
+
+        PMF_fix  =  interp(PMF_in)
+
+        PMF_trim =  list(PMF_fix)
+
 	for x in CUT_NUMS:
 
-		trim(PMF_in, x)
+		trim(PMF_trim, x)
 
 	BESTCUT		= min(Error, key=Error.get)
 
-	Average_PMF	= trim(PMF_in, BESTCUT, True)
+	Average_PMF	= trim(PMF_fix, BESTCUT, True)
 
 	Final_PMF	= final(Average_PMF)
 
