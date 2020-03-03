@@ -40,6 +40,8 @@ for FILE in filelist:
 Dwell_Times	= []
 hold		= 0
 
+# Populate a list of dwell times. It is here that we can impose a filter if we want to define a dwell as more than 1 frame...it was decided to count 1-frame dwells as such.
+
 for i in range(0,(len(Dwell_Frames[0])-1),1):
 
 	if (int(Dwell_Frames[0][i+1]) - int(Dwell_Frames[0][i])) == 1:
@@ -50,15 +52,17 @@ for i in range(0,(len(Dwell_Frames[0])-1),1):
 
 		Dwell_Times.append(hold)
 		hold = 1
-
+print(Dwell_Times)
 # Create array of the dwell times, and calculate statistics
 DT_Array	= np.array(Dwell_Times)
 
 m_dwell		= np.mean(DT_Array) * dt
+t_dwell		= np.sum(DT_Array) * dt
 s_dwell		= np.sqrt(np.var(DT_Array)) * dt
 
-print(f"Mean dwell-time	: {m_dwell} ns")
-print(f"Std Deviation	: {s_dwell} ns")
+print(f"Total dwell-time : {t_dwell} ns")
+print(f"Mean dwell-time	 : {m_dwell} ns")
+print(f"Std Deviation	 : {s_dwell} ns")
 
 # Generate histogram of dwell-times and dist(HG - Arg)
 DT_out		= open((outname + "_DT_hist.txt"), 'w')
