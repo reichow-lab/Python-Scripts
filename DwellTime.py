@@ -52,21 +52,28 @@ for i in range(0,(len(Dwell_Frames[0])-1),1):
 
 		Dwell_Times.append(hold)
 		hold = 1
-print(Dwell_Times)
+
 # Create array of the dwell times, and calculate statistics
 DT_Array	= np.array(Dwell_Times)
 
 m_dwell		= np.mean(DT_Array) * dt
 t_dwell		= np.sum(DT_Array) * dt
 s_dwell		= np.sqrt(np.var(DT_Array)) * dt
+t_total         = np.sum(All_Frames) * dt
+dwell_percent   = (t_dwell / t_total) * 100
 
-print(f"Total dwell-time : {t_dwell} ns")
+print(f"Total dwell-time : {t_dwell}/{t_total} ns")
 print(f"Mean dwell-time	 : {m_dwell} ns")
 print(f"Std Deviation	 : {s_dwell} ns")
 
 # Generate histogram of dwell-times and dist(HG - Arg)
 DT_out		= open((outname + "_DT_hist.txt"), 'w')
 AF_out		= open((outname + "_AF_hist.txt"), 'w')
+log_out         = open((outname + "_log.txt"), 'w')
+
+log_out.write("Total Dwell" + "\t" + "Mean Dwell" + "\t\t" + "Dwell StDev" + "\n")
+log_out.write(str(t_dwell) + "\t\t" + str(m_dwell) + "\t" + str(s_dwell))
+log_out.close()
 
 AF_Array	= np.array(All_Frames)
 
@@ -88,3 +95,5 @@ DT_out.close()
 for i in range(0,len(AF_list[0]),1):
 	AF_out.write(str(AF_list[1][i]) + "\t" + str(AF_list[0][i]) + "\n")
 AF_out.close()
+
+
