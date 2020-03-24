@@ -72,7 +72,7 @@ AF_out		= open((outname + "_AF_hist.txt"), 'w')
 log_out         = open((outname + "_log.txt"), 'w')
 
 log_out.write("Total Dwell" + "\t" + "Mean Dwell" + "\t\t" + "Dwell StDev" + "\n")
-log_out.write(str(t_dwell) + "\t\t" + str(m_dwell) + "\t" + str(s_dwell) + "\n")
+log_out.write(str(dwell_percent) + " %" + "\t\t" + str(m_dwell) + "\t" + str(s_dwell) + "\n")
 log_out.write("Input Variables" + "\n")
 log_out.write("glob String:" + "\t" + str(seltext) + "\n")
 log_out.write("State_Min:" + "\t" + str(state_min) + "\n")
