@@ -62,7 +62,7 @@ s_dwell		= np.sqrt(np.var(DT_Array)) * dt
 t_total         = np.sum(All_Frames) * dt
 dwell_percent   = (t_dwell / t_total) * 100
 
-print(f"Total dwell-time : {t_dwell}/{t_total} ns")
+print(f"Total dwell-time : {dwell_percent} %")
 print(f"Mean dwell-time	 : {m_dwell} ns")
 print(f"Std Deviation	 : {s_dwell} ns")
 
