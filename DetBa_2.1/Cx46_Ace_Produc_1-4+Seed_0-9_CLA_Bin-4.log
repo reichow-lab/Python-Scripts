@@ -1,0 +1,4 @@
+bin_init: -120
+bin_fina: 120
+bin_size: 4.0
+num_bins: 60
