@@ -59,7 +59,7 @@ DT_Array	= np.array(Dwell_Times)
 m_dwell		= np.mean(DT_Array) * dt
 t_dwell		= np.sum(DT_Array) * dt
 s_dwell		= np.sqrt(np.var(DT_Array)) * dt
-t_total         = np.sum(All_Frames) * dt
+t_total         = len(All_Frames) * dt
 dwell_percent   = (t_dwell / t_total) * 100
 
 print(f"Total dwell-time : {dwell_percent} %")
