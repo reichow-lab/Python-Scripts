@@ -9,7 +9,7 @@ with open(datfile, 'rb') as datin:
 
 	CenterPots = pkl.load(datin)
 	Pore_Axes  = pkl.load(datin)
-
+print(CenterPots,Pore_Axes)
 # Calculate mean and error
 
 Final = []
