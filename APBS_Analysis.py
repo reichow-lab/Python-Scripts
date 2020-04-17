@@ -61,9 +61,9 @@ for den in Volume_List:
         x,y,z     = den.edges
         Pore_Axes.append(z[0:-1])
         PotentialTemp = []
-	for z in range(0,lenz,1):
-        	Avg_pot   = 0
-        	total_pot = 0
+        for z in range(0,lenz,1):
+                Avg_pot   = 0
+                total_pot = 0
                 for i in range(0,len(x_list[denN]),1):
                         point_pot = den.grid[x_list[denN][i]][y_list[denN][i]][z]
                         total_pot = total_pot + point_pot
@@ -77,22 +77,22 @@ for den in Volume_List:
 with open(str(globstring + '_data.pkl'), 'wb') as out:
 
         pkl.dump(CenterPots, out)
-        pkl.dump(Pore_Axes, out)
+        pkl.dump(Pore_Axes[0], out)
 
 # Calculate mean and error
 
-Final = []
+#Final = []
+##
+#Final.append(np.mean(CenterPots, axis=0))
+#Final.append(np.mean(CenterPots, axis=0) + np.std(CenterPots, axis=0))
+#Final.append(np.mean(CenterPots, axis=0) - np.std(CenterPots, axis=0))
 #
-Final.append(np.mean(CenterPots, axis=0))
-Final.append(np.mean(CenterPots, axis=0) + np.std(CenterPots, axis=0))
-Final.append(np.mean(CenterPots, axis=0) - np.std(CenterPots, axis=0))
-
-# Plot Data
-
-for i in range(0,len(Final),1):
-	plt.plot(Pore_Axes[0],Final[i])
-plt.title("TEST")
-plt.xlabel('Pore-Axis (A)')
-plt.ylabel('Potential (kT/e)')
-#plt.ylim(-20,10)
-plt.savefig("TEST.png",dpi=600)
+## Plot Data
+#
+#for i in range(0,len(Final),1):
+#	plt.plot(Pore_Axes[0],Final[i])
+#plt.title("TEST")
+#plt.xlabel('Pore-Axis (A)')
+#plt.ylabel('Potential (kT/e)')
+##plt.ylim(-20,10)
+#plt.savefig("TEST.png",dpi=600)
