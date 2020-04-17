@@ -49,8 +49,9 @@ for xo,yo in zip(Xo_list,Yo_list):
 				y_list_temp.append(yo + y)
 			else:
 				pass
-	x_list.append(x_list_temp)
-	y_list.append(y_list_temp)
+        x_list.append(x_list_temp)
+        y_list.append(y_list_temp)
+        print(len(x_list),len(y_list))
 # Average the potentials from each point in the circular plane for a given z-value
 
 CenterPots = []
@@ -61,15 +62,15 @@ for den in Volume_List:
 	x,y,z     = den.edges
 	Pore_Axes.append(z[0:-1])
 	PotentialTemp = []
-		Avg_pot   = 0
-		total_pot = 0
+	Avg_pot   = 0
+	total_pot = 0
 
-		for i in range(0,len(x_list[denN]),1):
-			point_pot = den.grid[x_list[denN][i]][y_list[denN][i]][z]
-			total_pot = total_pot + point_pot
+	for i in range(0,len(x_list[denN]),1):
+		point_pot = den.grid[x_list[denN][i]][y_list[denN][i]][z]
+		total_pot = total_pot + point_pot
 
-		Avg_pot = total_pot / len(x_list[denN])
-		PotentialTemp.append(Avg_pot)
+	Avg_pot = total_pot / len(x_list[denN])
+	PotentialTemp.append(Avg_pot)
 	CenterPots.append(PotentialTemp)
 	denN += 1
 

@@ -56,4 +56,3 @@ for FILE in filelist:
     Total95CI   = 1.96 * TotalStErr
 
     out.write(str(Frame) + '\t' + str(ElecAvg) + '\t' + str(Elec95CI) + '\t' + str(VdWAvg) + '\t' + str(VdW95CI) + '\t' + str(TotalAvg) + '\t' + str(Total95CI) + '\t' + str(FILE) + '\n')
-out.close()
