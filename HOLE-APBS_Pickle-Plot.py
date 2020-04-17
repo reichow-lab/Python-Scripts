@@ -21,7 +21,7 @@ Final.append(np.mean(CenterPots, axis=0) - np.std(CenterPots, axis=0))
 # Plot Data
 
 for i in range(0,len(Final),1):
-        plt.plot(Pore_Axes[0],Final[i])
+        plt.plot(Pore_Axes,Final[i])
 plt.title("TEST")
 plt.xlabel('Pore-Axis (A)')
 plt.ylabel('Potential (kT/e)')
