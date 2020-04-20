@@ -32,7 +32,7 @@ with open(exp, 'rb') as datain:
 	experiment = pkl.load(datain)
 # Write out .txt file for Excel
 
-with open((outname + '.txt'), 'w') as excelout
+with open((outname + '.txt'), 'w') as excelout:
 	excelout.write('Pore-Axis\tExp\tMD\t+SEM\t-SEM\n')
 	for i in range(0,len(Pore_Axes),1):
 		excelout.write(str(Pore_Axes[i])+'\t'+str(Final[0][i])+'\t'+str(Final[1][i])+'\t'+str(Final[2][i])+'\n')
