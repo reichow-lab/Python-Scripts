@@ -32,21 +32,3 @@ with open(str(globstring + '_data.pkl'), 'wb') as out:
 
     pkl.dump(Pore_Radii, out)
     pkl.dump(Pore_Axis, out)
-
-# Calculate mean and error
-
-#Final = []
-##
-#Final.append(np.mean(CenterPots, axis=0))
-#Final.append(np.mean(CenterPots, axis=0) + np.std(CenterPots, axis=0))
-#Final.append(np.mean(CenterPots, axis=0) - np.std(CenterPots, axis=0))
-#
-## Plot Data
-#
-#for i in range(0,len(Final),1):
-#	plt.plot(Pore_Axes[0],Final[i])
-#plt.title("TEST")
-#plt.xlabel('Pore-Axis (A)')
-#plt.ylabel('Potential (kT/e)')
-##plt.ylim(-20,10)
-#plt.savefig("TEST.png",dpi=600)

@@ -7,7 +7,7 @@ script, datfile, outname, choice, exp, color = argv
 
 # Set color scheme
 
-Color_Options = {'red': ['firebrick','lightcoral','lightcoral'], 'blue': ['royalblue','skyblue','skyblue'], 
+Color_Options = {'red': ['firebrick','lightcoral','lightcoral'], 'blue': ['royalblue','skyblue','skyblue'],
 		'green': ['olivedrab','palegreen','palegreen'], 'purple': ['rebeccapurple','mediumpurple','mediumpurple']}
 
 Color_Scheme  = Color_Options[color]
@@ -27,10 +27,16 @@ Final.append(np.mean(CenterPots, axis=0) - np.std(CenterPots, axis=0))
 
 # Import Experimental data
 
-with open(exp, 'rb') as datin:
+with open(exp, 'rb') as datain:
 
-	experiment = pkl.load(datin)
+	experiment = pkl.load(datain)
+# Write out .txt file for Excel
 
+with open((outname + '.txt'), 'w') as excelout
+	excelout.write('Pore-Axis\tExp\tMD\t+SEM\t-SEM\n')
+	for i in range(0,len(Pore_Axes),1):
+		excelout.write(str(Pore_Axes[i])+'\t'+str(Final[0][i])+'\t'+str(Final[1][i])+'\t'+str(Final[2][i])+'\n')
+	excelout.close()
 # Plot Data
 
 if choice == "apbs":
