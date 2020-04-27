@@ -1,3 +1,4 @@
+#!/home/bassam/.conda/envs/PY3/bin/python
 import numpy as np
 from glob import glob
 from sys import argv
