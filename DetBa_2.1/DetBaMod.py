@@ -101,7 +101,7 @@ def M(input_dict,d_col,lag_step,bin_lim):
         # Write out log containing the following indexed information:
         #   Matrix_dimension    lag_time    source    sink    K_AB    mfpt
         #         0                 1          2        3      4        5
-        log.write("str(bin_lim)\tstr(lag_step)\tstr(source)\tstr(sink)\tstr(K_AB)\t(MFPT)")           
+        log.write(str(bin_lim)+'\t'+str(lag_step)+'\t'+str(source)+'\t'+str(sink)+'\t'+str(K_AB)+'\t'+str(MFPT)+'\n')
     Final       =   Prep(gibbs, input_dict['out_final'])
 
 def H():
