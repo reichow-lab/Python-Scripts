@@ -38,7 +38,7 @@ def initialize(file_list, bin_size, outname, array_dim, bin_lim='auto'):
                     bin_max = int(float(val[1]))
         bin_dim = min(abs(bin_min),abs(bin_max))
     else:
-        bin_dim = bin_lim
+        bin_dim = int(bin_lim)
     while bin_dim % bin_size != 0:
         bin_dim -= 1
     bin_min = bin_dim * -1
