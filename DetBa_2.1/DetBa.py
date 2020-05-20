@@ -141,7 +141,7 @@ while END == False:
     choice        =    choice.upper()
     if choice    ==    'E':
         END    =    True
-    elif choice    in    {"R","H","T","I"}:
+    elif choice    in    {"M","H","T","I"}:
         END    =    False
     else:
         END    =    True
