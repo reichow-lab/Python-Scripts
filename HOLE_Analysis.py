@@ -12,10 +12,10 @@ hole_file_list = glob(globstring)
 hole_file_list.sort()
 
 # Load HOLE output files
-up_lim  = 65
-low_lim = -65
+up_lim  = 64
+low_lim = -64
 Pore_Radii = []
-Pore_Axis  = np.arange(-65,66)
+Pore_Axis  = np.arange(-64,65)
 for hole_file in hole_file_list:
     with open(hole_file) as FileIN:
         temp_radii = []

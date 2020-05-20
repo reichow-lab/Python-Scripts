@@ -38,7 +38,7 @@ class ION:
 
 	def __init__(self):
 
-		print	"""
+		print("""
 
 				------------------ \n
 				|    top bulk    | \n
@@ -51,15 +51,15 @@ class ION:
 				|	         | \n
 				|   bottom bulk  | \n
 				------------------ \n
-		"""
+		""")
 
-		self.BsA_upper	=	int(raw_input("What is the upper boundary of the top bulk-solvent? "))
+		self.BsA_upper	=	int(input("What is the upper boundary of the top bulk-solvent? "))
 
-		self.BsA_lower	=	int(raw_input("What is the lower boundary of the top bulk-solvent? "))
+		self.BsA_lower	=	int(input("What is the lower boundary of the top bulk-solvent? "))
 
-		self.BsB_upper	=	int(raw_input("What is the upper boundary of the bottom bulk-solvent? "))
+		self.BsB_upper	=	int(input("What is the upper boundary of the bottom bulk-solvent? "))
 
-		self.BsB_lower	=	int(raw_input("What is the lower boundary of the bottom bulk-solvent? "))
+		self.BsB_lower	=	int(input("What is the lower boundary of the bottom bulk-solvent? "))
 
 		self.Pc_lower	=	self.BsB_upper
 
@@ -135,11 +135,11 @@ class ION:
 
 					else:
 
-						print "There is a condition you are not accounting for: 1"
+						print("There is a condition you are not accounting for: 1")
 
 				else:
 
-					print "There is a condition you are not accounting for: 2"
+					print("There is a condition you are not accounting for: 2")
 
 			elif self.first == "BsB":
 
@@ -163,17 +163,17 @@ class ION:
 
 					else:
 
-						print "There is a condition you are not accounting for: 3"
+						print("There is a condition you are not accounting for: 3")
 
 				else:
 
-					print "There is a condition you are not accounting for: 4"
+					print("There is a condition you are not accounting for: 4")
 
 			else:
 
-				print "self.first is %s" % self.first
-				print "bin_now = %s" % bin_now
-				print "There is a condition you are not accounting for: 5"
+				print("self.first is %s" % self.first)
+				print("bin_now = %s" % bin_now)
+				print("There is a condition you are not accounting for: 5")
 
 		def Perm_Check(bin_now):
 
