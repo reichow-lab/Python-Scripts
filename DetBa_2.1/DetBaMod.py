@@ -85,10 +85,10 @@ def Gen_Inputs(globstring,bin_size,outname):
 #    Main Program               #
 #                               #
 #################################
-def M(input_dict,d_col,lag_step):
+def M(input_dict,d_col,lag_step,bin_lim):
     lag_step    =    int(lag_step/input_dict['lag_base'])
     array_dim   =    1
-    init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(input_dict['file_list'], input_dict['bin_size'], input_dict['outname'], array_dim)
+    init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(input_dict['file_list'], input_dict['bin_size'], input_dict['outname'], array_dim, bin_lim)
     pop_matrix  =    populate(input_dict['file_list'], init_matrix, bin_max, input_dict['bin_size'], num_bins, array_dim, d_col, lag_step, ZtoBin)
     pop_matrix.dump(input_dict['out_pop_mat'])
     rate_matrix =    pop2rate(num_bins, pop_matrix)
