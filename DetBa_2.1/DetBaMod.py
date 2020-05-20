@@ -94,7 +94,14 @@ def M(input_dict,d_col,lag_step,bin_lim):
     rate_matrix =    pop2rate(num_bins, pop_matrix)
     rate_matrix.dump(input_dict['out_rate_mat'])
     #gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, outname)
-    gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,input_dict['outname'],80,-80,bin_min,bin_max,input_dict['bin_size'],ZtoBin,lag_step)
+    source      = int(input("Which bin is the source? "))
+    sink        = int(input("which bin is the sink? "))
+    gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,input_dict['outname'],source,sink,bin_min,bin_max,input_dict['bin_size'],ZtoBin,lag_step)
+    with open(str(input_dict['outname']+'_MFPT.log'), 'a') as log:
+        # Write out log containing the following indexed information:
+        #   Matrix_dimension    lag_time    source    sink    K_AB    mfpt
+        #         0                 1          2        3      4        5
+        log.write("str(bin_lim)\tstr(lag_step)\tstr(source)\tstr(sink)\tstr(K_AB)\t(MFPT)")           
     Final       =   Prep(gibbs, input_dict['out_final'])
 
 def H():
