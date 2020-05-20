@@ -63,83 +63,65 @@ from Current_Calculator    import Current,Text2PMF,VoltPMF
 from Diffusion_Calc    import normalize,Diff_Calc
 from Edge_Erase    import edge_erase
 from PMF_Prep    import Prep
-from sys    import argv
 from glob    import glob
-
-script, globstring = argv
 
 #################################
 #                               #
 #    Initial Variables          #
 #                               #
 #################################
-
-file_list       =    glob(globstring)
-bin_size        =    float(input("What is the desired bin size? "))
-outname         =    str(input("What would you like to name this project? "))
-choice          =    str(input("What would you like to do? MSM PMF (M), Histogram (H), Ion Tracker (T), I-V approximator (I) "))
-choice          =    choice.upper()
-out_pop_mat     =    outname + "_pop.mat"
-out_rate_mat    =    outname + "_rate.mat"
-out_IV          =    outname + "_I-V.data"
-out_final       =    outname + "_final.txt"
-lag_base        =    2  # the base lag_time, or frame is 2ps...this can be softcoded later.
+def Gen_Inputs(globstring,bin_size,outname):
+    file_list       =    glob(globstring)
+    out_pop_mat     =    outname + "_pop.mat"
+    out_rate_mat    =    outname + "_rate.mat"
+    out_IV          =    outname + "_I-V.data"
+    out_final       =    outname + "_final.txt"
+    lag_base        =    2  # the base lag_time, or frame is 2ps...this can be softcoded later.
+    input_dict      =    dict([("file_list",file_list),("out_pop_mat",out_pop_mat),("out_rate_mat",out_rate_mat),("out_IV",out_IV),("out_final",out_final),("lag_base",lag_base),("bin_size",bin_size),("outname",outname)])
+    return input_dict
 
 #################################
 #                               #
 #    Main Program               #
 #                               #
 #################################
+def M(input_dict,d_col,lag_step):
+    lag_step    =    int(lag_step/input_dict['lag_base'])
+    array_dim   =    1
+    init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(input_dict['file_list'], input_dict['bin_size'], input_dict['outname'], array_dim)
+    pop_matrix  =    populate(input_dict['file_list'], init_matrix, bin_max, input_dict['bin_size'], num_bins, array_dim, d_col, lag_step, ZtoBin)
+    pop_matrix.dump(input_dict['out_pop_mat'])
+    rate_matrix =    pop2rate(num_bins, pop_matrix)
+    rate_matrix.dump(input_dict['out_rate_mat'])
+    #gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, outname)
+    gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,input_dict['outname'],80,-80,bin_min,bin_max,input_dict['bin_size'],ZtoBin,lag_step)
+    Final       =   Prep(gibbs, input_dict['out_final'])
 
-END    =    False
-
-while END == False:
-    if choice == 'M':
-        d_col   =    int(input("Which column from your data_file will you use? "))
-        lag_step    =    int(int(input("Choose a lag time. (multiple of 2ps) "))/lag_base)
-        array_dim   =    1
-        init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim)
-        pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
-        pop_matrix.dump(out_pop_mat)
-        rate_matrix =    pop2rate(num_bins, pop_matrix)
-        rate_matrix.dump(out_rate_mat)
-        #gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, outname)
-        gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,outname,80,-80,bin_min,bin_max,bin_size,ZtoBin,lag_step)
-        Final       =   Prep(gibbs, out_final)
-
-    elif choice == 'H':
-        d_col        =    int(input("Which column from your data_file will you use? "))
-        array_dim    =    0
-        init_matrix,bin_min,bin_max,num_bins    =    initialize(file_list, bin_size, outname, array_dim)
-        pop_matrix    =    populate(init_matrix, prefix, num_files, bin_max, bin_size, num_bins, array_dim, d_col)
-        write_mat    =    hist_write(bin_min, pop_matrix, outname, bin_size, num_bins)
-    elif choice == 'T':
-        ION        =    Ion_Tracker.ION()
-        ION.tracker(num_files, prefix, outname)
-    elif choice == 'A':
-        ION        =    Ion_Tracker_DEV.ION()
-        ION.tracker(num_files, prefix, outname)
-    elif choice == 'I':
-        PMF_txt            =    out_final
-        PMF_0,num_bins        =    Text2PMF(PMF_txt)
-        pop_mat_EE        =    edge_erase(np.load(out_pop_mat),bin_size)
-        trans_mat        =    normalize(pop_mat_EE)
-        Diff_pore        =    Diff_Calc(trans_mat,bin_size)                        # Calculates in units (A^2/second)
-        #print    "Diff_pore = %s" % Diff_pore
-        Voltages        =    [-150,-100,-75,-50,-25,0,25,50,75,100,150]
-        out            =    open(out_IV, 'w')
-        out.write('dV (mV)' + ',' + 'Current (pA)' + ',' + 'Forward MFPT' + ',' + 'Reverse MFPT' + '\n')
-        for V in Voltages:
-            dV        =    float(V)
-            pmf_v        =    VoltPMF(PMF_0,dV,num_bins)
-            I,Tau_f,Tau_r    =    Current(pmf_v,num_bins,bin_size)
-            out.write(str(dV) + ',' + str(I) + ',' + str(Tau_f) + ',' + str(Tau_r) + '\n')
-        out.close()
-    choice        =    str(input("What would you like to do? MSM PMF (M), Histogram (H), Ion Tracker (T), I-V approximator (I), Exit (E) "))
-    choice        =    choice.upper()
-    if choice    ==    'E':
-        END    =    True
-    elif choice    in    {"R","H","T","I"}:
-        END    =    False
-    else:
-        END    =    True
+def H():
+    d_col        =    int(input("Which column from your data_file will you use? "))
+    array_dim    =    0
+    init_matrix,bin_min,bin_max,num_bins    =    initialize(file_list, bin_size, outname, array_dim)
+    pop_matrix    =    populate(init_matrix, prefix, num_files, bin_max, bin_size, num_bins, array_dim, d_col)
+    write_mat    =    hist_write(bin_min, pop_matrix, outname, bin_size, num_bins)
+def T():
+    ION        =    Ion_Tracker.ION()
+    ION.tracker(num_files, prefix, outname)
+def A():
+    ION        =    Ion_Tracker_DEV.ION()
+    ION.tracker(num_files, prefix, outname)
+def IV():
+    PMF_txt            =    out_final
+    PMF_0,num_bins        =    Text2PMF(PMF_txt)
+    pop_mat_EE        =    edge_erase(np.load(out_pop_mat),bin_size)
+    trans_mat        =    normalize(pop_mat_EE)
+    Diff_pore        =    Diff_Calc(trans_mat,bin_size)                        # Calculates in units (A^2/second)
+    #print    "Diff_pore = %s" % Diff_pore
+    Voltages        =    [-150,-100,-75,-50,-25,0,25,50,75,100,150]
+    out            =    open(out_IV, 'w')
+    out.write('dV (mV)' + ',' + 'Current (pA)' + ',' + 'Forward MFPT' + ',' + 'Reverse MFPT' + '\n')
+    for V in Voltages:
+        dV        =    float(V)
+        pmf_v        =    VoltPMF(PMF_0,dV,num_bins)
+        I,Tau_f,Tau_r    =    Current(pmf_v,num_bins,bin_size)
+        out.write(str(dV) + ',' + str(I) + ',' + str(Tau_f) + ',' + str(Tau_r) + '\n')
+    out.close()

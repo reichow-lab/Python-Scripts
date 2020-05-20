@@ -106,10 +106,12 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
             for j in j_list:
                 K_AB    = K_AB + p_i[0]*tran_mat[j,i]
         K_AB    = (1/lag_time)*K_AB
+        # Calculate the mean first passage time
         MFPT    = 1/K_AB
         print(f"\n The MFPT is {MFPT} ps.")
         return str(outname + '_penult.txt'),K_AB,MFPT
     return str(outname + '_penult.txt')
+    
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
     counter = 0
