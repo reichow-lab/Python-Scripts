@@ -97,6 +97,7 @@ while END == False:
     if choice == 'M':
         d_col   =    int(input("Which column from your data_file will you use? "))
         lag_step    =    int(int(input("Choose a lag time. (multiple of 2ps) "))/lag_base)
+        bin_lim     = input('What is the Bin limit? ')
         array_dim   =    1
         init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
