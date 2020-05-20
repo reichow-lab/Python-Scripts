@@ -104,8 +104,8 @@ while END == False:
         rate_matrix =    pop2rate(num_bins, pop_matrix)
         rate_matrix.dump(out_rate_mat)
         #gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, outname)
-        source      = input("Which bin is the source? ")
-        sink        = input("which bin is the sink? ")
+        source      = int(input("Which bin is the source? "))
+        sink        = int(input("which bin is the sink? "))
         gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_step)
         Final       =   Prep(gibbs, out_final)
 
