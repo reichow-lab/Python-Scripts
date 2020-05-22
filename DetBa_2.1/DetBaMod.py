@@ -85,7 +85,7 @@ def Gen_Inputs(globstring,bin_size,outname):
 #    Main Program               #
 #                               #
 #################################
-def M(input_dict,d_col,lag_step,bin_lim):
+def M(input_dict,d_col,lag_step,bin_lim,source,sink):
     lag_step    =    int(lag_step/input_dict['lag_base'])
     array_dim   =    1
     init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(input_dict['file_list'], input_dict['bin_size'], input_dict['outname'], array_dim, bin_lim)
@@ -94,8 +94,8 @@ def M(input_dict,d_col,lag_step,bin_lim):
     rate_matrix =    pop2rate(num_bins, pop_matrix)
     rate_matrix.dump(input_dict['out_rate_mat'])
     #gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, outname)
-    source      = int(input("Which bin is the source? "))
-    sink        = int(input("which bin is the sink? "))
+    #source      = int(input("Which bin is the source? "))
+    #sink        = int(input("which bin is the sink? "))
     gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,input_dict['outname'],source,sink,bin_min,bin_max,input_dict['bin_size'],ZtoBin,lag_step)
     with open(str(input_dict['outname']+'_MFPT.log'), 'a') as log:
         # Write out log containing the following indexed information:
