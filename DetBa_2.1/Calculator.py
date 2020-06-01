@@ -23,10 +23,10 @@ def sympop(bin_min, bin_size, pop_matrix):
     bin_list = np.arange(bin_min,(abs(bin_min)+1),bin_size)
     for i in bin_list:
         for j in bin_list:
-            pop_matrix(i,j) = np.mean(pop_matrix(i,j),pop_matrix(-i,-j))
-            pop_matrix(-i,-j) = pop_matrix(i,j)
+            pop_matrix[i,j] = np.mean(pop_matrix[i,j],pop_matrix[-i,-j])
+            pop_matrix[-i,-j] = pop_matrix[i,j]
     return pop_matrix
-    
+
 def pop2rate(num_bins, pop_matrix):
     counter  = 0
     markov=np.zeros_like(pop_matrix)
