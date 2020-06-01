@@ -102,7 +102,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
             out.write(str(i)+'\t'+str(-0.00198588*310*np.log(p[0]))+'\n')
             i += bin_size
     # This step only occurs if system is in "non-equilibrium"
-    if source != None and sink != None:
+    if source != sink:
         # Calculate the rate from source to sink (K_AB)
         K_AB    = 0
         # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
