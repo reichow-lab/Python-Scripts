@@ -23,7 +23,9 @@ def sympop(bin_min, bin_size, pop_matrix):
     bin_list = np.arange(bin_min,(abs(bin_min)+1),bin_size)
     print(bin_list)
     for i in bin_list:
+        i = int(i)
         for j in bin_list:
+            j = int(j)
             pop_matrix[i,j] = np.mean(pop_matrix[i,j],pop_matrix[-i,-j])
             pop_matrix[-i,-j] = pop_matrix[i,j]
     return pop_matrix
