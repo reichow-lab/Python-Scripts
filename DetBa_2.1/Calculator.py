@@ -20,7 +20,7 @@ import numpy as np
 from tqdm import tqdm
 
 def sympop(bin_min, bin_size, pop_matrix, ZtoBin):
-    bin_list = np.arange(bin_min,(abs(bin_min)+1),bin_size)
+    bin_list = np.arange(bin_min,abs(bin_min),bin_size)
     print(bin_list)
     for i in bin_list:
         i = ZtoBin[int(i)]
