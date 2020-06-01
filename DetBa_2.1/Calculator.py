@@ -26,7 +26,7 @@ def sympop(bin_min, bin_size, pop_matrix, ZtoBin):
         i = ZtoBin[int(i)]
         for j in bin_list:
             j = ZtoBin[int(j)]
-            pop_matrix[i,j] = np.mean(pop_matrix[i,j],pop_matrix[-i,-j])
+            pop_matrix[i,j] = np.mean([pop_matrix[i,j],pop_matrix[-i,-j]])
             pop_matrix[-i,-j] = pop_matrix[i,j]
     return pop_matrix
 
