@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 def sympop(bin_min, bin_size, pop_matrix):
     bin_list = np.arange(bin_min,(abs(bin_min)+1),bin_size)
+    print(bin_list)
     for i in bin_list:
         for j in bin_list:
             pop_matrix[i,j] = np.mean(pop_matrix[i,j],pop_matrix[-i,-j])
