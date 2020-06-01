@@ -19,6 +19,14 @@
 import numpy as np
 from tqdm import tqdm
 
+def sympop(bin_min, bin_size, pop_matrix):
+    bin_list = np.arange(bin_min,(abs(bin_min)+1),bin_size)
+    for i in bin_list:
+        for j in bin_list:
+            pop_matrix(i,j) = np.mean(pop_matrix(i,j),pop_matrix(-i,-j))
+            pop_matrix(-i,-j) = pop_matrix(i,j)
+    return pop_matrix
+    
 def pop2rate(num_bins, pop_matrix):
     counter  = 0
     markov=np.zeros_like(pop_matrix)
@@ -111,7 +119,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         print(f"\n The MFPT is {MFPT} ps.")
         return str(outname + '_penult.txt'),K_AB,MFPT
     return str(outname + '_penult.txt')
-    
+
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
     counter = 0

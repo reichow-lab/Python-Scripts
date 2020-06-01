@@ -58,7 +58,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import Ion_Tracker
 from Propagator import initialize,populate
-from Calculator import pop2rate,rate2gibbs,hist_write,mfpt
+from Calculator import sympop,pop2rate,rate2gibbs,hist_write,mfpt
 from Current_Calculator    import Current,Text2PMF,VoltPMF
 from Diffusion_Calc    import normalize,Diff_Calc
 from Edge_Erase    import edge_erase
@@ -102,6 +102,7 @@ while END == False:
         array_dim   =    1
         init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, bin_lim)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
+        pop_matrix  =    sympop(bin_min,bin_size,pop_matrix)
         pop_matrix.dump(out_pop_mat)
         rate_matrix =    pop2rate(num_bins, pop_matrix)
         rate_matrix.dump(out_rate_mat)
