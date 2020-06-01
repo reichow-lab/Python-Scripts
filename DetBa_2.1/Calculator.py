@@ -76,7 +76,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     # source and sink are bins (A,B) that that will direct where counts in the transition matrix will transfer from and to.
     # Counts from T_sink->j, to T_sink->source
     # Modify the transition (count) matrix by moving all counts from sink to source
-    if source != None and sink != None:
+    if source != sink:
         # Convert from z (Å) to bin (i)
         source  = ZtoBin[source]
         sink    = ZtoBin[sink]
