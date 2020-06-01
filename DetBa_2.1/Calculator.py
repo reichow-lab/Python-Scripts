@@ -19,13 +19,13 @@
 import numpy as np
 from tqdm import tqdm
 
-def sympop(bin_min, bin_size, pop_matrix):
+def sympop(bin_min, bin_size, pop_matrix, ZtoBin):
     bin_list = np.arange(bin_min,(abs(bin_min)+1),bin_size)
     print(bin_list)
     for i in bin_list:
-        i = int(i)
+        i = ZtoBin[int(i)]
         for j in bin_list:
-            j = int(j)
+            j = ZtoBin(int(j))
             pop_matrix[i,j] = np.mean(pop_matrix[i,j],pop_matrix[-i,-j])
             pop_matrix[-i,-j] = pop_matrix[i,j]
     return pop_matrix
