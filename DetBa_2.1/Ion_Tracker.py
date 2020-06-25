@@ -24,7 +24,7 @@
 #
 #		- Boundaries	: BsA, BsB, PC
 #		- ION_PERM	: 0/N (where 'N' is a non-zero integer)
-#		- Tracking	: first[BsA/BsB/Pc], second[BsA/BsB/Pc], third[BsA,BsB,Pc], fourth[BsA,BsB,Pc]
+#		- Tracking	: first[BsA/BsB/Pc], second[BsA/BsB/Pc], third[BsA,BsB,Pc]
 #
 #			- The tracking will be filled based off a series of conditional statements that ensure that it correctly tracks a full permeation event. S.T. the Tracking
 #			parameters reset when it returns to a previus section (e.g. 'first[BsA] -> second[Pc] -> third[BsA]' will reset the variables, and will not increase ION_PERM)
@@ -54,26 +54,20 @@ class ION:
 		""")
 
 		self.BsA_upper	=	int(input("What is the upper boundary of the top bulk-solvent? "))
-
 		self.BsA_lower	=	int(input("What is the lower boundary of the top bulk-solvent? "))
-
-		self.BsB_upper	=	int(input("What is the upper boundary of the bottom bulk-solvent? "))
-
-		self.BsB_lower	=	int(input("What is the lower boundary of the bottom bulk-solvent? "))
-
+		self.BsB_upper	=	- self.BsA_lower
+		self.BsB_lower	=	- self.BsA_upper
 		self.Pc_lower	=	self.BsB_upper
-
 		self.Pc_upper	=	self.BsA_lower
-
 		self.first	=	"MT"	# MT means empty
-
 		self.second	=	"MT"
-
 		self.third	=	"MT"
+		self.PosION_PERM	=	0
+		self.NegION_PERM	=	0
+		self.Tinit		=	"MT"
+		self.Tfina 		=	"MT"
 
-		self.ION_PERM	=	0
-
-	def tracker(self, num_ion, prefix, outname):
+	def tracker(self, file_list, d_col, outname, lag_base):
 
 		""" The boundaries will remain immutable throughout the process of ion tracking, however the values self.first/second/third will be freely adjusted
 		throughout the 'tracker' method. At the end of every loop, a conditional statement will check to see if any of the 4 conditions of permeation are met; if
@@ -86,162 +80,95 @@ class ION:
 	###############################################################################################################################################################################################
 
 		def Which_Bin(zcoord):
-
 			if zcoord <= self.BsA_upper and zcoord > self.BsA_lower:
-
 				bin_now	= "BsA"
-
 			elif zcoord <= self.Pc_upper and zcoord >= self.Pc_lower:
-
 				bin_now	= "Pc"
-
 			elif zcoord < self.BsB_upper and zcoord >= self.BsB_lower:
-
 				bin_now	= "BsB"
-
 			return bin_now
-
-		def Order_Assign(bin_now):
-
+		def Order_Assign(bin_now,timestep):
 			if self.first == "MT":
-
 				if bin_now == "Pc":
-
 					pass
-
 				else:
-
 					self.first = bin_now
-
+					self.Tinit = timestep
 			elif self.first == "BsA":
-
 				if self.second == "MT":
-
-					self.second = bin_now if bin_now == "Pc" else RESET(bin_now)
-
+					self.second = bin_now if bin_now == "Pc" else RESET(bin_now,timestep)
 				elif self.second == "Pc":
-
 					if bin_now == "Pc":
-
 						pass
-
 					elif bin_now == "BsB":
-
 						self.third = bin_now
-
+						self.Tfina = timestep
 					elif bin_now == "BsA":
-
-						RESET(bin_now)
-
+						RESET(bin_now,timestep)
 					else:
-
 						print("There is a condition you are not accounting for: 1")
-
 				else:
-
 					print("There is a condition you are not accounting for: 2")
-
 			elif self.first == "BsB":
-
 				if self.second == "MT":
-
-					self.second = bin_now if bin_now == "Pc" else RESET(bin_now)
-
+					self.second = bin_now if bin_now == "Pc" else RESET(bin_now,timestep)
 				elif self.second == "Pc":
-
 					if bin_now == "Pc":
-
 						pass
-
 					elif bin_now == "BsA":
-
 						self.third = bin_now
-
+						self.Tfina = timestep
 					elif bin_now == "BsB":
-
-						RESET(bin_now)
-
+						RESET(bin_now,timestep)
 					else:
-
 						print("There is a condition you are not accounting for: 3")
-
 				else:
-
 					print("There is a condition you are not accounting for: 4")
-
 			else:
-
 				print("self.first is %s" % self.first)
 				print("bin_now = %s" % bin_now)
 				print("There is a condition you are not accounting for: 5")
-
-		def Perm_Check(bin_now):
-
+		def Perm_Check(bin_now,timestep):
 			if	self.first == "BsA" and self.second == "Pc" and self.third == "BsB":
-
-				self.ION_PERM += 1
-
-				RESET(bin_now)
-
-				return 1
-
+				self.NegION_PERM += 1
+				dt = (self.Tfina - self.Tinit) * lag_base/1000
+				RESET(bin_now,timestep)
+				return 1,-1,dt
 			elif	self.first == "BsB" and self.second == "Pc" and self.third == "BsA":
-
-				self.ION_PERM += 1
-
-				RESET(bin_now)
-
-				return 1
-
+				self.PosION_PERM += 1
+				dt = (self.Tfina - self.Tinit) * lag_base/1000
+				RESET(bin_now,timestep)
+				return 1,1,dt
 			else:
+				return 0,0,0
 
-				return 0
-
-		def RESET(bin_now):
-
+		def RESET(bin_now,timestep=0):
 			self.first	= bin_now
-
 			self.second	= "MT"
-
 			self.third	= "MT"
-
+			self.Tinit  = timestep
+			self.Tfina  = "MT"
 			return "MT"
+
 	################################################################################################################################################################################################
 
 		out_log	= str(outname) + "_Tracking.log"
-		Log	= open(out_log, 'a')
-
-		for c in tqdm(range(0,num_ion,1)):
-
-			dat	= str(prefix) + str(c)
-
-			Data	= open(dat)
-
+		Log	= open(out_log, 'w')
+		Log.write("frame\tdt\tfilename\tdirection (+/-)\n")
+		for file in file_list:
+			Data = open(file,'r')
 			for line in Data:
-
 				val = line.split()
-
-				if float(val[1]) > self.BsA_upper or float(val[1]) < self.BsB_lower:
-
+				if float(val[d_col]) > self.BsA_upper or float(val[d_col]) < self.BsB_lower:
 					pass
-
 				else:
-
-					bin_now 	= Which_Bin(float(val[1]))
-
-					Order_Assign(bin_now)
-
-					check = Perm_Check(bin_now)
-
+					bin_now 	= Which_Bin(float(val[d_col]))
+					Order_Assign(bin_now,int(val[0]))
+					check,direc,dt = Perm_Check(bin_now,int(val[0]))
 					if check == True:
-
-						Log.write(dat + '\n')
-
+						Log.write(str(val[0])+'\t'+str(dt)+'\t'+str(file)+'\t'+str(direc)+'\n')
 					else:
 						pass
-
 			RESET("MT")
-
-		Log.write("There were a total of %s ions that permeated." % (self.ION_PERM))
-
+		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
 		Log.close()

@@ -83,7 +83,7 @@ out_pop_mat     =    outname + "_pop.mat"
 out_rate_mat    =    outname + "_rate.mat"
 out_IV          =    outname + "_I-V.data"
 out_final       =    outname + "_final.txt"
-lag_base        =    2  # the base lag_time, or frame is 2ps...this can be softcoded later.
+lag_base        =    int(input("What is the step-size per frame? (answer in picoseconds) "))  # the base lag_time, or frame is 2ps...this can be softcoded later.
 
 #################################
 #                               #
@@ -124,8 +124,9 @@ while END == False:
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         write_mat    =    hist_write(bin_min, pop_matrix, outname, bin_size, num_bins)
     elif choice == 'T':
+        d_col   =    int(input("Which column from your data_file will you use? "))
         ION        =    Ion_Tracker.ION()
-        ION.tracker(num_files, prefix, outname)
+        ION.tracker(file_list, d_col, outname, lag_base)
     elif choice == 'A':
         ION        =    Ion_Tracker_DEV.ION()
         ION.tracker(num_files, prefix, outname)
