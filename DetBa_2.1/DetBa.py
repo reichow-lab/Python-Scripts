@@ -100,7 +100,7 @@ while END == False:
         lag_time    =   lag_step * lag_base
         bin_lim     = input('What is the Bin limit? ')
         array_dim   =    1
-        init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, bin_lim)
+        init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         pop_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
         pop_matrix.dump(out_pop_mat)
@@ -118,8 +118,10 @@ while END == False:
     elif choice == 'H':
         d_col        =    int(input("Which column from your data_file will you use? "))
         array_dim    =    0
-        init_matrix,bin_min,bin_max,num_bins    =    initialize(file_list, bin_size, outname, array_dim)
-        pop_matrix    =    populate(init_matrix, prefix, num_files, bin_max, bin_size, num_bins, array_dim, d_col)
+        lag_step    = 1
+        bin_lim     = input('What is the Bin limit? ')
+        init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
+        pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         write_mat    =    hist_write(bin_min, pop_matrix, outname, bin_size, num_bins)
     elif choice == 'T':
         ION        =    Ion_Tracker.ION()

@@ -87,6 +87,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         count_mat[source][sink]   = sum_counts
     # recalculate the transition (probability/rate) matrix
     tran_mat = pop2rate(num_bins,count_mat)
+    tran_mat.dump(str(outname + '_MFPT.mat'))
     # Calculate the stationary state probabilities (Pss)
     P   = np.zeros([num_bins,1])
     P[-1]   = 1
@@ -121,7 +122,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         MFPT    = 1/K_AB
         print(f"\n The MFPT is {MFPT} ps.")
         return str(outname + '_penult.txt'),K_AB,MFPT
-    return str(outname + '_penult.txt')
+    return str(outname + '_penult.txt'),0,0
 
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)

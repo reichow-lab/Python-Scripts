@@ -24,7 +24,7 @@ import itertools as it
 # Initializes pop_mat for subsequent calculations. MxN pop_mat, such that M is number of bins (num_bins) long, and either 2 or num_bins wide. The N=2 pop_mat is for simple histograms, and the N=num_bins pop_mat is for transition matrices.
 # Additionally, initialize() creates a dictionary where the keys are the int(zcoord) and the values are the bin indeces.
 
-def initialize(file_list, bin_size, outname, array_dim, bin_lim='auto'):
+def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     bin_min = 0
     bin_max = 0
     if bin_lim == 'auto':
@@ -32,10 +32,10 @@ def initialize(file_list, bin_size, outname, array_dim, bin_lim='auto'):
             Data = open(file,'r')
             for line in Data:
                 val = line.split()
-                if float(val[1]) <= bin_min:
-                    bin_min = int(float(val[1]))
-                if float(val[1]) >= bin_max:
-                    bin_max = int(float(val[1]))
+                if float(val[d_col]) <= bin_min:
+                    bin_min = int(float(val[d_col]))
+                if float(val[d_col]) >= bin_max:
+                    bin_max = int(float(val[d_col]))
         bin_dim = min(abs(bin_min),abs(bin_max))
     else:
         bin_dim = int(bin_lim)
