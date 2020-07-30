@@ -28,9 +28,9 @@ import os
 
 script, slide_amount = argv
 
-num_files               =       int(raw_input("How many input files are there? "))
+num_files               =       int(input("How many input files are there? "))
 
-prefix			=	str(raw_input("What is the prefix of the files you want to slide? "))
+prefix			=	str(input("What is the prefix of the files you want to slide? "))
 
 for c in tqdm(range(0,num_files,1)):
 
@@ -53,8 +53,8 @@ for c in tqdm(range(0,num_files,1)):
 	Data.close()
 	newD.close()
 
-prefix_init		=	str(raw_input("What is the prefix of the leading file? "))
-prefix_new		=	str(raw_input("What is the prefix of your new file? "))
+prefix_init		=	str(input("What is the prefix of the leading file? "))
+prefix_new		=	str(input("What is the prefix of your new file? "))
 
 for n in tqdm(range(0,num_files,1)):
 

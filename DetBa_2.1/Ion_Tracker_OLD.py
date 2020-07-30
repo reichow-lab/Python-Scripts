@@ -4,11 +4,11 @@
 #	Author	: Bassam Haddad
 #
 #	This program seeks to count the number of ion permeation events that occur in an all-atom molecular dynamics (MD) simulation of Connexin gap junctions.
-#	
+#
 #	This will be an experimental and new addition that will (hopefully) calculate the number of ion permeation events that satisfy the following scenario:
 #	Given a Bulk_solvent_A (BsA), Protein_channel (Pc), and Bulk_solvent_B (BsB); A proper permeation event will occur if one of the following conditions are met on a per-ion-basis
 #
-#	1)	first[BsA]	second[Pc]	third[BsB]	fourth[N/A] 
+#	1)	first[BsA]	second[Pc]	third[BsB]	fourth[N/A]
 #	2)	first[BsB]	second[Pc]	third[BsA]	fourth[N/A]
 #	3)	first[BsA]	second[BsB]	third[Pc]	fourth[BsA]
 #	4)	first[BsB]	second[BsA]	third[Pc]	fourth[BsB]
@@ -27,7 +27,7 @@
 #		- ION_PERM	: 0/N (where 'N' is a non-zero integer)
 #		- Tracking	: first[BsA/BsB/Pc], second[BsA/BsB/Pc], third[BsA,BsB,Pc], fourth[BsA,BsB,Pc]
 #
-#			- The tracking will be filled based off a series of conditional statements that ensure that it correctly tracks a full permeation event. S.T. the Tracking 
+#			- The tracking will be filled based off a series of conditional statements that ensure that it correctly tracks a full permeation event. S.T. the Tracking
 #			parameters reset when it returns to a previus section (e.g. 'first[BsA] -> second[Pc] -> third[BsA]' will reset the variables, and will not increase ION_PERM)
 #
 
@@ -39,7 +39,7 @@ class ION:
 
 	def __init__(self):
 
-		print	""" 
+		print("""
 
 				------------------ \n
 				|    top bulk    | \n
@@ -52,15 +52,15 @@ class ION:
 				|	         | \n
 				|   bottom bulk  | \n
 				------------------ \n
-		"""
+		""")
 
-		self.BsA_upper	=	int(raw_input("What is the upper boundary of the top bulk-solvent? "))
+		self.BsA_upper	=	int(input("What is the upper boundary of the top bulk-solvent? "))
 
-		self.BsA_lower	=	int(raw_input("What is the lower boundary of the top bulk-solvent? "))       
+		self.BsA_lower	=	int(input("What is the lower boundary of the top bulk-solvent? "))
 
-		self.BsB_upper	=	int(raw_input("What is the upper boundary of the bottom bulk-solvent? "))
+		self.BsB_upper	=	int(input("What is the upper boundary of the bottom bulk-solvent? "))
 
-		self.BsB_lower	=	int(raw_input("What is the lower boundary of the bottom bulk-solvent? "))
+		self.BsB_lower	=	int(input("What is the lower boundary of the bottom bulk-solvent? "))
 
 		self.Pc_lower	=	self.BsB_upper
 
@@ -80,8 +80,8 @@ class ION:
 
 		""" The boundaries will remain immutable throughout the process of ion tracking, however the values self.first/second/third will be freely adjusted
 		throughout the 'tracker' method. At the end of every loop, a conditional statement will check to see if any of the 4 conditions of permeation are met; if
-		they are indeed met, then 'ION_PERM' will increase by 1."""	
-	
+		they are indeed met, then 'ION_PERM' will increase by 1."""
+
 	###############################################################################################################################################################################################
 	#																							      #
 	#											Tracker Functions										      #
@@ -118,7 +118,7 @@ class ION:
 
 						pass
 
-					elif self.second != bin_now and self.third == "MT" and self.fourth == "MT":	# This condition triggers a reset.	
+					elif self.second != bin_now and self.third == "MT" and self.fourth == "MT":	# This condition triggers a reset.
 						RESET(bin_now)
 
 					elif self.second != bin_now and self.third != bin_now and self.fourth == "MT":
@@ -137,13 +137,13 @@ class ION:
 
 					elif self.third != bin_now and self.fourth == "MT":	# This condition triggers a reset.
 
-						RESET(bin_now)	
+						RESET(bin_now)
 
 				elif self.first != bin_now and self.second != bin_now:
 
 					if self.third == "MT" and self.fourth == "MT":
 
-						self.third	= bin_now	
+						self.third	= bin_now
 
 					elif self.third == bin_now and self.fourth == "MT":
 
@@ -251,4 +251,4 @@ class ION:
 
 		Log.write("There were a total of %s ions that permeated." % (self.ION_PERM))
 
-		Log.close()	
+		Log.close()

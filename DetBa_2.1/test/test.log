@@ -1,0 +1,4 @@
+bin_min: -87
+bin_max: 87
+bin_size: 3.0
+num_bins: 58
