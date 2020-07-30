@@ -96,7 +96,7 @@ END    =    False
 while END == False:
     if choice == 'M':
         d_col   =    int(input("Which column from your data_file will you use? "))
-        lag_step    =    int(int(input("Choose a lag time. (multiple of 2ps) "))/lag_base)
+        lag_step    =    int(int(input(f"Choose a lag time. (multiple of {lag_base}ps) "))/lag_base)
         lag_time    =   lag_step * lag_base
         bin_lim     = input('What is the Bin limit? ')
         array_dim   =    1
