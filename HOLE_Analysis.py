@@ -39,11 +39,11 @@ def BlockAvg(M, RadArr):
     # Populate each block with 'bl' elements
     for i in range(int(M)):
         for e in range(0,bl,1):
+            e = e + i*bl
             bList[i].append(RadArr[e])
     AvgList = []
     for i in range(int(M)):
-        AvgList[].append(np.mean(bList[i]))
-              
+        AvgList.append(np.mean(bList[i], axis=0))
 
 # Save Extracted data for future processing
 with open(str(globstring + '_data.pkl'), 'wb') as out:
