@@ -27,24 +27,6 @@ for hole_file in hole_file_list:
         if len(temp_radii) > 0:
             Pore_Radii.append(temp_radii)
 
-# Block Average the data
-def BlockAvg(M, RadArr):
-    n = len(RadArr)     # number of elements
-    bl = int(n/M)       # block length
-    cut = n%M
-    for i in range(0,cut,1):
-        RadArr = np.delete(RadArr, 0, 1)
-    # Create list containing blocks
-    bList = [[] for x in range(int(M))]
-    # Populate each block with 'bl' elements
-    for i in range(int(M)):
-        for e in range(0,bl,1):
-            e = e + i*bl
-            bList[i].append(RadArr[e])
-    AvgList = []
-    for i in range(int(M)):
-        AvgList.append(np.mean(bList[i], axis=0))
-
 # Save Extracted data for future processing
 with open(str(globstring + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii, out)
