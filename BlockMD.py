@@ -6,6 +6,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest="DataIN", action="store")
 parser.add_argument("-out", dest="outname", action="store")
+parser.add_argument("-MM", "--MaxM", dest="MaxM", action="store", default=10)
 args = parser.parse_args()
 
 # If these analyses prove well, then I will fillout this program, otherwise it will
@@ -43,7 +44,7 @@ with open(args.DataIN, 'rb') as infile:
     Data = pkl.load(infile)
     Pore = pkl.load(infile)
 # Block Size list
-BSL = np.arange(1,11,1)
+BSL = np.arange(1,(args.MaxM + 1),1)
 ErrBs = [[],[]]
 for M in BSL:
     temp = Block2D(M,Data,Pore)
