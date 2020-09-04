@@ -44,7 +44,7 @@ with open(args.DataIN, 'rb') as infile:
     Data = pkl.load(infile)
     Pore = pkl.load(infile)
 # Block Size list
-BSL = np.arange(1,(args.MaxM + 1),1)
+BSL = np.arange(1,(int(args.MaxM) + 1),1)
 ErrBs = [[],[]]
 for M in BSL:
     temp = Block2D(M,Data,Pore)
