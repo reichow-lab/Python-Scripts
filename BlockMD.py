@@ -33,21 +33,22 @@ def Block2D(M, InArray, Pore):
     Final = [[],[]]
     Final[0].append(np.mean(AvgList, axis=0))
     Final[1].append(np.std(AvgList, axis=0)/np.sqrt(M))
-    with open((args.outname + "_" + str(M)), 'w') as out:
+    with open((args.outname+'_'+str(M)+'.txt'), 'w') as out:
         for i,j,k in zip(Pore,Final[0][0],Final[1][0]):
             out.write(str(i)+'\t'+str(j)+'\t'+str(k)+'\n')
     return(Final)
 
-# Block Size list
+# Load in pickled HOLE data (2D Array)
 with open(args.DataIN, 'rb') as infile:
     Data = pkl.load(infile)
     Pore = pkl.load(infile)
+# Block Size list
 BSL = np.arange(1,11,1)
 ErrBs = [[],[]]
 for M in BSL:
     temp = Block2D(M,Data,Pore)
     ErrBs[0].append(M)
     ErrBs[1].append(np.sum(temp[1]))
-with open(args.outname, 'w') as out:
+with open((args.outname+'.txt'), 'w') as out:
     for i,j in zip(ErrBs[0],ErrBs[1]):
-        out.write(str(i)+"\t"+str(j)+"\n")
+        out.write(str(i)+'\t'+str(j)+'\n')
