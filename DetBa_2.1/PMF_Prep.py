@@ -21,8 +21,8 @@ def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values fro
         del PMF_for[0][-1]
         del PMF_for[1][-1]
 
-    PMF_rev[0]    =    PMF_for[0][:]        # Creates the PMF reverse PMF...same pore axis
-    PMF_rev[1]    =    PMF_for[1][::-1]    # but reversed PMF values...the list slice [::-1] is reversing the second column
+    PMF_rev[0]    =    list(PMF_for[0][:])        # Creates the PMF reverse PMF...same pore axis
+    PMF_rev[1]    =    list(PMF_for[1][::-1])    # but reversed PMF values...the list slice [::-1] is reversing the second column
     #return PMF_for, PMF_rev, cut_num        # Putting this on hold, I am thinking of calling the error function from here directly instead of returning these PMF values
     PMF_avg        =    error(PMF_for, PMF_rev, cut_num)    # I don't actually need the new PMF at this point..once I find the optimal cut number, I'll call it later.
     if final == True:
