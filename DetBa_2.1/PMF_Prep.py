@@ -26,7 +26,7 @@ def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values fro
     #return PMF_for, PMF_rev, cut_num        # Putting this on hold, I am thinking of calling the error function from here directly instead of returning these PMF values
     PMF_avg        =    error(PMF_for, PMF_rev, cut_num)    # I don't actually need the new PMF at this point..once I find the optimal cut number, I'll call it later.
     if final == True:
-        return PMF_avg
+        return PMF_avg, PMF_for, PMF_rev
 #################################################################
 def error(PMF_for, PMF_rev, cut_num):
     PMF_avg        = [[],[],[]]    # Average PMF, [[pore-axis],[PMF_avg],[SEM]]. I am reassigning this everytime I call it to clear out the columns
@@ -79,15 +79,20 @@ def interp(PMF_in):
 #                                                               #
 #################################################################
 def Prep(PMF_in, outname):
-    CUT_NUMS = [0,1,2,3,4,5]    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
+    CUT_NUMS = [0,1,2,3,4,5,6,7,8,9,10]    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
                     # of these cuts (usually it's around 3) and then finding the minimum should work well for now...
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
     for x in CUT_NUMS:
         trim(PMF_trim, x)
     BESTCUT        = min(Error, key=Error.get)
-    Average_PMF    = trim(PMF_fix, BESTCUT, True)
+    Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, True)
     Final_PMF    = final(Average_PMF)
     with open(outname, "w") as ofile:
-        for i in range(0,len(Final_PMF[0]),1):
-            ofile.write(str(Final_PMF[0][i]) + " " + str(Final_PMF[1][i]) + " " + str(Final_PMF[2][i]) + " " + str(Final_PMF[3][i]) + "\n")
+        ofile.write("Pore Axis\tAvg PMF\tAvg + SEM\tAvg - SEM")
+        for i in range(len(Final_PMF[0])):
+            ofile.write(str(Final_PMF[0][i])+"\t"+str(Final_PMF[1][i])+"\t"+str(Final_PMF[2][i])+"\t"+str(Final_PMF[3][i])+"\n")
+    with open(str(outname + "_asym"), "w") as ofile:
+        ofile.write("Pore Axis\tForward PMF\tReverse PMF\t")
+        for i in range(len(Final_PMF[0])):
+            ofile.write(str(PMF_for[0][i])+"\t"+str(PMF_for[1][i])+"\t"+str(PMF_rev[1][i])+"\n"

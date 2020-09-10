@@ -2,9 +2,6 @@
 #			Program	: Edge_Eraser.py
 #			Author	: Bassam Haddad
 #
-#
-#
-#
 
 import numpy as np
 
