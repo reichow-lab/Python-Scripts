@@ -83,6 +83,7 @@ def Prep(PMF_in, outname):
                     # of these cuts (usually it's around 3) and then finding the minimum should work well for now...
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
+    print(PMF_trim)
     for x in CUT_NUMS:
         trim(PMF_trim, x)
     BESTCUT        = min(Error, key=Error.get)
