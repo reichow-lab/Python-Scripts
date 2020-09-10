@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy import interpolate
 from math import sqrt
 Error    = {}            # Dictionary keeping track of which "cut_num" provides the smallest error
-limit    = 70            # What the final PMF 'pore-axis' will be trimmed down to
+limit    = 65            # What the final PMF 'pore-axis' will be trimmed down to
 #################################################################
 def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values from PMF_for[pore-axis] to cut.
     PMF_for        = [[],[]]               # Forward PMF, [[pore-axis],[PMF_for]]
