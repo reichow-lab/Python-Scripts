@@ -73,6 +73,7 @@ def interp(PMF_in):
     yout    =   f(xout)
     PMF_fix[0]  =   xout.tolist()
     PMF_fix[1]  =   yout.tolist()
+    print(PMF_fix)
     return  PMF_fix
 #################################################################
 #                                                               #
@@ -84,7 +85,6 @@ def Prep(PMF_in, outname):
                     # of these cuts (usually it's around 3) and then finding the minimum should work well for now...
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
-    print(PMF_trim)
     for x in CUT_NUMS:
         trim(PMF_trim, x)
     BESTCUT        = min(Error, key=Error.get)

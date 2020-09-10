@@ -107,7 +107,6 @@ while END == False:
         rate_matrix =    pop2rate(num_bins, pop_matrix)
         rate_matrix.dump(out_rate_mat)
         gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, str(outname + '_rate'))
-        print(gibbs)
         Prep(gibbs, str(outname + '_rate_final.txt'))
         source      = int(input("Which bin is the source? "))
         sink        = int(input("which bin is the sink? "))
