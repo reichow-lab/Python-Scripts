@@ -95,4 +95,4 @@ def Prep(PMF_in, outname):
     with open(str(outname + "_asym"), "w") as ofile:
         ofile.write("Pore Axis\tForward PMF\tReverse PMF\t")
         for i in range(len(Final_PMF[0])):
-            ofile.write(str(PMF_for[0][i])+"\t"+str(PMF_for[1][i])+"\t"+str(PMF_rev[1][i])+"\n"))
+            ofile.write(str(PMF_for[0][i])+"\t"+str(PMF_for[1][i])+"\t"+str(PMF_rev[1][i])+"\n")
