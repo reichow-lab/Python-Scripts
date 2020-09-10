@@ -34,13 +34,13 @@ def error(PMF_for, PMF_rev, cut_num):
     hold           = np.zeros([1,2])
     for i in range(0,len(PMF_avg[0]),1):
             if PMF_avg[0][i] == 0:
-                hold[0,0]       = list(PMF_for[1][i-1])
-                hold[0,1]       = list(PMF_rev[1][i-1])
+                hold[0,0]       = PMF_for[1][i-1]
+                hold[0,1]       = PMF_rev[1][i-1]
                 PMF_avg[1].append(hold.mean())
                 PMF_avg[2].append((hold.std())/sqrt(2))
             else:
-                hold[0,0]    = list(PMF_for[1][i])
-                hold[0,1]    = list(PMF_rev[1][i])
+                hold[0,0]    = PMF_for[1][i]
+                hold[0,1]    = PMF_rev[1][i]
                 PMF_avg[1].append(hold.mean())
                 PMF_avg[2].append((hold.std())/sqrt(2))
     Error[cut_num] = sum(PMF_avg[2])
@@ -56,6 +56,7 @@ def final(PMF_avg):
     return PMF_fin
 #################################################################
 def interp(PMF_in):
+    print(PMF_in)
     PMF_IN  =   [[],[]]
     PMF_fix =   [[],[]]
     with open(PMF_in, 'r') as data:
