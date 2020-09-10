@@ -30,7 +30,7 @@ def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values fro
 #################################################################
 def error(PMF_for, PMF_rev, cut_num):
     PMF_avg        = [[],[],[]]    # Average PMF, [[pore-axis],[PMF_avg],[SEM]]. I am reassigning this everytime I call it to clear out the columns
-    PMF_avg[0]     = lis(PMF_for[0][:])
+    PMF_avg[0]     = list(PMF_for[0][:])
     hold           = np.zeros([1,2])
     for i in range(0,len(PMF_avg[0]),1):
             if PMF_avg[0][i] == 0:
