@@ -102,7 +102,7 @@ while END == False:
         array_dim   =    1
         init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
-        pop_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
+        sym_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
         pop_matrix.dump(out_pop_mat)
         rate_matrix =    pop2rate(num_bins, pop_matrix)
         rate_matrix.dump(out_rate_mat)
@@ -110,7 +110,7 @@ while END == False:
         Prep(gibbs, str(outname + '_rate_final.txt'))
         source      = int(input("Which bin is the source? "))
         sink        = int(input("which bin is the sink? "))
-        gibbs,K_AB,MFPT =   mfpt(pop_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
+        gibbs,K_AB,MFPT =   mfpt(sym_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
         Prep(gibbs, out_final)
     elif choice == 'H':
         d_col        =    int(input("Which column from your data_file will you use? "))
