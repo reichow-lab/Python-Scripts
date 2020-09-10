@@ -56,7 +56,6 @@ def final(PMF_avg):
     return PMF_fin
 #################################################################
 def interp(PMF_in):
-    print(PMF_in)
     PMF_IN  =   [[],[]]
     PMF_fix =   [[],[]]
     with open(PMF_in, 'r') as data:
@@ -66,7 +65,6 @@ def interp(PMF_in):
             PMF_IN[1].append(float(val[1]))
     del PMF_IN[0][-1]
     del PMF_IN[1][-1]
-    print(PMF_IN)
     xin     =   np.array(PMF_IN[0])
     yin     =   np.array(PMF_IN[1])
     f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
