@@ -97,8 +97,8 @@ def Prep(PMF_in, outname):
     BESTCUT        = min(Error, key=Error.get)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, True)
     Final_PMF    = final(Average_PMF)
-    Final_For    = final(PMF_for)
-    Final_Rev    = final(PMF_rev)
+    Final_For    = PMF_for
+    Final_Rev    = PMF_rev
     with open(outname, "w") as ofile:
         ofile.write("Pore Axis\tAvg PMF\tAvg + SEM\tAvg - SEM\n")
         for i in range(len(Final_PMF[0])):
