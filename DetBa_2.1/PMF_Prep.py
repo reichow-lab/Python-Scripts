@@ -61,7 +61,7 @@ def final(PMF_avg):
         PMF_fin[0] = PMF_avg[0][:]
         for i in range(len(PMF_avg)):
             PMF_fin[1].append(PMF_avg[1][i] - PMF_avg[1][0])
-        print(len(PMF_fin))
+        print(len(PMF_fin[0]))
         return PMF_fin
 #################################################################
 def interp(PMF_in):
