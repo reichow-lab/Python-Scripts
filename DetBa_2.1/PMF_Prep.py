@@ -6,10 +6,10 @@ Error    = {}            # Dictionary keeping track of which "cut_num" provides 
 limit    = 65            # What the final PMF 'pore-axis' will be trimmed down to
 #################################################################
 def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values from PMF_for[pore-axis] to cut.
-    PMF_for        = [[],[]]               # Forward PMF, [[pore-axis],[PMF_for]]
+    PMF_for        = [[],[],[]]               # Forward PMF, [[pore-axis],[PMF_for],[MT]]
     PMF_for[0]     = list(PMF_in[0])
     PMF_for[1]     = list(PMF_in[1])
-    PMF_rev        = [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev]]
+    PMF_rev        = [[],[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev],[MT]]
     for i in range(0,cut_num,1):                    # This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
         del PMF_for[0][0]
     while len(PMF_for[0]) < len(PMF_for[1]):    # This ensures that the two sub-lists are the same length prior to trimming to the limit
@@ -88,6 +88,8 @@ def Prep(PMF_in, outname):
     BESTCUT        = min(Error, key=Error.get)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, True)
     Final_PMF    = final(Average_PMF)
+    Final_For    = final(PMF_for)
+    Final_Rev    = final(PMF_rev)
     with open(outname, "w") as ofile:
         ofile.write("Pore Axis\tAvg PMF\tAvg + SEM\tAvg - SEM\n")
         for i in range(len(Final_PMF[0])):
@@ -95,4 +97,4 @@ def Prep(PMF_in, outname):
     with open(str(outname + "_asym"), "w") as ofile:
         ofile.write("Pore Axis\tForward PMF\tReverse PMF\n")
         for i in range(len(Final_PMF[0])):
-            ofile.write(str(PMF_for[0][i])+"\t"+str(PMF_for[1][i])+"\t"+str(PMF_rev[1][i])+"\n")
+            ofile.write(str(Final_For[0][i])+"\t"+str(Final_For[1][i])+"\t"+str(Final_Rev[1][i])+"\n")
