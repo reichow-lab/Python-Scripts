@@ -56,6 +56,7 @@ def final(PMF_avg):
             PMF_fin[3].append(PMF_fin[1][i] - PMF_avg[2][i])
         return PMF_fin
     elif len(PMF_avg) == 2:
+        print("debug asym")
         PMF_fin = [[],[]]
         PMF_fin[0] = PMF_avg[0][:]
         for i in range(len(PMF_avg)):
