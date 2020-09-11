@@ -6,10 +6,10 @@ Error    = {}            # Dictionary keeping track of which "cut_num" provides 
 limit    = 65            # What the final PMF 'pore-axis' will be trimmed down to
 #################################################################
 def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values from PMF_for[pore-axis] to cut.
-    PMF_for        = [[],[],[]]               # Forward PMF, [[pore-axis],[PMF_for],[MT]]
+    PMF_for        = [[],[]]               # Forward PMF, [[pore-axis],[PMF_for],[MT]]
     PMF_for[0]     = list(PMF_in[0])
     PMF_for[1]     = list(PMF_in[1])
-    PMF_rev        = [[],[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev],[MT]]
+    PMF_rev        = [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev],[MT]]
     for i in range(0,cut_num,1):                    # This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
         del PMF_for[0][0]
     while len(PMF_for[0]) < len(PMF_for[1]):    # This ensures that the two sub-lists are the same length prior to trimming to the limit
@@ -47,13 +47,20 @@ def error(PMF_for, PMF_rev, cut_num):
     return PMF_avg
 #################################################################
 def final(PMF_avg):
-    PMF_fin = [[],[],[],[]]         # Final PMF  , [[pore-axis],[PMF_avg_adj],[Avg+SEM],[Avg-SEM]]
-    PMF_fin[0]     = PMF_avg[0][:]
-    for i in range(0,len(PMF_avg[0]),1):
-        PMF_fin[1].append(PMF_avg[1][i] - PMF_avg[1][0])
-        PMF_fin[2].append(PMF_fin[1][i] + PMF_avg[2][i])
-        PMF_fin[3].append(PMF_fin[1][i] - PMF_avg[2][i])
-    return PMF_fin
+    if len(PMF_avg) == 3:
+        PMF_fin = [[],[],[],[]]         # Final PMF  , [[pore-axis],[PMF_avg_adj],[Avg+SEM],[Avg-SEM]]
+        PMF_fin[0]     = PMF_avg[0][:]
+        for i in range(0,len(PMF_avg[0]),1):
+            PMF_fin[1].append(PMF_avg[1][i] - PMF_avg[1][0])
+            PMF_fin[2].append(PMF_fin[1][i] + PMF_avg[2][i])
+            PMF_fin[3].append(PMF_fin[1][i] - PMF_avg[2][i])
+        return PMF_fin
+    elif len(PMF_avg) == 2:
+        PMF_fin = [[],[]]
+        PMF_fin[0] = PMF_avg[0][:]
+        for i in range(len(PMF_avg)):
+            PMF_fin[1].append(PMF_avg[1][i] - PMF_avg[1][0])
+        return PMF_fin
 #################################################################
 def interp(PMF_in):
     PMF_IN  =   [[],[]]
