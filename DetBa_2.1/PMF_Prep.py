@@ -59,7 +59,7 @@ def final(PMF_avg):
         print("debug asym")
         PMF_fin = [[],[]]
         PMF_fin[0] = PMF_avg[0][:]
-        for i in range(len(PMF_avg)):
+        for i in range(len(PMF_avg[0])):
             PMF_fin[1].append(PMF_avg[1][i] - PMF_avg[1][0])
         print(len(PMF_fin[0]))
         return PMF_fin
@@ -97,8 +97,8 @@ def Prep(PMF_in, outname):
     BESTCUT        = min(Error, key=Error.get)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, True)
     Final_PMF    = final(Average_PMF)
-    Final_For    = PMF_for
-    Final_Rev    = PMF_rev
+    Final_For    = final(PMF_for)
+    Final_Rev    = final(PMF_rev)
     with open(outname, "w") as ofile:
         ofile.write("Pore Axis\tAvg PMF\tAvg + SEM\tAvg - SEM\n")
         for i in range(len(Final_PMF[0])):
