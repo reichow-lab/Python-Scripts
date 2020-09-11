@@ -32,7 +32,9 @@ def Block2D(M, InArray, Pore):
     for i in range(int(M)):
         AvgList.append(np.mean(bList[i], axis=0))
     if M == 4:
-        with open((args.outname+"_"+str(M)+"_final.txt"))
+        with open((args.outname+"_"+str(M)+"_final.txt"), 'w') as out:
+            for i,j,k,l,m in zip(Pore,AvgList[0],AvgList[1],AvgList[2],AvgList[3]):
+                out.write(str(i)+'\t'+str(j)+'\t'+str(k)+'\t'+str(l)+'\t'+str(m)+'\n')
     Final = [[],[]]
     Final[0].append(np.mean(AvgList, axis=0))
     Final[1].append(np.std(AvgList, axis=0)/np.sqrt(M))
