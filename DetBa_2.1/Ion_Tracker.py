@@ -132,13 +132,13 @@ class ION:
 			if	self.first == "BsA" and self.second == "Pc" and self.third == "BsB":
 				self.NegION_PERM += 1
 				dt = (self.Tfina - self.Tinit) * lag_base/1000
-				print(f"{self.Tfina} - {self.Tinit}")
+				#print(f"{self.Tfina} - {self.Tinit}")
 				RESET(bin_now,timestep)
 				return 1,-1,dt
 			elif	self.first == "BsB" and self.second == "Pc" and self.third == "BsA":
 				self.PosION_PERM += 1
 				dt = (self.Tfina - self.Tinit) * lag_base/1000
-				print(f"{self.Tfina} - {self.Tinit}")
+				#print(f"{self.Tfina} - {self.Tinit}")
 				RESET(bin_now,timestep)
 				return 1,1,dt
 			else:
