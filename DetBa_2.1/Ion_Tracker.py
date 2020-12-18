@@ -72,12 +72,9 @@ class ION:
 		""" The boundaries will remain immutable throughout the process of ion tracking, however the values self.first/second/third will be freely adjusted
 		throughout the 'tracker' method. At the end of every loop, a conditional statement will check to see if any of the 4 conditions of permeation are met; if
 		they are indeed met, then 'ION_PERM' will increase by 1."""
-
-	###############################################################################################################################################################################################
-	#																							      #
-	#											Tracker Functions										      #
-	#																							      #
-	###############################################################################################################################################################################################
+	#####################
+	# Tracker Functions #
+	#####################
 
 		def Which_Bin(zcoord):
 			if zcoord <= self.BsA_upper and zcoord > self.BsA_lower:
@@ -152,7 +149,7 @@ class ION:
 			self.Tfina  = "MT"
 			return "MT"
 
-	################################################################################################################################################################################################
+	######################################################################################################################
 
 		out_log	= str(outname) + "_Tracking.log"
 		Log	= open(out_log, 'w')
@@ -173,4 +170,5 @@ class ION:
 						pass
 			RESET("MT")
 		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
+		Log.write(f"With a net permeation of {np.abs(self.NegION_PERM - self.PosION_PERM)} ions.")
 		Log.close()
