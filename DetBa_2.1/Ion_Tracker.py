@@ -176,9 +176,10 @@ class ION:
 		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
 		Log.close()
 
-def process(infile, lag_base):
+def process(inname, lag_base):
 	# The output of tracker has the ion passages organized by ion, however I need them organized by passage time.
 	# Create a list of namedTuples from the contents of the infile
+	infile = str(inname) + "_Tracking.log"
 	ions = []
 	with open(infile) as FILE:
 		next(FILE)
