@@ -200,10 +200,12 @@ def process(inname, lag_base):
 		for ion in ions:
 			Log.write(f"{ion[0]}\t{ion[1]}\t{int(ion[2])+hold}\n")
 			hold = int(ion[2]) + hold
-			time.append(float(ion[0]))
-			perm.append(hold)
+			timelist.append(float(ion[0]))
+			permlist.append(hold)
 	# Now the data is in a more friendly plotable way.
 	# Time to just generate the linear models for the entire simulation, and the final 20 ns
+		perm = np.array(permlist)
+		time = np.array(timelist)
 		time.reshape((-1,1))
 		current = LinearRegression().fit(time, perm)
 		r_sq = current.score(time, perm)
