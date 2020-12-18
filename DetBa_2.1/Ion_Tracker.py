@@ -33,7 +33,6 @@
 import	numpy as np
 import	matplotlib.pylab as plt
 from	tqdm import tqdm
-from collections import namedTuples
 
 class ION:
 
