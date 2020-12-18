@@ -215,8 +215,8 @@ def process(inname, lag_base):
 		stop = np.round(time[-1]) - 20
 		for i in range(len(time)):
 			if time[i] < stop:
-				time = time.delete(time, i)
-				perm = perm.delete(perm, i)
+				time = np.delete(time, i)
+				perm = np.delete(perm, i)
 		current_l20 = LinearRegression().fit(time, perm)
 		r_sq = current_l20.score(time, perm)
 		Log.write(f'Last 20ns -- Current: {current_tot.coef_ * 160} pA, R$^2$: {r_sq}\n')
