@@ -124,6 +124,7 @@ while END == False:
         d_col   =    int(input("Which column from your data_file will you use? "))
         ION        =    Ion_Tracker.ION()
         ION.tracker(file_list, d_col, outname, lag_base)
+        Ion_Tracker.process(outname, lag_base)
     elif choice == 'A':
         ION        =    Ion_Tracker_DEV.ION()
         ION.tracker(num_files, prefix, outname)
