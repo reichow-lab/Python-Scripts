@@ -33,6 +33,7 @@
 import	numpy as np
 import	matplotlib.pylab as plt
 from	tqdm import tqdm
+from collections import namedTuples
 
 class ION:
 
@@ -128,6 +129,7 @@ class ION:
 				print("self.first is %s" % self.first)
 				print("bin_now = %s" % bin_now)
 				print("There is a condition you are not accounting for: 5")
+
 		def Perm_Check(bin_now,timestep):
 			if	self.first == "BsA" and self.second == "Pc" and self.third == "BsB":
 				self.NegION_PERM += 1
@@ -174,3 +176,16 @@ class ION:
 			RESET("MT")
 		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
 		Log.close()
+
+def process(infile, lag_base):
+	# The output of tracker has the ion passages organized by ion, however I need them organized by passage time.
+	# Create a list of namedTuples from the contents of the infile
+	ions = []
+	with open(infile) as FILE:
+		next(FILE)
+		for line in FILE:
+			val = line.split()
+			if val[0] != 'There':
+				ions.append([ion(val[0],(val[0]/lag_base),val[1],val[3])])
+	ions.sort()
+	print(ions)
