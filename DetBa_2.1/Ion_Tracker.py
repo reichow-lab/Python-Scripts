@@ -202,11 +202,21 @@ def process(inname, lag_base):
 			hold = int(ion[2]) + hold
 			timelist.append(float(ion[0]))
 			permlist.append(hold)
-	# Now the data is in a more friendly plotable way.
-	# Time to just generate the linear models for the entire simulation, and the final 20 ns
+		# Now the data is in a more friendly plotable way.
+		# Time to just generate the linear models for the entire simulation, and the final 20 ns
 		perm = np.array(permlist)
 		time = np.array(timelist)
 		time = time.reshape(-1,1)
-		current = LinearRegression().fit(time, perm)
-		r_sq = current.score(time, perm)
-		Log.write(f'Slope: {current.coef_}, R$^2$: {r_sq}')
+		current_tot = LinearRegression().fit(time, perm)
+		r_sq = current_tot.score(time, perm)
+		Log.write(f'Total Simulation -- Current: {current_tot.coef_ * 160} pA, R$^2$: {r_sq}\n')
+		# Find the total length of the simulation, then only save entries in the
+		# list that are within the last 20 ns
+		stop = np.round(time[-1]) - 20
+		for i in range(len(time)):
+			if time[i] < stop:
+				time.pop(i)
+				perm.pop(i)
+		current_l20 = LinearRegression().fit(time, perm)
+		r_sq = current_l20.score(time, perm)
+		Log.write(f'Last 20ns -- Current: {current_tot.coef_ * 160} pA, R$^2$: {r_sq}\n')
