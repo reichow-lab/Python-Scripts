@@ -187,7 +187,7 @@ def process(inname, lag_base):
 		for line in FILE:
 			val = line.split()
 			if val[0] != 'There':
-				ions.append((val[0]/lag_base),val[1],val[3])
+				ions.append([(val[0]/lag_base),val[1],val[3]])
 	ions.sort()
 	with open(outfile) as Log:
 		hold = 0
