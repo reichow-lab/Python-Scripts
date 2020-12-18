@@ -213,10 +213,15 @@ def process(inname, lag_base):
 		# Find the total length of the simulation, then only save entries in the
 		# list that are within the last 20 ns
 		stop = np.round(time[-1]) - 20
+		timelistl20 = []
+		permlistl20 = []
 		for i in range(len(time)):
-			if time[i] < stop:
-				time = np.delete(time, i)
-				perm = np.delete(perm, i)
-		current_l20 = LinearRegression().fit(time, perm)
-		r_sq = current_l20.score(time, perm)
-		Log.write(f'Last 20ns -- Current: {current_tot.coef_ * 160} pA, R$^2$: {r_sq}\n')
+			if time[i] >= stop:
+				timelistl20.append(time[i])
+				permlistl20.append(perm[i])
+		perml20 = np.array(permlistl20)
+		timel20 = np.array(timelistl20)
+		timel20 = timel20.reshape(-1,1)
+		current_l20 = LinearRegression().fit(timel20, perml20)
+		r_sq = current_l20.score(timel20, perml20)
+		Log.write(f'Last 20ns -- Current: {current_tot.coef_ * 160} pA, R$^2$: {r_sq}')
