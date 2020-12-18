@@ -182,12 +182,14 @@ def process(inname, lag_base):
 	infile = str(inname) + "_TEMP.log"
 	outfile = str(inname) + "_Tracking.log"
 	ions = []
+	# constant to recover ns in time.
+	b = 1000/lag_base
 	with open(infile) as FILE:
 		next(FILE)
 		for line in FILE:
 			val = line.split()
 			if val[0] != 'There':
-				ions.append([(float(val[0])/lag_base),val[1],val[3]])
+				ions.append([(float(val[0])/b),val[1],val[3]])
 	ions.sort()
 	with open(outfile, 'w') as Log:
 		hold = 0
