@@ -224,4 +224,4 @@ def process(inname, lag_base):
 		timel20 = timel20.reshape(-1,1)
 		current_l20 = LinearRegression().fit(timel20, perml20)
 		r_sq = current_l20.score(timel20, perml20)
-		Log.write(f'Last 20ns -- Current: {current_tot.coef_ * 160} pA, R$^2$: {r_sq}')
+		Log.write(f'Last 20ns -- Current: {current_l20.coef_ * 160} pA, {}R\u00b2: {r_sq}')
