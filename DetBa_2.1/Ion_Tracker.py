@@ -191,7 +191,7 @@ def process(inname, lag_base):
 	ions.sort()
 	with open(outfile) as Log:
 		hold = 0
-		Log.write('Time (ns)'+\t+'dt'+\t+'Permeations'+\n)
+		Log.write('Time (ns)'+'\t'+'dt'+'\t'+'Permeations'+'\n')
 		for ion in ions:
 			Log.write(str(ion[0]),str(ion[1]),str(int(ion[2])+hold))
 			hold = ion[2]
