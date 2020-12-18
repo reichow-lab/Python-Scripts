@@ -155,7 +155,7 @@ class ION:
 
 	################################################################################################################################################################################################
 
-		out_log	= str(outname) + "_Tracking.log"
+		out_log	= str(outname) + "_TEMP.log"
 		Log	= open(out_log, 'w')
 		Log.write("frame\tdt\tfilename\tdirection (+/-)\n")
 		for file in file_list:
@@ -179,13 +179,19 @@ class ION:
 def process(inname, lag_base):
 	# The output of tracker has the ion passages organized by ion, however I need them organized by passage time.
 	# Create a list of namedTuples from the contents of the infile
-	infile = str(inname) + "_Tracking.log"
+	infile = str(inname) + "_TEMP.log"
+	outfile = str(inname) + "_Tracking.log"
 	ions = []
 	with open(infile) as FILE:
 		next(FILE)
 		for line in FILE:
 			val = line.split()
 			if val[0] != 'There':
-				ions.append([ion(val[0],(val[0]/lag_base),val[1],val[3])])
+				ions.append((val[0]/lag_base),val[1],val[3]])
 	ions.sort()
-	print(ions)
+	with open(outfile) as Log:
+		hold = 0
+		Log.write('Time (ns)'+\t+'dt'+\t+'Permeations'+\n)
+		for ion in ions:
+			Log.write(str(ion[0]),str(ion[1]),str(int(ion[2])+hold))
+			hold = ion[2]
