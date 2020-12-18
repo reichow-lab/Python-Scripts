@@ -206,7 +206,7 @@ def process(inname, lag_base):
 	# Time to just generate the linear models for the entire simulation, and the final 20 ns
 		perm = np.array(permlist)
 		time = np.array(timelist)
-		time.reshape((-1,1))
+		time.reshape(-1,1)
 		current = LinearRegression().fit(time, perm)
 		r_sq = current.score(time, perm)
 		Log.write(f'Slope: {current.coef_}, R$^2$: {r_sq}')
