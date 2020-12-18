@@ -194,4 +194,4 @@ def process(inname, lag_base):
 		Log.write('Time (ns)\tdt\tPermeations\n')
 		for ion in ions:
 			Log.write(f"{ion[0]}\t{ion[1]}\t{int(ion[2])+hold}\n")
-			hold = ion[2]
+			hold = int(ion[2])
