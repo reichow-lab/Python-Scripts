@@ -194,8 +194,8 @@ def process(inname, lag_base):
 	ions.sort()
 	with open(outfile, 'w') as Log:
 		hold = 0
-		time = []
-		perm = []
+		timelist = []
+		permlist = []
 		Log.write('Time (ns)\tdt\tPermeations\n')
 		for ion in ions:
 			Log.write(f"{ion[0]}\t{ion[1]}\t{int(ion[2])+hold}\n")
