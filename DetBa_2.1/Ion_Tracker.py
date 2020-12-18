@@ -33,6 +33,7 @@
 import	numpy as np
 import	matplotlib.pylab as plt
 from	tqdm import tqdm
+from sklearn.linear_model import LinearRegression
 
 class ION:
 
@@ -193,7 +194,17 @@ def process(inname, lag_base):
 	ions.sort()
 	with open(outfile, 'w') as Log:
 		hold = 0
+		time = []
+		perm = []
 		Log.write('Time (ns)\tdt\tPermeations\n')
 		for ion in ions:
 			Log.write(f"{ion[0]}\t{ion[1]}\t{int(ion[2])+hold}\n")
 			hold = int(ion[2]) + hold
+			time.append(float(ion[0]))
+			perm.append(hold)
+	# Now the data is in a more friendly plotable way.
+	# Time to just generate the linear models for the entire simulation, and the final 20 ns
+		time.reshape((-1,1))
+		current = LinearRegression().fit(time, perm)
+		r_sq = current.score(time, perm)
+		Log.write(f'Slope: {current.coef_}, R$^2$: {r_sq}')
