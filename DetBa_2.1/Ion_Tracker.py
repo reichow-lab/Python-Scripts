@@ -189,7 +189,7 @@ def process(inname, lag_base):
 			if val[0] != 'There':
 				ions.append([(float(val[0])/lag_base),val[1],val[3]])
 	ions.sort()
-	with open(outfile) as Log:
+	with open(outfile, 'w') as Log:
 		hold = 0
 		Log.write('Time (ns)\tdt\tPermeations\n')
 		for ion in ions:
