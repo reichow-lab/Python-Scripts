@@ -82,9 +82,8 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         sink    = ZtoBin[sink]
         sum_counts    = 0
         for j in range(0,num_bins,1):
-            sum_counts += count_mat[j][sink]
+            count_mat[j][source] += count_mat[j][sink]
             count_mat[j][sink]   = 0
-        count_mat[source][sink]   = sum_counts
     # recalculate the transition (probability/rate) matrix
     tran_mat = pop2rate(num_bins,count_mat)
     tran_mat.dump(str(outname + '_MFPT.mat'))
