@@ -27,18 +27,24 @@ import itertools as it
 def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     bin_min = 0
     bin_max = 0
+
+    # Find the min-max of the system ad-hoc
     if bin_lim == 'auto':
         for file in file_list:
             Data = open(file,'r')
             for line in Data:
                 val = line.split()
-                if float(val[d_col]) <= bin_min:
+                if val[0] == 'IonID:':
+                    pass
+                elif float(val[d_col]) <= bin_min:
                     bin_min = int(float(val[d_col]))
-                if float(val[d_col]) >= bin_max:
+                elif float(val[d_col]) >= bin_max:
                     bin_max = int(float(val[d_col]))
         bin_dim = min(abs(bin_min),abs(bin_max))
     else:
         bin_dim = int(bin_lim)
+
+    # Pair it down 'til it's symmetric and evenly divisible by bin_size
     while bin_dim % bin_size != 0:
         bin_dim -= 1
     bin_min = bin_dim * -1
@@ -49,7 +55,6 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     num_bins        =    int(num_bins)
 
     # Create dictionary with int(zcoord) and bin_index
-
     ZtoBin  = {}
     bin     = 0
     counter = 1
@@ -64,9 +69,11 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     with open(str(outname + '.log'), 'w') as log:
         log.write('bin_min: ' + str(bin_min) + '\n' + 'bin_max: ' + str(bin_max) + '\n' + 'bin_size: ' + str(bin_size) + '\n' + 'num_bins: ' + str(num_bins))
     if array_dim == 0:
+        # output for histograms
         pop_mat = np.zeros((num_bins,2))
         return pop_mat,bin_min,bin_max,num_bins,ZtoBin
     else:
+        # output for transition matrix
         pop_mat = np.zeros((num_bins,num_bins))
         return pop_mat,bin_min,bin_max,num_bins,ZtoBin
 
@@ -124,18 +131,29 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
 #####################################
 
     bin_j    =    0
+    # Open file, and read all lines in
     for file in tqdm(file_list):
-        Data = open(file,'r')
-        for line in it.islice(Data,0,None,lag_step):
-            val = line.split()
-            if abs(float(val[d_col])) > bin_max:    # changing from val[1] to val[3] to accomodate for the "measure center" command in VMD
-                pass
+        with open(file, "r") as f:
+            all_lines = f.read().splitlines()
+        # generate list of indexes denoting new ions
+        start_list = []
+        for i in range(0,len(all_lines),1):
+            if all_lines[i][0] == "IonID:":
+                start_list.append(i)
             else:
-                bin_i = bin_j
-                bin_j = ZtoBin[int(float(val[d_col]))]
-                #bin_j = Which_Bin(float(val[d_col]))
-                if array_dim == 1:    # Rates calculation: choice == 'R'
-                    Populator(bin_i, bin_j, num_bins)
-                elif array_dim == 0:    # Histogram calculation: choice == 'H'
-                    hist_pop(bin_j)
+                pass
+        start_list.append(-1)
+        # Loop through each ion's index and process their data
+        for i in range(0,len(start_list)-1,1):
+            for line in all_lines[start_list[i]:start_list[i+1]:lag_step]
+                if abs(float(line[d_col])) > bin_max:
+                    pass
+                else:
+                    bin_i = bin_j
+                    bin_j = ZtoBin[int(float(line[d_col]))]
+                    #bin_j = Which_Bin(float(val[d_col]))
+                    if array_dim == 1:    # Rates calculation: choice == 'R'
+                        Populator(bin_i, bin_j, num_bins)
+                    elif array_dim == 0:    # Histogram calculation: choice == 'H'
+                        hist_pop(bin_j)
     return pop_mat
