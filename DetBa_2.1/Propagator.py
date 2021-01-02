@@ -142,6 +142,8 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
                 start_list.append(i)
             else:
                 pass
+        if len(start_list) == 0:
+            start_list.append(0)
         start_list.append(-1)
         # Loop through each ion's index and process their data
         for i in range(0,len(start_list)-1,1):
