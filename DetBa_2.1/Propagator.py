@@ -138,19 +138,19 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
         # generate list of indexes denoting new ions
         start_list = []
         for i in range(0,len(all_lines),1):
-            if all_lines[i][0] == "IonID:":
+            if all_lines[i].split()[0] == "IonID:":
                 start_list.append(i)
             else:
                 pass
         start_list.append(-1)
         # Loop through each ion's index and process their data
         for i in range(0,len(start_list)-1,1):
-            for line in all_lines[start_list[i]:start_list[i+1]:lag_step]
-                if abs(float(line[d_col])) > bin_max:
+            for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
+                if abs(float(line.split()[d_col])) > bin_max:
                     pass
                 else:
                     bin_i = bin_j
-                    bin_j = ZtoBin[int(float(line[d_col]))]
+                    bin_j = ZtoBin[int(float(line.split()[d_col]))]
                     #bin_j = Which_Bin(float(val[d_col]))
                     if array_dim == 1:    # Rates calculation: choice == 'R'
                         Populator(bin_i, bin_j, num_bins)
