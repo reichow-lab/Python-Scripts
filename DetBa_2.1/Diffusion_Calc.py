@@ -8,38 +8,25 @@
 import numpy as np
 
 def normalize(pop_mat):
-
 	"""
 	This function takes the populated transition matrix (i.e. matrix with raw numbers of transitions) and converts it to a 'functionally' probability transition matrix
 	by row normalizing the matrix ... in other words, the sum of each row should add to a probability of 1. Consider this, if each row describes the starting position of
 	an ion, then it has 3 possible moves: move backwards, stay, move forwards. What is the probability that you do any of the three possibile actions given that you began
 	in row i ... the answer is 1. This new matrix (trans_mat) is full of effective transition probabilities.
 	"""
-
 	num_row,num_col = pop_mat.shape
-
 	trans_mat	= np.zeros((num_row,num_col))
-
 	for r in range(0,(num_row),1):
-
 		row_tot	= 0
-
 		for c in range(0,(num_col),1):
-
 			row_tot		= row_tot + pop_mat[r,c]
-
 		for t in range(0,(num_col),1):
-
 			if row_tot == 0:
-
 				pass
-
 			else:
 				trans_mat[r,t]	= pop_mat[r,t] / row_tot
-
 	return trans_mat
-
-def Diff_Calc(trans_mat,bin_size,sim_min=-110,sim_max=110,pore_min=-60,pore_max=60):
+def Diff_Calc(trans_mat,bin_size,sim_min=-100,sim_max=100,pore_min=-60,pore_max=60):
 	"""
 	The first set of loops populate a matrix known as 'bin_centers' which gives the center of the bins in units A, and allows for us to use transition matrices with arbitrary
 	bin sizes. The next set of loops are performing the actual calculation of the average Diffusion coefficient within the pore. The bin_centers matrix should corrospond to
