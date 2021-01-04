@@ -141,7 +141,7 @@ while END == False:
         for V in Voltages:
             dV        =    float(V)
             pmf_v        =    VoltPMF(PMF_0,dV,num_bins)
-            I,Tau_f,Tau_r    =    Current(pmf_v,num_bins,bin_size)
+            I,Tau_f,Tau_r    =    Current(pmf_v,num_bins,bin_size,Diff_pore)
             out.write(str(dV) + ',' + str(I) + ',' + str(Tau_f) + ',' + str(Tau_r) + '\n')
         out.close()
     choice        =    str(input("What would you like to do? MSM PMF (M), Histogram (H), Ion Tracker (T), I-V approximator (I), Exit (E) "))
