@@ -131,7 +131,7 @@ while END == False:
     elif choice == 'I':
         PMF_txt = input("which PMF file would you like to use?")
         PMF_0,num_bins  = Text2PMF(PMF_txt)
-        pop_mat_EE      = edge_erase(np.load(out_pop_mat),bin_size)
+        pop_mat_EE      = edge_erase(np.load(out_pop_mat),bin_size,allow_pickle=True)
         trans_mat       = normalize(pop_mat_EE)
         Diff_pore       = Diff_Calc(trans_mat,bin_size)                         # Calculates in units (A^2/second)
         #print    "Diff_pore = %s" % Diff_pore
