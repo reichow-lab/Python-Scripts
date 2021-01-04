@@ -186,7 +186,7 @@ class ION:
 							Log.write(str(line.split()[0])+'\t'+str(dt)+'\t'+str(file)+'\t'+str(direc)+'\n')
 						else:
 							pass
-			RESET("MT")
+				RESET("MT")
 		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
 		Log.close()
 
