@@ -161,31 +161,31 @@ class ION:
 		Log.write("frame\tdt\tfilename\tdirection (+/-)\n")
 
 		for file in tqdm(file_list):
-		with open(file, "r") as f:
-			all_lines = f.read().splitlines()
-        # generate list of indexes denoting new ions
-		start_list = []
-		for i in range(0,len(all_lines),1):
-			if all_lines[i].split()[0] == "IonID:":
-				start_list.append(i)
-			else:
-				pass
-			if len(start_list) == 0:
-				start_list.append(0)
-        start_list.append(-1)
-        # Loop through each ion's index and process their data
-		for i in range(0,len(start_list)-1,1):
-			for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
-				if float(line.split()[d_col]) > self.BsA_upper or float(line.split()[d_col]) < self.BsB_lower:
-					pass
+			with open(file, "r") as f:
+				all_lines = f.read().splitlines()
+	        # generate list of indexes denoting new ions
+			start_list = []
+			for i in range(0,len(all_lines),1):
+				if all_lines[i].split()[0] == "IonID:":
+					start_list.append(i)
 				else:
-					bin_now 	= Which_Bin(float(line.split()[d_col]))
-					Order_Assign(bin_now,int(line.split()[0]))
-					check,direc,dt = Perm_Check(bin_now,int(line.split()[0]))
-					if check == True:
-						Log.write(str(line.split()[0])+'\t'+str(dt)+'\t'+str(file)+'\t'+str(direc)+'\n')
-					else:
+					pass
+				if len(start_list) == 0:
+					start_list.append(0)
+	        start_list.append(-1)
+	        # Loop through each ion's index and process their data
+			for i in range(0,len(start_list)-1,1):
+				for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
+					if float(line.split()[d_col]) > self.BsA_upper or float(line.split()[d_col]) < self.BsB_lower:
 						pass
+					else:
+						bin_now 	= Which_Bin(float(line.split()[d_col]))
+						Order_Assign(bin_now,int(line.split()[0]))
+						check,direc,dt = Perm_Check(bin_now,int(line.split()[0]))
+						if check == True:
+							Log.write(str(line.split()[0])+'\t'+str(dt)+'\t'+str(file)+'\t'+str(direc)+'\n')
+						else:
+							pass
 			RESET("MT")
 		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
 		Log.close()
