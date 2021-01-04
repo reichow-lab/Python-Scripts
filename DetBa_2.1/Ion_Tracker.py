@@ -175,7 +175,7 @@ class ION:
 			start_list.append(-1)
 			# Loop through each ion's index and process their data
 			for i in range(0,len(start_list)-1,1):
-				for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
+				for line in all_lines[start_list[i]:start_list[i+1]]:
 					if float(line.split()[d_col]) > self.BsA_upper or float(line.split()[d_col]) < self.BsB_lower:
 						pass
 					else:
