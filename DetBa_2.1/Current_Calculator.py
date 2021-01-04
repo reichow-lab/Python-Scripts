@@ -40,7 +40,7 @@ import numpy as np
 R	= 0.00198588		# Ideal gas constant in units Kcal/molK
 T	= 310			# Temperature in units K
 
-def Current(PMF,num_bins,bin_s,DifC=1.957e11,q=1.60217663e-7):
+def Current(PMF,num_bins,bin_s,DifC=1.957e9,q=1.60217663e-7):
 	tau_forward = 0
 	tau_reverse = 0
 	for y in range(0,num_bins,1):
