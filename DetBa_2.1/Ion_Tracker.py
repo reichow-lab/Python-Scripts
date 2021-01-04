@@ -33,6 +33,7 @@
 import	numpy as np
 import	matplotlib.pylab as plt
 from	tqdm import tqdm
+from sklearn.linear_model import LinearRegression
 
 class ION:
 
@@ -125,6 +126,7 @@ class ION:
 				print("self.first is %s" % self.first)
 				print("bin_now = %s" % bin_now)
 				print("There is a condition you are not accounting for: 5")
+
 		def Perm_Check(bin_now,timestep):
 			if	self.first == "BsA" and self.second == "Pc" and self.third == "BsB":
 				self.NegION_PERM += 1
@@ -151,24 +153,87 @@ class ION:
 
 	######################################################################################################################
 
-		out_log	= str(outname) + "_Tracking.log"
+		out_log	= str(outname) + "_TEMP.log"
 		Log	= open(out_log, 'w')
 		Log.write("frame\tdt\tfilename\tdirection (+/-)\n")
-		for file in file_list:
-			Data = open(file,'r')
-			for line in Data:
-				val = line.split()
-				if float(val[d_col]) > self.BsA_upper or float(val[d_col]) < self.BsB_lower:
-					pass
+
+		for file in tqdm(file_list):
+			with open(file, "r") as f:
+				all_lines = f.read().splitlines()
+	        # generate list of indexes denoting new ions
+			start_list = []
+			for i in range(0,len(all_lines),1):
+				if all_lines[i].split()[0] == "IonID:":
+					start_list.append(i)
 				else:
-					bin_now 	= Which_Bin(float(val[d_col]))
-					Order_Assign(bin_now,int(val[0]))
-					check,direc,dt = Perm_Check(bin_now,int(val[0]))
-					if check == True:
-						Log.write(str(val[0])+'\t'+str(dt)+'\t'+str(file)+'\t'+str(direc)+'\n')
-					else:
+					pass
+				if len(start_list) == 0:
+					start_list.append(0)
+			start_list.append(-1)
+			# Loop through each ion's index and process their data
+			for i in range(0,len(start_list)-1,1):
+				for line in all_lines[start_list[i]:start_list[i+1]]:
+					if float(line.split()[d_col]) > self.BsA_upper or float(line.split()[d_col]) < self.BsB_lower:
 						pass
-			RESET("MT")
+					else:
+						bin_now 	= Which_Bin(float(line.split()[d_col]))
+						Order_Assign(bin_now,int(line.split()[0]))
+						check,direc,dt = Perm_Check(bin_now,int(line.split()[0]))
+						if check == True:
+							Log.write(str(line.split()[0])+'\t'+str(dt)+'\t'+str(file)+'\t'+str(direc)+'\n')
+						else:
+							pass
+				RESET("MT")
 		Log.write(f"There were a total of {self.NegION_PERM + self.PosION_PERM} ions that permeated.")
 		Log.write(f"With a net permeation of {np.abs(self.NegION_PERM - self.PosION_PERM)} ions.")
 		Log.close()
+
+def process(inname, lag_base):
+	# The output of tracker has the ion passages organized by ion, however I need them organized by passage time.
+	# Create a list of namedTuples from the contents of the infile
+	infile = str(inname) + "_TEMP.log"
+	outfile = str(inname) + "_Tracking.log"
+	ions = []
+	# constant to recover ns in time.
+	b = 1000/lag_base
+	with open(infile) as FILE:
+		next(FILE)
+		for line in FILE:
+			val = line.split()
+			if val[0] != 'There':
+				ions.append([(float(val[0])/b),val[1],val[3]])
+	ions.sort()
+	with open(outfile, 'w') as Log:
+		hold = 0
+		timelist = []
+		permlist = []
+		Log.write('Time (ns)\tdt\tPermeations\n')
+		for ion in ions:
+			Log.write(f"{ion[0]}\t{ion[1]}\t{int(ion[2])+hold}\n")
+			hold = int(ion[2]) + hold
+			timelist.append(float(ion[0]))
+			permlist.append(hold)
+		# Now the data is in a more friendly plotable way.
+		# Time to just generate the linear models for the entire simulation, and the final 20 ns
+		# Create numpy arrays of your x & y values
+		perm = np.array(permlist)
+		time = np.array(timelist)
+		time = time.reshape(-1,1)
+		current_tot = LinearRegression().fit(time, perm)
+		r_sq = current_tot.score(time, perm)
+		Log.write(f'Total Simulation -- Current: {current_tot.coef_ * 160} pA, R^2: {r_sq}\n')
+		# Find the total length of the simulation, then only save entries in the
+		# list that are within the last 20 ns
+		stop = np.round(time[-1]) - 20
+		timelistl20 = []
+		permlistl20 = []
+		for i in range(len(time)):
+			if time[i] >= stop:
+				timelistl20.append(time[i])
+				permlistl20.append(perm[i])
+		perml20 = np.array(permlistl20)
+		timel20 = np.array(timelistl20)
+		timel20 = timel20.reshape(-1,1)
+		current_l20 = LinearRegression().fit(timel20, perml20)
+		r_sq = current_l20.score(timel20, perml20)
+		Log.write(f'Last 20ns -- Current: {current_l20.coef_ * 160} pA, R^2: {r_sq}')

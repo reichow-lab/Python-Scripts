@@ -1,7 +1,6 @@
 #
 #	Program	: Current_Calculator.py
 #	Author	: Bassam Haddad
-#
 #		This module of DetBa.py takes a PMF (currently just potassium) and then predicts the Current-Voltage relationship (I-V curve) for the given channel. The work is based primarily of the methods
 #	from (Zonta et al. 2014). It calculates a mean first passage time (Tau) for an ion traversing the pore, both 'forward' and 'backward'. Taking the inverse of Tau, one gets a rate of transition (1/s),
 #	which can then be used to calculate a current:
@@ -14,7 +13,6 @@
 #						Kcal/(mol*e).
 #
 #	Thus the current (I) can be calculated for each applied voltage (mV).
-#
 #
 #	Constants Used:
 #
@@ -37,11 +35,8 @@
 #
 #			Inputs	: Pre-prepared PMF in a text file.
 #			Outputs	: PMF in an array, num_bins
-#
-#
 
 import numpy as np
-
 R	= 0.00198588		# Ideal gas constant in units Kcal/molK
 T	= 310			# Temperature in units K
 
