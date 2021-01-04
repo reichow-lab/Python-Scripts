@@ -129,11 +129,11 @@ while END == False:
         ION        =    Ion_Tracker_DEV.ION()
         ION.tracker(num_files, prefix, outname)
     elif choice == 'I':
-        PMF_txt            =    out_final
-        PMF_0,num_bins        =    Text2PMF(PMF_txt)
-        pop_mat_EE        =    edge_erase(np.load(out_pop_mat),bin_size)
-        trans_mat        =    normalize(pop_mat_EE)
-        Diff_pore        =    Diff_Calc(trans_mat,bin_size)                        # Calculates in units (A^2/second)
+        PMF_txt = input("which PMF file would you like to use?")
+        PMF_0,num_bins  = Text2PMF(PMF_txt)
+        pop_mat_EE      = edge_erase(np.load(out_pop_mat),bin_size)
+        trans_mat       = normalize(pop_mat_EE)
+        Diff_pore       = Diff_Calc(trans_mat,bin_size)                         # Calculates in units (A^2/second)
         #print    "Diff_pore = %s" % Diff_pore
         Voltages        =    [-150,-100,-75,-50,-25,0,25,50,75,100,150]
         out            =    open(out_IV, 'w')
