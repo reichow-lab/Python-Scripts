@@ -63,8 +63,11 @@ def Text2PMF(PMF,n=0):
 	pmfile		= open(PMF)
 	for dataline in pmfile:
 		val		= dataline.split()
-		PMF_z[n,1]	= float(val[1])
-		PMF_z[n,0]	= float(val[0])
+		if val[0] == "Pore":
+			pass
+		else:
+			PMF_z[n,1]	= float(val[1])
+			PMF_z[n,0]	= float(val[0])
 		n		+= 1
 	return (PMF_z,num_bins)
 def VoltPMF(PMF,dV,num_bins,ion_sign=1,q=1.60217663e-7):
