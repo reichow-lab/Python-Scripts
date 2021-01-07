@@ -144,7 +144,7 @@ def check_SS(MSM,Pss,num_bins):
         # Perform double sum over i's & j's
         for i,p_i in zip(i_list,Pss):
             for j in j_list:
-                K_AB    = K_AB + p_i[0]*tran_mat[j,i]
+                K_AB    = K_AB + p_i[0]*MSM[j,i]
         K_AB    = (1/lag_time)*K_AB
         print(K_AB)
 
