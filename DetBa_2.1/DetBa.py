@@ -114,7 +114,7 @@ while END == False:
         sink        = int(input("which bin is the sink? "))
         gibbs,K_AB,MFPT,MSM,Pss =   mfpt(pop_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
         Prep(gibbs, out_final)
-        check_SS(MSM,Pss,num_bins)
+        check_SS(MSM,Pss,num_bins,lag_time)
     elif choice == 'H':
         d_col        =    int(input("Which column from your data_file will you use? "))
         array_dim    =    0

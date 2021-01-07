@@ -122,7 +122,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         print(f"\n The MFPT is {MFPT} ps.")
         return str(outname + '_penult.txt'),K_AB,MFPT,tran_mat,Pss
     return str(outname + '_penult.txt'),0,0,tran_mat,Pss
-def check_SS(MSM,Pss,num_bins):
+def check_SS(MSM,Pss,num_bins,lag_time):
     """
     When a system is in a steady state (SS) then the flux of probability from
     state i -> i+1 is equal to the flux from i+1 -> i+2. This method takes in a
