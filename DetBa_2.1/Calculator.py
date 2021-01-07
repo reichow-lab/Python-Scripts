@@ -120,8 +120,33 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         # Calculate the mean first passage time
         MFPT    = 1/K_AB
         print(f"\n The MFPT is {MFPT} ps.")
-        return str(outname + '_penult.txt'),K_AB,MFPT
-    return str(outname + '_penult.txt'),0,0
+        return str(outname + '_penult.txt'),K_AB,MFPT,tran_mat,Pss
+    return str(outname + '_penult.txt'),0,0,tran_mat,Pss
+def check_SS(MSM,Pss,num_bins):
+    """
+    When a system is in a steady state (SS) then the flux of probability from
+    state i -> i+1 is equal to the flux from i+1 -> i+2. This method takes in a
+    transition matrix (i.e. MSM) and calculates the distribution of flux to the
+    nearest neighbor. The final output will be a coefficient between 0 and 1
+    where 1 is a perfect steady state, and 0 implies... what? Equilibrium?
+    """
+    Sink_list = [bin for bin in range(num_bins)]
+    for sink in Sink_list:
+        # Calculate the rate from source to sink (K_AB)
+        K_AB    = 0
+        # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
+        i_list,j_list  = [],[]
+        for i in range(num_bins):
+            if i != sink:
+                i_list.append(i)
+            else:
+                j_list.append(i)
+        # Perform double sum over i's & j's
+        for i,p_i in zip(i_list,Pss):
+            for j in j_list:
+                K_AB    = K_AB + p_i[0]*tran_mat[j,i]
+        K_AB    = (1/lag_time)*K_AB
+        print(K_AB)
 
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
