@@ -146,7 +146,7 @@ def check_SS(MSM,Pss,num_bins,lag_time):
             for j in j_list:
                 K_AB    = K_AB + p_i[0]*MSM[j,i]
         K_AB    = (1/lag_time)*K_AB
-        print(K_AB)
+        print(sink,K_AB)
 
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
