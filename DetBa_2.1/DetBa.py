@@ -61,7 +61,7 @@ from Propagator import initialize,populate
 from Calculator import sympop,pop2rate,rate2gibbs,hist_write,mfpt
 from Current_Calculator    import Current,Text2PMF,VoltPMF
 from Diffusion_Calc    import normalize,Diff_Calc
-from Edge_Erase    import edge_erase
+from Edge_Erase    import edge_erase,tri_diag
 from PMF_Prep    import Prep
 from sys    import argv
 from glob    import glob
