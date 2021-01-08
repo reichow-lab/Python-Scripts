@@ -92,7 +92,7 @@ def Prep(PMF_in, outname, bin_dim):
     for x in CUT_NUMS:
         trim(PMF_trim, x, bin_dim)
     BESTCUT        = min(Error, key=Error.get)
-    Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, True)
+    Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, bin_dim, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)
     Final_Rev    = final(PMF_rev)
