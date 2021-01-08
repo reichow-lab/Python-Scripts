@@ -71,11 +71,11 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     if array_dim == 0:
         # output for histograms
         pop_mat = np.zeros((num_bins,2))
-        return pop_mat,bin_min,bin_max,num_bins,ZtoBin
+        return pop_mat,bin_min,bin_max,num_bins,ZtoBin,bin_dim
     else:
         # output for transition matrix
         pop_mat = np.zeros((num_bins,num_bins))
-        return pop_mat,bin_min,bin_max,num_bins,ZtoBin
+        return pop_mat,bin_min,bin_max,num_bins,ZtoBin,bin_dim
 
 # This method populates a transition pop_mat from 1D data (e.g. ion trajectories along z-coordinate)
 

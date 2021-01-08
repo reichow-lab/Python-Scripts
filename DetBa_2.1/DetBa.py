@@ -100,7 +100,7 @@ while END == False:
         lag_time    =   lag_step * lag_base
         bin_lim     = input('What is the Bin limit? ') # "auto" is acceptable
         array_dim   =    1
-        init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
+        init_matrix,bin_min,bin_max,num_bins,ZtoBin,bin_dim = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         #sym_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
         pop_matrix.dump(out_pop_mat)
@@ -109,11 +109,11 @@ while END == False:
         rate_matrix =    pop2rate(num_bins, pop_mat_EE)
         rate_matrix.dump(out_rate_mat)
         gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, str(outname + '_rate'))
-        Prep(gibbs, str(outname + '_rate_final.txt'))
+        Prep(gibbs, str(outname + '_rate_final.txt'), bin_dim)
         source      = int(input("Which bin is the source? "))
         sink        = int(input("which bin is the sink? "))
         gibbs,K_AB,MFPT,MSM,Pss =   mfpt(pop_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
-        Prep(gibbs, out_final)
+        Prep(gibbs, out_final, bin_dim)
         check_SS(MSM,Pss,num_bins,lag_time,outname)
     elif choice == 'H':
         d_col        =    int(input("Which column from your data_file will you use? "))

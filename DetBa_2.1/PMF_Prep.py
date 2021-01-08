@@ -3,9 +3,8 @@ import matplotlib.pyplot as plt
 from scipy import interpolate
 from math import sqrt
 Error    = {}            # Dictionary keeping track of which "cut_num" provides the smallest error
-limit    = 90            # What the final PMF 'pore-axis' will be trimmed down to
 #################################################################
-def trim(PMF_in, cut_num, final=False):    # cut_num is the number of values from PMF_for[pore-axis] to cut.
+def trim(PMF_in, cut_num, limit, final=False):    # cut_num is the number of values from PMF_for[pore-axis] to cut.
     PMF_for        = [[],[]]               # Forward PMF, [[pore-axis],[PMF_for],[MT]]
     PMF_for[0]     = list(PMF_in[0])
     PMF_for[1]     = list(PMF_in[1])
@@ -85,13 +84,13 @@ def interp(PMF_in):
 #                         Main Program                          #
 #                                                               #
 #################################################################
-def Prep(PMF_in, outname):
+def Prep(PMF_in, outname, bin_dim):
     CUT_NUMS = [0,1,2,3,4,5,6,7,8,9,10]    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
                     # of these cuts (usually it's around 3) and then finding the minimum should work well for now...
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
     for x in CUT_NUMS:
-        trim(PMF_trim, x)
+        trim(PMF_trim, x, bin_dim)
     BESTCUT        = min(Error, key=Error.get)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, True)
     Final_PMF    = final(Average_PMF)
