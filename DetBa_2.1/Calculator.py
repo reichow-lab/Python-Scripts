@@ -96,6 +96,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     temp_mat    = np.delete(tran_mat,-1,axis=0)
     aug_mat        = np.append(temp_mat,ones,axis=0)
     Pss            = np.linalg.solve(aug_mat,P)
+    print(Pss)
     with open(str(outname + '_penult.txt'), 'w') as out:
         i = bin_min
         for p in Pss:
@@ -104,9 +105,9 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     # This step only occurs if system is in "non-equilibrium"
     if source != sink:
         # Calculate the rate from source to sink (K_AB)
-        K_AB    = 0
+        K_AB = 0
         # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
-        i_list,j_list  = [],[]
+        i_list,j_list = [],[]
         for i in range(0,num_bins,1):
             if i != sink:
                 i_list.append(i)
@@ -125,29 +126,24 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
 def check_SS(MSM,Pss,num_bins,lag_time):
     """
     When a system is in a steady state (SS) then the flux of probability from
-    state i -> i+1 is equal to the flux from i+1 -> i+2. This method takes in a
-    transition matrix (i.e. MSM) and calculates the distribution of flux to the
-    nearest neighbor. The final output will be a coefficient between 0 and 1
-    where 1 is a perfect steady state, and 0 implies... what? Equilibrium?
+    state i -> i+1 is equal to the flux into bin-i must be equal to the flux out
+    of bin-i. This method takes in a transition matrix (i.e. MSM) and calculates
+    the distribution of flux to the nearest neighbor. The final output will be a
+    coefficient between 0 and 1 where 1 is a perfect steady state.
     """
-    Sink_list = [bin for bin in range(num_bins)]
-    for sink in Sink_list:
-        # Calculate the rate from source to sink (K_AB)
-        K_AB    = 0
+    State_list = [bin for bin in range(num_bins)]
+    for state in State_list:
+        # Calculate the flux in and out of each state (i.e. bin)
+        iflux  = 0
+        oflux = 0
         # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
-        i_list,j_list  = [],[]
-        for i in range(num_bins):
-            if i != sink:
-                i_list.append(i)
-            else:
-                j_list.append(i)
-        # Perform double sum over i's & j's
-        for i,p_i in zip(i_list,Pss):
-            for j in j_list:
-                K_AB    = K_AB + p_i[0]*MSM[j,i]
-        K_AB    = (1/lag_time)*K_AB
-        print(sink,K_AB)
-
+        j_list = [val for val in range(num_bins)]
+        j_list.pop(state)
+        #flux into 'state'
+        for j in j_list:
+            iflux += (Pss[j][0])*MSM[j,state]
+            oflux += (Pss[state][0])*MSM[state,j]
+        print(f"In-flux/Out-flux: {iflux/oflux}")
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
     counter = 0
