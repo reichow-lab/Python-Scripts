@@ -96,7 +96,6 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     temp_mat    = np.delete(tran_mat,-1,axis=0)
     aug_mat        = np.append(temp_mat,ones,axis=0)
     Pss            = np.linalg.solve(aug_mat,P)
-    print(Pss)
     with open(str(outname + '_penult.txt'), 'w') as out:
         i = bin_min
         for p in Pss:
