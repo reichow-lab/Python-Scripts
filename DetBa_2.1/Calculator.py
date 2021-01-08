@@ -123,7 +123,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         print(f"\n The MFPT is {MFPT} ps.")
         return str(outname + '_penult.txt'),K_AB,MFPT,tran_mat,Pss
     return str(outname + '_penult.txt'),0,0,tran_mat,Pss
-def check_SS(MSM,Pss,num_bins,lag_time):
+def check_SS(MSM,Pss,num_bins,lag_time,outname):
     """
     When a system is in a steady state (SS) then the flux of probability from
     state i -> i+1 is equal to the flux into bin-i must be equal to the flux out
@@ -131,19 +131,21 @@ def check_SS(MSM,Pss,num_bins,lag_time):
     the distribution of flux to the nearest neighbor. The final output will be a
     coefficient between 0 and 1 where 1 is a perfect steady state.
     """
-    State_list = [bin for bin in range(num_bins)]
-    for state in State_list:
-        # Calculate the flux in and out of each state (i.e. bin)
-        iflux  = 0
-        oflux = 0
-        # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
-        j_list = [val for val in range(num_bins)]
-        j_list.pop(state)
-        #flux into 'state'
-        for j in j_list:
-            iflux += (Pss[j][0])*MSM[j,state]
-            oflux += (Pss[state][0])*MSM[state,j]
-        print(f"In-flux/Out-flux: {iflux/oflux}")
+    with open(outname + '_cSS.txt', 'w') as outss:
+        outss.write("Pss\tI-flux/O-flux\n")
+        State_list = [bin for bin in range(num_bins)]
+        for state in State_list:
+            # Calculate the flux in and out of each state (i.e. bin)
+            iflux  = 0
+            oflux = 0
+            # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
+            j_list = [val for val in range(num_bins)]
+            j_list.pop(state)
+            #flux into 'state'
+            for j in j_list:
+                iflux += (Pss[j][0])*MSM[j,state]
+                oflux += (Pss[state][0])*MSM[state,j]
+            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\n")
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
     counter = 0
