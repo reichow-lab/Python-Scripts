@@ -87,12 +87,13 @@ def interp(PMF_in):
 def Prep(PMF_in, outname, bin_dim):
     CUT_NUMS = [0,1,2,3,4,5,6,7,8,9,10]    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
                     # of these cuts (usually it's around 3) and then finding the minimum should work well for now...
+    limit = min(90,bin_dim)
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
     for x in CUT_NUMS:
-        trim(PMF_trim, x, bin_dim)
+        trim(PMF_trim, x, limit)
     BESTCUT        = min(Error, key=Error.get)
-    Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, bin_dim, True)
+    Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, limit, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)
     Final_Rev    = final(PMF_rev)
