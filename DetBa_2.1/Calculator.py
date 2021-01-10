@@ -84,7 +84,6 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     with open(str(outname + '_penult.txt'), 'w') as out:
         i = bin_min + (bin_size/2)
         for p in Pss:
-            print(p) #bug check
             out.write(str(i)+'\t'+str(-0.00198588*310*np.log(p[0]))+'\n')
             i += bin_size
     # This step only occurs if system is in "non-equilibrium"
@@ -147,7 +146,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
             # Perform double sum over i's & j's
             for i,p_i in zip(i_list,Pss):
                 for j in j_list:
-                    K_AB    = K_AB + p_i[0]*tran_mat[j,i]
+                    K_AB    = K_AB + p_i[0]*MSM[j,i]
             K_AB    = (1/lag_time)*K_AB
             outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{K_AB}\n")
 
