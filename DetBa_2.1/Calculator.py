@@ -32,7 +32,7 @@ def sympop(bin_min, bin_size, pop_matrix, ZtoBin):
     return pop_matrix
 
 def rate2gibbs(num_bins, center, tran_matrix, bin_size, outname):
-    tran_mat = tran_mat.transpose()
+    tran_matrix = tran_matrix.transpose()
     sum     = 0
     gibbs     = np.zeros((num_bins,2))
     i         = 0
