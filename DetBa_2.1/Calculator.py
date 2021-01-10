@@ -162,7 +162,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
                 state_i = state_j
                 state_j = state
                 J_ij = (MSM[state_j,state_i]*Pss[state_i] - MSM[state_i,state_j]*Pss[state_j])
-            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{K_AB}\t{J_ij}\n")
+            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{K_AB}\t{J_ij[0]}\n")
 
 
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
