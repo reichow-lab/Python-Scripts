@@ -124,6 +124,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
     with open(outname + '_cSS.txt', 'w') as outss:
         outss.write("Pss\tI-flux/O-flux\tFlux\n")
         State_list = [bin for bin in range(num_bins)]
+        hold = 0
         for state in State_list:
             # Calculate the flux in and out of each state (i.e. bin)
             iflux  = 0
@@ -151,7 +152,16 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
                 for j in j_list:
                     K_AB    = K_AB + p_i[0]*MSM[j,i]
             K_AB    = (1/lag_time)*K_AB
-            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{K_AB}\n")
+            # Calculate the net current between each connected pair (tri-diagonal) in the forward direction
+            if hold == 0:
+                state_j = state
+                hold = 1
+            else:
+                state_i = state_j
+                state_j = state
+                J_ij = (MSM[state_j,state_i]*Pss[state_i] - MSM[state_i,state_j]*Pss[state_j])
+            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{K_AB}\t{J_ij}\n")
+
 
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
     bin_init = int(init)
