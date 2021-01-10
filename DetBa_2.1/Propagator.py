@@ -58,7 +58,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     ZtoBin  = {}
     bin     = 0
     counter = 1
-    for z in range(bin_min,bin_max,1):
+    for z in range(bin_min,bin_max + 1,1):
         ZtoBin[z] = bin
         if counter % bin_size == 0:
             bin += 1
@@ -81,45 +81,6 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
 
 def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag_step, ZtoBin):
 
-    # Deprecated: This function was replaced by the ZtoBin{} dictionary.
-    # This function takes a z-coordinate from a text file, and locates which bin in the pop_mat it belongs to.
-
-    def Which_Bin(zcoord):
-        if zcoord < 0:
-            found_bin    = False
-            neg         = 1
-            while found_bin == False:
-                to = neg*(bin_s) - bin_max    # The purpose of this statement is to allow for variable sized bins. Thus the zcoord must be located within a range,
-                fro = to - bin_s            # the range is then associated with a particular bin. 'to' & 'fro' are the edges of the bin, this code cycles through
-                                            # all of the available bins, and asks whether or not the zcoord is within it.
-                if (zcoord >= fro) and (zcoord <= to):
-                    found_bin = True    # This, and the next if-statement seem confusing, but if you work it out on paper, it'll make sense.
-                    bin       = neg - 1
-                else:
-                    found_bin = False
-                    neg       = neg + 1
-        elif zcoord >= 0:
-            found_bin = False
-            pos = (num_bins/2) + 1
-            while found_bin == False:
-                to = pos*(bin_s) - bin_max
-                fro = to - bin_s
-                if (zcoord >= fro) and (zcoord <= to):
-                    found_bin = True
-                    bin       = pos - 1
-                else:
-                    found_bin = False
-                    pos       = pos + 1
-        return int(bin)
-
-    def Populator(bin_then, bin_now, num_bins):
-        if abs(bin_now - bin_then) < (num_bins - 1):
-            pop_mat[bin_now,bin_then] += 1
-        elif bin_now - bin_then < 0:
-            pop_mat[(num_bins - 1),bin_then] += 1
-        elif bin_now - bin_then > 0:
-            pop_mat[0,bin_then] += 1
-
     def hist_pop(bin_now):
         pop_mat[bin_now, 1] = pop_mat[bin_now,1] + 1
         return 0
@@ -130,7 +91,6 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
 #                                    #
 #####################################
 
-    bin_j    =    0
     # Open file, and read all lines in
     for file in tqdm(file_list):
         with open(file, "r") as f:
@@ -147,15 +107,17 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
         start_list.append(-1)
         # Loop through each ion's index and process their data
         for i in range(0,len(start_list)-1,1):
+            bin_j = 'new'
             for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
                 if abs(float(line.split()[d_col])) > bin_max:
                     pass
+                elif bin_j == 'new':
+                    bin_j = ZtoBin[int(float(line.split()[d_col]))]
                 else:
                     bin_i = bin_j
                     bin_j = ZtoBin[int(float(line.split()[d_col]))]
-                    #bin_j = Which_Bin(float(val[d_col]))
-                    if array_dim == 1:    # Rates calculation: choice == 'R'
-                        Populator(bin_i, bin_j, num_bins)
+                    if array_dim == 1:    # Rates calculation: choice == 'R' or 'M'
+                        pop_mat[bin_j,bin_i] += 1
                     elif array_dim == 0:    # Histogram calculation: choice == 'H'
                         hist_pop(bin_j)
     return pop_mat

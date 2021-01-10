@@ -59,12 +59,12 @@ import matplotlib.pylab as plt
 import Ion_Tracker
 from Propagator import initialize,populate
 from Calculator import sympop,pop2rate,rate2gibbs,hist_write,mfpt,check_SS
-from Current_Calculator    import Current,Text2PMF,VoltPMF
-from Diffusion_Calc    import normalize,Diff_Calc
-from Edge_Erase    import edge_erase,tri_diag
-from PMF_Prep    import Prep
-from sys    import argv
-from glob    import glob
+from Current_Calculator import Current,Text2PMF,VoltPMF
+from Diffusion_Calc import normalize,Diff_Calc
+from Edge_Erase import edge_erase,tri_diag
+from PMF_Prep import Prep
+from sys import argv
+from glob import glob
 
 script, globstring = argv
 
@@ -95,24 +95,25 @@ END    =    False
 
 while END == False:
     if choice == 'M':
-        d_col   =    int(input("Which column from your data_file will you use? "))
+        d_col       =    int(input("Which column from your data_file will you use? "))
         lag_step    =    int(int(input(f"Choose a lag time. (multiple of {lag_base}ps) "))/lag_base)
         lag_time    =   lag_step * lag_base
         bin_lim     = input('What is the Bin limit? ') # "auto" is acceptable
         array_dim   =    1
         init_matrix,bin_min,bin_max,num_bins,ZtoBin,bin_dim = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
+        first_center = bin_min + (bin_size/2)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         #sym_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
         pop_matrix.dump(out_pop_mat)
         #pop_mat_EE  = edge_erase(np.load(out_pop_mat,allow_pickle=True),bin_size)
         pop_mat_EE  = tri_diag(np.load(out_pop_mat,allow_pickle=True),bin_size)
-        rate_matrix =    pop2rate(num_bins, pop_mat_EE)
+        rate_matrix = normalize(pop_mat_EE)
         rate_matrix.dump(out_rate_mat)
-        gibbs       =   rate2gibbs(num_bins, bin_min, rate_matrix, bin_size, str(outname + '_rate'))
+        gibbs       =   rate2gibbs(num_bins, first_center, rate_matrix, bin_size, str(outname + '_rate'))
         Prep(gibbs, str(outname + '_rate_final.txt'), bin_dim)
         source      = int(input("Which bin is the source? "))
         sink        = int(input("which bin is the sink? "))
-        gibbs,K_AB,MFPT,MSM,Pss =   mfpt(pop_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
+        gibbs,K_AB,MFPT,MSM,Pss =   mfpt(pop_mat_EE,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
         Prep(gibbs, out_final, bin_dim)
         check_SS(MSM,Pss,num_bins,lag_time,outname)
     elif choice == 'H':

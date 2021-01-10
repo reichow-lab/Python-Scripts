@@ -9,10 +9,16 @@ def trim(PMF_in, cut_num, limit, final=False):    # cut_num is the number of val
     PMF_for[0]     = list(PMF_in[0])
     PMF_for[1]     = list(PMF_in[1])
     PMF_rev        = [[],[]]               # Reverse PMF, [[pore-axis],[PMF_rev],[MT]]
-    for i in range(0,cut_num,1):                    # This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
-        del PMF_for[0][0]
+    for i in range(cut_num):                    # This loop cuts the [pore-axis] accordingly, if cut_num == 0 then nothing happens
+        if cut_num < 0:
+            del PMF_for[0][-1]
+        else:
+            del PMR_for[0][0]
     while len(PMF_for[0]) < len(PMF_for[1]):    # This ensures that the two sub-lists are the same length prior to trimming to the limit
-        del PMF_for[1][-1]
+        if cut_num < 0:
+            del PMF_for[1][0]
+        else:
+            del PMF_for[1][-1]
     while PMF_for[0][0] < -limit:            # These two loops trim the PMF to the pre-defined limits
         del PMF_for[0][0]
         del PMF_for[1][0]
@@ -31,17 +37,9 @@ def error(PMF_for, PMF_rev, cut_num):
     PMF_avg        = [[],[],[]]    # Average PMF, [[pore-axis],[PMF_avg],[SEM]]. I am reassigning this everytime I call it to clear out the columns
     PMF_avg[0]     = list(PMF_for[0][:])
     hold           = np.zeros([1,2])
-    for i in range(0,len(PMF_avg[0]),1):
-            if PMF_avg[0][i] == 0:
-                hold[0,0]       = PMF_for[1][i-1]
-                hold[0,1]       = PMF_rev[1][i-1]
-                PMF_avg[1].append(hold.mean())
-                PMF_avg[2].append((hold.std())/sqrt(2))
-            else:
-                hold[0,0]    = PMF_for[1][i]
-                hold[0,1]    = PMF_rev[1][i]
-                PMF_avg[1].append(hold.mean())
-                PMF_avg[2].append((hold.std())/sqrt(2))
+    for PMFf,PMFr in zip(PMF_for[1],PMF_rev[1]):
+        PMF_avg[1].append(np.mean([PMFf,PMFr]))
+        PMF_avg[2].append((np.std([PMFf,PMFr]))/sqrt(2))
     Error[cut_num] = sum(PMF_avg[2])
     return PMF_avg
 #################################################################
@@ -69,12 +67,12 @@ def interp(PMF_in):
             val     = line.split()
             PMF_IN[0].append(float(val[0]))
             PMF_IN[1].append(float(val[1]))
-    del PMF_IN[0][-1]
-    del PMF_IN[1][-1]
+    #del PMF_IN[0][-1]  not sure why I had these here in the first place. Will
+    #del PMF_IN[1][-1]  return in case they were necessary.
     xin     =   np.array(PMF_IN[0])
     yin     =   np.array(PMF_IN[1])
     f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
-    xout    =   np.arange(PMF_IN[0][0],PMF_IN[0][-1] + 1,1)
+    xout    =   np.arange(PMF_IN[0][0],PMF_IN[0][-1] + 1,1) # Creating the correct dimension for the data output.
     yout    =   f(xout)
     PMF_fix[0]  =   xout.tolist()
     PMF_fix[1]  =   yout.tolist()
@@ -85,14 +83,13 @@ def interp(PMF_in):
 #                                                               #
 #################################################################
 def Prep(PMF_in, outname, bin_dim):
-    CUT_NUMS = [0,1,2,3,4,5,6,7,8,9,10]    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
-                    # of these cuts (usually it's around 3) and then finding the minimum should work well for now...
+    CUT_NUMS = list(range(-10,11))    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
     limit = min(90,bin_dim)
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
     for x in CUT_NUMS:
         trim(PMF_trim, x, limit)
-    BESTCUT        = min(Error, key=Error.get)
+    BESTCUT      = min(Error, key=Error.get)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, limit, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)
