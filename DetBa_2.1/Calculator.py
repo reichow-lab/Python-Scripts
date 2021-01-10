@@ -154,7 +154,9 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
             K_AB    = (1/lag_time)*K_AB
             # Calculate the net current between each connected pair (tri-diagonal) in the forward direction
             if hold == 0:
+                state_i = (num_bins - 1)
                 state_j = state
+                J_ij = (MSM[state_j,state_i]*Pss[state_i] - MSM[state_i,state_j]*Pss[state_j])
                 hold = 1
             else:
                 state_i = state_j
