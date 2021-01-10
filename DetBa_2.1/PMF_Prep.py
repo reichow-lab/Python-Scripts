@@ -13,7 +13,7 @@ def trim(PMF_in, cut_num, limit, final=False):    # cut_num is the number of val
         if cut_num < 0:
             del PMF_for[0][-1]
         else:
-            del PMR_for[0][0]
+            del PMF_for[0][0]
     while len(PMF_for[0]) < len(PMF_for[1]):    # This ensures that the two sub-lists are the same length prior to trimming to the limit
         if cut_num < 0:
             del PMF_for[1][0]
@@ -67,8 +67,8 @@ def interp(PMF_in):
             val     = line.split()
             PMF_IN[0].append(float(val[0]))
             PMF_IN[1].append(float(val[1]))
-    del PMF_IN[0][-1]  #not sure why I had these here in the first place. Will
-    del PMF_IN[1][-1]  #return in case they were necessary.
+    del PMF_IN[0][-1]  # not sure why I had these here in the first place
+    del PMF_IN[1][-1]  # but the code won't run without it.
     xin     =   np.array(PMF_IN[0])
     yin     =   np.array(PMF_IN[1])
     f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
