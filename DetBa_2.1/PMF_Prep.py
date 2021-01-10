@@ -67,8 +67,8 @@ def interp(PMF_in):
             val     = line.split()
             PMF_IN[0].append(float(val[0]))
             PMF_IN[1].append(float(val[1]))
-    #del PMF_IN[0][-1]  not sure why I had these here in the first place. Will
-    #del PMF_IN[1][-1]  return in case they were necessary.
+    del PMF_IN[0][-1]  #not sure why I had these here in the first place. Will
+    del PMF_IN[1][-1]  #return in case they were necessary.
     xin     =   np.array(PMF_IN[0])
     yin     =   np.array(PMF_IN[1])
     f       =   interpolate.CubicSpline(xin,yin)  # Cubic-spline interpolation
