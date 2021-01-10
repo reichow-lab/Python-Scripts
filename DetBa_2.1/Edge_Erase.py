@@ -26,11 +26,12 @@ def edge_erase(pop_mat,bin_size=1,cutoff=10):
 	milar to the data that is in the rates method. The purpose is to compare to
 	the rates method to understand why the Pss method gives a symmetric PMF.
 	"""
-def tri_diag(pop_mat,bin_size,num_bins):
+def tri_diag(pop_mat,bin_size):
 	num_row,num_col = pop_mat.shape
 	for i in range(num_col):
 		for j in range(num_row):
 			if abs(i - j) > 1:
+				# keep the connection between periodic boudaries
 				if abs(i - j) == (num_row - 1):
 					pass
 				else:
