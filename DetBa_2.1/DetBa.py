@@ -121,7 +121,7 @@ while END == False:
         array_dim    =    0
         lag_step    = 1
         bin_lim     = input('What is the Bin limit? ')
-        init_matrix,bin_min,bin_max,num_bins,ZtoBin = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
+        init_matrix,bin_min,bin_max,num_bins,ZtoBin,bin_dim = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         write_mat    =    hist_write(bin_min, pop_matrix, outname, bin_size, num_bins)
     elif choice == 'T':
