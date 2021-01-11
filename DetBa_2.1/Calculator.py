@@ -134,8 +134,8 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
             j_list.pop(state)
             #flux into 'state'
             for j in j_list:
-                iflux += (Pss[j][0])*MSM[j,state]
-                oflux += (Pss[state][0])*MSM[state,j]
+                iflux += (Pss[j][0])*MSM[state,j]
+                oflux += (Pss[state][0])*MSM[j,state]
             #outss.write(f"{Pss[state][0]}\t{iflux/oflux}\n")
             K_AB = 0
             # Create the i-list (bins in state A) & j-list (bins in state B)
