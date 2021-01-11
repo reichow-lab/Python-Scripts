@@ -120,7 +120,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
     the distribution of flux to the nearest neighbor. The final output will be a
     coefficient between 0 and 1 where 1 is a perfect steady state.
     """
-    MSM = MSM.transpose()
+    #MSM = MSM.transpose()
     with open(outname + '_cSS.txt', 'w') as outss:
         outss.write("Pss\tI-flux/O-flux\tFlux\n")
         State_list = [bin for bin in range(num_bins)]
