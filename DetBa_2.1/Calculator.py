@@ -72,7 +72,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
             count_mat[j][sink]   = 0
     # recalculate the transition (probability/rate) matrix
     tran_mat = normalize(count_mat)
-    #tran_mat = tran_mat.transpose()
+    tran_mat = tran_mat.transpose()
     tran_mat.dump(str(outname + '_MFPT.mat'))
     # Calculate the stationary state probabilities (Pss)
     P   = np.zeros([num_bins,1])
