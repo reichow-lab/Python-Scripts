@@ -104,7 +104,7 @@ while END == False:
         first_center = bin_min + (bin_size/2)
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         #sym_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
-        #pop_matrix  = tri_diag(pop_matrix,bin_size)
+        pop_matrix  = tri_diag(pop_matrix,bin_size)
         pop_matrix.dump(out_pop_mat)
         rate_matrix = normalize(pop_matrix)
         rate_matrix.dump(out_rate_mat)
