@@ -60,7 +60,6 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     counter = 1
     for z in range(bin_min,bin_max + 1,1):
         ZtoBin[z] = bin
-        print(z,ZtoBin[z])
         if counter % bin_size == 0:
             bin += 1
             counter += 1
