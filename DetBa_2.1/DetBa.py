@@ -105,7 +105,7 @@ while END == False:
         pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         #sym_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
         pop_matrix.dump(out_pop_mat)
-        #pop_mat_EE  = tri_diag(np.load(out_pop_mat,allow_pickle=True),bin_size)
+        pop_matrix  = tri_diag(np.load(out_pop_mat,allow_pickle=True),bin_size)
         rate_matrix = normalize(pop_matrix)
         rate_matrix.dump(out_rate_mat)
         gibbs       =   rate2gibbs(num_bins, first_center, rate_matrix, bin_size, str(outname + '_rate'))
