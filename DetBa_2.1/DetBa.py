@@ -116,8 +116,8 @@ while END == False:
         Prep(gibbs, out_final, bin_dim)
         check_SS(MSM,Pss,num_bins,lag_time,outname)
     elif choice == 'H':
-        d_col        =    int(input("Which column from your data_file will you use? "))
-        array_dim    =    0
+        d_col       = int(input("Which column from your data_file will you use? "))
+        array_dim   = 0
         lag_step    = 1
         bin_lim     = input('What is the Bin limit? ')
         init_matrix,bin_min,bin_max,num_bins,ZtoBin,bin_dim = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
