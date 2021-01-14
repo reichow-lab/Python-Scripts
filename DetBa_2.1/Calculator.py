@@ -136,12 +136,15 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
                 oflux += (Pss[state,0])*MSM[j,state]
 
             #flux through the i->j surface
-            ij_flux, ji_flux = 0, 0
-            for j in range(state+1,num_bins):
-                ji_flux += Pss[j,0] * MSM[state,j]
-            for i in range(0,state):
-                ij_flux += Pss[i,0] * MSM[(state+1),i]
-            J_ij = ij_flux - ji_flux
+            if state == (num_bins - 1):
+                pass # I am doing this because I am ignoring periodic boundaries.
+            else:
+                ij_flux, ji_flux = 0, 0
+                for j in range(state+1,num_bins):
+                    ji_flux += Pss[j,0] * MSM[state,j]
+                for i in range(0,state):
+                    ij_flux += Pss[i,0] * MSM[(state+1),i]
+                J_ij = ij_flux - ji_flux
             outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{J_ij}\n")
 
 
