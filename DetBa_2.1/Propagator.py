@@ -79,7 +79,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
 
 # This method populates a transition pop_mat from 1D data (e.g. ion trajectories along z-coordinate)
 
-def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag_step, ZtoBin):
+def populate(file_list, pop_mat, bin_min, bin_max, bin_s, num_bins, array_dim, d_col, lag_step, ZtoBin):
 
     def hist_pop(bin_now):
         pop_mat[bin_now, 1] = pop_mat[bin_now,1] + 1

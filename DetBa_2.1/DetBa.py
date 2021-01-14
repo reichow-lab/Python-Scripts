@@ -102,7 +102,7 @@ while END == False:
         array_dim   =    1
         init_matrix,bin_min,bin_max,num_bins,ZtoBin,bin_dim = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
         first_center = bin_min + (bin_size/2)
-        pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
+        pop_matrix  =    populate(file_list, init_matrix, bin_min, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         #sym_matrix  =    sympop(bin_min, bin_size, pop_matrix, ZtoBin)
         #pop_matrix  = tri_diag(pop_matrix,bin_size)
         pop_matrix.dump(out_pop_mat)
@@ -121,7 +121,7 @@ while END == False:
         lag_step    = 1
         bin_lim     = input('What is the Bin limit? ')
         init_matrix,bin_min,bin_max,num_bins,ZtoBin,bin_dim = initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim)
-        pop_matrix  =    populate(file_list, init_matrix, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
+        pop_matrix  =    populate(file_list, init_matrix, bin_min, bin_max, bin_size, num_bins, array_dim, d_col, lag_step, ZtoBin)
         write_mat    =    hist_write(bin_min, pop_matrix, outname, bin_size, num_bins)
     elif choice == 'T':
         d_col   =    int(input("Which column from your data_file will you use? "))
