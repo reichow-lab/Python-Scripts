@@ -42,8 +42,6 @@ def rate2gibbs(num_bins, center, tran_matrix, bin_size, outname):
     for j in range(1,num_bins):    # This loop is the first to populate the matrix[i,0] column. I need to incrememnt center by bin_size instead of 1.
         forw    = tran_matrix[j,i]
         rev        = tran_matrix[i,j]
-        if forw == 0 or rev == 0:
-            print("MAYDAY!")
         gib        = det_bal(forw, rev)
         gibbs[i,0] = center
         gibbs[i,1] = gib
