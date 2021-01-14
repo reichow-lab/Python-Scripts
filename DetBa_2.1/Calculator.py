@@ -120,7 +120,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
     """
 
     with open(outname + '_cSS.txt', 'w') as outss:
-        outss.write("Pss\tI-flux/O-flux\tFlux\n")
+        outss.write("Pss\tI-flux/O-flux\tJ_i-j\n")
         State_list = list(range(num_bins))
         hold = 0
         for state in State_list:
@@ -130,37 +130,20 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
             # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
             j_list = list(range(num_bins))
             j_list.pop(state)
-            #flux into 'state'
+            #flux into 'state' and out of
             for j in j_list:
-                iflux += (Pss[j][0])*MSM[state,j]
-                oflux += (Pss[state][0])*MSM[j,state]
-            #outss.write(f"{Pss[state][0]}\t{iflux/oflux}\n")
-            K_AB = 0
-            # Create the i-list (bins in state A) & j-list (bins in state B)
-            # (recall, T_ji corrosponds to the conditional probability that and ion
-            # transitions from bin i to j)
-            i_list,j_list = [],[]
-            for i in range(num_bins):
-                if i != state:
-                    i_list.append(i)
-                else:
-                    j_list.append(i)
-            # Perform double sum over i's & j's
-            for i,p_i in zip(i_list,Pss):
-                for j in j_list:
-                    K_AB    = K_AB + p_i[0]*MSM[j,i]
-            K_AB    = (1/lag_time)*K_AB
-            # Calculate the net current between each connected pair (tri-diagonal) in the forward direction
-            if hold == 0:
-                state_i = (num_bins - 1)
-                state_j = state
-                J_ij = (MSM[state_j,state_i]*Pss[state_i] - MSM[state_i,state_j]*Pss[state_j])
-                hold = 1
-            else:
-                state_i = state_j
-                state_j = state
-                J_ij = (MSM[state_j,state_i]*Pss[state_i] - MSM[state_i,state_j]*Pss[state_j])
-            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{K_AB}\t{J_ij[0]}\n")
+                iflux += (Pss[j,0])*MSM[state,j]
+                oflux += (Pss[state,0])*MSM[j,state]
+
+            #flux through the i->j surface
+            ij_flux = 0
+            ji_flux = 0
+            j_list = list(range(state+1,num_bins))
+            for j in j_list:
+                ij_flux += Pss[state,0] * MSM[j,state]
+                ji_flux += Pss[j,0] * MSM[state,j]
+            J_ij = ji_flux - ij_flux
+            outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{J_ij[0]}\n")
 
 
 def hist_write(init, pop_matrix, outname, bin_size, num_bins):
