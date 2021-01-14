@@ -14,9 +14,10 @@ def normalize(pop_mat):
 	an ion, then it has 3 possible moves: move backwards, stay, move forwards. What is the probability that you do any of the three possibile actions given that you began
 	in row i ... the answer is 1. This new matrix (trans_mat) is full of effective transition probabilities.
 	"""
-	row_sum = pop_mat.sum(axis=1)
-	trans_mat = pop_mat / row_sum[:,np.newaxis]
-	return trans_mat
+  
+	column_sum = pop_mat.sum(axis=0)
+	colnorm = pop_mat / column_sum
+	return colnorm
 
 def Diff_Calc(trans_mat,bin_size,sim_min=-100,sim_max=100,pore_min=-60,pore_max=60):
 	"""

@@ -72,7 +72,6 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
             count_mat[j][sink]   = 0
     # recalculate the transition (probability/rate) matrix
     tran_mat = normalize(count_mat)
-    tran_mat = tran_mat.transpose()
     tran_mat.dump(str(outname + '_MFPT.mat'))
     # Calculate the stationary state probabilities (Pss)
     P   = np.zeros([num_bins,1])
@@ -120,7 +119,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
     the distribution of flux to the nearest neighbor. The final output will be a
     coefficient between 0 and 1 where 1 is a perfect steady state.
     """
-    #MSM = MSM.transpose()
+
     with open(outname + '_cSS.txt', 'w') as outss:
         outss.write("Pss\tI-flux/O-flux\tFlux\n")
         State_list = [bin for bin in range(num_bins)]
