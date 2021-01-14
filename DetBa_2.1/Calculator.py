@@ -32,7 +32,6 @@ def sympop(bin_min, bin_size, pop_matrix, ZtoBin):
     return pop_matrix
 
 def rate2gibbs(num_bins, center, tran_matrix, bin_size, outname):
-    tran_matrix = tran_matrix.transpose()
     sum     = 0
     gibbs     = np.zeros((num_bins,2))
     i         = 0
@@ -40,15 +39,15 @@ def rate2gibbs(num_bins, center, tran_matrix, bin_size, outname):
         rel        = forw/rev
         gibb     = -0.00198588*310*np.log(rel)
         return gibb
-    for j in range(1,num_bins,1):    # This loop is the first to populate the matrix[i,0] column. I need to incrememnt center by bin_size instead of 1.
-        forw    = tran_matrix[i,j]
-        rev        = tran_matrix[j,i]
+    for j in range(1,num_bins):    # This loop is the first to populate the matrix[i,0] column. I need to incrememnt center by bin_size instead of 1.
+        forw    = tran_matrix[j,i]
+        rev        = tran_matrix[i,j]
         gib        = det_bal(forw, rev)
         gibbs[i,0] = center
         gibbs[i,1] = gib
         center   = center + bin_size
         i += 1
-    for b in range(0,num_bins,1):
+    for b in range(num_bins):
         sum = sum + gibbs[b,1]
         gibbs[b,1] = sum
     out_file = str(outname + '_penult.txt')
@@ -68,8 +67,8 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         source  = ZtoBin[source]
         sink    = ZtoBin[sink]
         for j in range(num_bins):
-            count_mat[j][source] += count_mat[j][sink]
-            count_mat[j][sink]   = 0
+            count_mat[source,j] += count_mat[sink,j]
+            count_mat[sink,j]   = 0
     # recalculate the transition (probability/rate) matrix
     tran_mat = normalize(count_mat)
     tran_mat.dump(str(outname + '_MFPT.mat'))
@@ -103,7 +102,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         # Perform double sum over i's & j's
         for i,p_i in zip(i_list,Pss):
             for j in j_list:
-                K_AB    = K_AB + p_i[0]*tran_mat[i,j]
+                K_AB    = K_AB + p_i[0]*tran_mat[j,i]
         K_AB    = (1/lag_time)*K_AB
         # Calculate the mean first passage time
         MFPT    = 1/K_AB
@@ -122,19 +121,19 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
 
     with open(outname + '_cSS.txt', 'w') as outss:
         outss.write("Pss\tI-flux/O-flux\tFlux\n")
-        State_list = [bin for bin in range(num_bins)]
+        State_list = list(range(num_bins))
         hold = 0
         for state in State_list:
             # Calculate the flux in and out of each state (i.e. bin)
             iflux  = 0
             oflux = 0
             # Create the i-list (bins in state A) & j-list (bins in state B) (recall, T_ji corrosponds to the conditional probability that and ion transitions from bin i to j)
-            j_list = [val for val in range(num_bins)]
+            j_list = list(range(num_bins))
             j_list.pop(state)
             #flux into 'state'
             for j in j_list:
-                iflux += (Pss[j][0])*MSM[j,state]
-                oflux += (Pss[state][0])*MSM[state,j]
+                iflux += (Pss[j][0])*MSM[state,j]
+                oflux += (Pss[state][0])*MSM[j,state]
             #outss.write(f"{Pss[state][0]}\t{iflux/oflux}\n")
             K_AB = 0
             # Create the i-list (bins in state A) & j-list (bins in state B)
@@ -149,13 +148,13 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
             # Perform double sum over i's & j's
             for i,p_i in zip(i_list,Pss):
                 for j in j_list:
-                    K_AB    = K_AB + p_i[0]*MSM[i,j]
+                    K_AB    = K_AB + p_i[0]*MSM[j,i]
             K_AB    = (1/lag_time)*K_AB
             # Calculate the net current between each connected pair (tri-diagonal) in the forward direction
             if hold == 0:
                 state_i = (num_bins - 1)
                 state_j = state
-                J_ij = (MSM[state_i,state_j]*Pss[state_i] - MSM[state_j,state_i]*Pss[state_j])
+                J_ij = (MSM[state_j,state_i]*Pss[state_i] - MSM[state_i,state_j]*Pss[state_j])
                 hold = 1
             else:
                 state_i = state_j

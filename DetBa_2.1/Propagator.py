@@ -50,7 +50,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     bin_min = bin_dim * -1
     bin_max = bin_dim
     print(f'bin_min = {bin_min}, bin_max = {bin_max}')
-    pop_mat_length    =    int(abs(bin_min) + abs(bin_max) + 1)
+    pop_mat_length  =    int(abs(bin_min) + abs(bin_max) + 1)
     num_bins        =    pop_mat_length/bin_size
     num_bins        =    int(num_bins)
 
@@ -58,7 +58,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     ZtoBin  = {}
     bin     = 0
     counter = 1
-    for z in range(bin_min,bin_max + 1,1):
+    for z in range(bin_min,bin_max + 1):
         ZtoBin[z] = bin
         if counter % bin_size == 0:
             bin += 1
@@ -97,7 +97,7 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
             all_lines = f.read().splitlines()
         # generate list of indexes denoting new ions
         start_list = []
-        for i in range(0,len(all_lines),1):
+        for i in range(len(all_lines)):
             if all_lines[i].split()[0] == "IonID:":
                 start_list.append(i)
             else:
@@ -106,7 +106,7 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
             start_list.append(0)
         start_list.append(-1)
         # Loop through each ion's index and process their data
-        for i in range(0,len(start_list)-1,1):
+        for i in range(len(start_list)-1):
             bin_j = 'new'
             for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
                 if abs(float(line.split()[d_col])) > bin_max:
@@ -117,7 +117,7 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
                     bin_i = bin_j
                     bin_j = ZtoBin[int(float(line.split()[d_col]))]
                     if array_dim == 1:    # Rates calculation: choice == 'R' or 'M'
-                        pop_mat[bin_i,bin_j] += 1
+                        pop_mat[bin_j,bin_i] += 1
                     elif array_dim == 0:    # Histogram calculation: choice == 'H'
                         hist_pop(bin_j)
     return pop_mat
