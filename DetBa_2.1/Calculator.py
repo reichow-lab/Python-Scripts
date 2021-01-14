@@ -142,7 +142,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
                 ij_flux, ji_flux = 0, 0
                 for j in range(state+1,num_bins):
                     ji_flux += Pss[j,0] * MSM[state,j]
-                for i in range(0,state):
+                for i in range(0,state+1):
                     ij_flux += Pss[i,0] * MSM[(state+1),i]
                 J_ij = ij_flux - ji_flux
             outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{J_ij}\n")
