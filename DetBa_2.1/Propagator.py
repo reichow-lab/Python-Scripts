@@ -117,7 +117,7 @@ def populate(file_list, pop_mat, bin_max, bin_s, num_bins, array_dim, d_col, lag
                     bin_i = bin_j
                     bin_j = ZtoBin[int(float(line.split()[d_col]))]
                     if array_dim == 1:    # Rates calculation: choice == 'R' or 'M'
-                        pop_mat[bin_j,bin_i] += 1
+                        pop_mat[bin_i,bin_j] += 1
                     elif array_dim == 0:    # Histogram calculation: choice == 'H'
                         hist_pop(bin_j)
     return pop_mat
