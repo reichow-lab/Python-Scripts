@@ -110,20 +110,19 @@ def populate(file_list, pop_mat, bin_min, bin_max, bin_s, num_bins, array_dim, d
         # Loop through each ion's index and process their data
         for i in range(len(start_list)-1):
             bin_j = 'new'
-            print(start_list[i])
             for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
                 if bin_j == 'new':
-                    if float(line.split()[d_col]) > bin_max:
+                    if float(line.split()[d_col]) >= bin_max:
                         bin_j = ZtoBin[bin_max]
-                    elif float(line.split()[d_col]) < bin_min:
+                    elif float(line.split()[d_col]) <= bin_min:
                         bin_j = ZtoBin[bin_min]
                     else:
                         bin_j = ZtoBin[int(float(line.split()[d_col]))]
                 else:
                     bin_i = bin_j
-                    if float(line.split()[d_col]) > bin_max:
+                    if float(line.split()[d_col]) >= bin_max:
                         bin_j = ZtoBin[bin_max]
-                    elif float(line.split()[d_col]) < bin_min:
+                    elif float(line.split()[d_col]) <= bin_min:
                         bin_j = ZtoBin[bin_min]
                     else:
                         bin_j = ZtoBin[int(float(line.split()[d_col]))]
