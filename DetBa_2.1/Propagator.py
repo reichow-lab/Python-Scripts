@@ -47,7 +47,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
         bin_dim = int(bin_lim)
 
     # Pair it down 'til it's symmetric and evenly divisible by bin_size
-    while bin_dim % bin_size != 0:
+    while (bin_dim*2 + 1) % bin_size != 0:
         bin_dim -= 1
     bin_min = bin_dim * -1
     bin_max = bin_dim
