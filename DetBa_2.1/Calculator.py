@@ -110,7 +110,7 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         return str(outname + '_penult.txt'),K_AB,MFPT,tran_mat,Pss
     return str(outname + '_penult.txt'),0,0,tran_mat,Pss
 
-def check_SS(MSM,Pss,num_bins,lag_time,outname):
+def check_SS(MSM,Pss,num_bins,lag_time,outname,bin_size):
     """
     When a system is in a steady state (SS) then the flux of probability from
     state i -> i+1 is equal to the flux into bin-i must be equal to the flux out
@@ -137,9 +137,13 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname):
 
             #flux through the i->j surface
             J_ij = 0
+            edge_bins = list(range(int(60/bin_size))) + list(range(int(180/bin_size),num_bins))
             for i in range(state+1):
                 for j in range(state+1,num_bins):
-                    J_ij += (Pss[j,0] * MSM[i,j]) - (Pss[i,0] * MSM[j,i])
+                    if i in edge_bins and j in edge_bins:
+                        J_ij -= (Pss[j,0] * MSM[i,j]) - (Pss[i,0] * MSM[j,i])
+                    else:
+                        J_ij += (Pss[j,0] * MSM[i,j]) - (Pss[i,0] * MSM[j,i])
 
             outss.write(f"{Pss[state][0]}\t{iflux/oflux}\t{J_ij}\n")
 
