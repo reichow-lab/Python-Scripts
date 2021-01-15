@@ -52,7 +52,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
     bin_min = bin_dim * -1
     bin_max = bin_dim
     print(f'bin_min = {bin_min}, bin_max = {bin_max}')
-    pop_mat_length  =    int(abs(bin_min) + abs(bin_max))
+    pop_mat_length  =    int(abs(bin_min) + abs(bin_max) + 1)
     num_bins        =    pop_mat_length/bin_size
     num_bins        =    int(num_bins)
 
