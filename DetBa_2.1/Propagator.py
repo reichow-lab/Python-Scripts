@@ -42,7 +42,7 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
                     bin_max = int(float(val[d_col]))
                 else:
                     pass
-        bin_dim = min(abs(bin_min),abs(bin_max)) - 5
+        bin_dim = min(abs(bin_min),abs(bin_max))
     else:
         bin_dim = int(bin_lim)
 
