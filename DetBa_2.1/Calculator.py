@@ -141,7 +141,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname,bin_size):
             for i in range(state+1):
                 for j in range(state+1,num_bins):
                     if (i in edge_bins1 and j in edge_bins2) or (i in edge_bins2 and j in edge_bins1):
-                        J_ij -= (Pss[j,0] * MSM[i,j]) - (Pss[i,0] * MSM[j,i])
+                        pass
                     else:
                         J_ij += (Pss[j,0] * MSM[i,j]) - (Pss[i,0] * MSM[j,i])
 
