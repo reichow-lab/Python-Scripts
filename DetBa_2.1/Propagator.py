@@ -113,7 +113,7 @@ def populate(file_list, pop_mat, bin_min, bin_max, bin_s, num_bins, array_dim, d
             for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
                 if abs(float(line.split()[d_col])) > bin_max:
                     pass
-                if bin_j == 'new':
+                elif bin_j == 'new':
                     bin_j = ZtoBin[int(float(line.split()[d_col]))]
                 else:
                     bin_i = bin_j
