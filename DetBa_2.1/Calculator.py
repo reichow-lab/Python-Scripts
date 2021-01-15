@@ -137,7 +137,7 @@ def check_SS(MSM,Pss,num_bins,lag_time,outname,bin_size):
 
             #flux through the i->j surface
             J_ij = 0
-            edge_bins1, edge_bins2 = list(range(int(50/bin_size))), list(range(int(160/bin_size),num_bins))
+            edge_bins1, edge_bins2 = list(range(int(20/bin_size))), list(range(int(180/bin_size),num_bins))
             for i in range(state+1):
                 for j in range(state+1,num_bins):
                     if (i in edge_bins1 and j in edge_bins2) or (i in edge_bins2 and j in edge_bins1):
