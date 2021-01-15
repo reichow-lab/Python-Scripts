@@ -36,9 +36,9 @@ def initialize(file_list, bin_size, outname, array_dim, d_col, bin_lim='auto'):
                 val = line.split()
                 if val[0] == 'IonID:':
                     pass
-                elif int(val[d_col]) <= bin_min:
+                elif float(val[d_col]) <= bin_min:
                     bin_min = int(float(val[d_col]))
-                elif int(val[d_col]) >= bin_max:
+                elif float(val[d_col]) >= bin_max:
                     bin_max = int(float(val[d_col]))
                 else:
                     pass
