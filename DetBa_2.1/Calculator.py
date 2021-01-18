@@ -62,13 +62,16 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     # source and sink are bins (A,B) that that will direct where counts in the transition matrix will transfer from and to.
     # Counts from T_sink->j, to T_sink->source
     # Modify the transition (count) matrix by moving all counts from sink to source
-    #if source != sink:
+    if source != sink:
         # Convert from z (Å) to bin (i)
-    #    source  = ZtoBin[source]
-    #    sink    = ZtoBin[sink]
-    #    for j in range(num_bins):
-    #        count_mat[source,j] += count_mat[sink,j]
-    #        count_mat[sink,j]   = 0
+        source  = ZtoBin[source]
+        sink    = ZtoBin[sink]
+        # John Russo's Method
+        #for j in range(num_bins):
+        #    count_mat[source,j] += count_mat[sink,j]
+        #    count_mat[sink,j]   = 0
+        #for j in range(num_bins):
+            #count_mat[source,sink] += count_mat[]
     # recalculate the transition (probability/rate) matrix
     tran_mat = normalize(count_mat)
     tran_mat.dump(str(outname + '_MFPT.mat'))
