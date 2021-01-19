@@ -33,7 +33,7 @@ for FILE in PssList:
                 Final[1].append(float(val[1]))
 for i in range(len(Final[0])):
     Final[3].append(Final[2][i]-Final[1][i])
-
+print(len(Final[0]),len(Final[1]),len(Final[2]),len(Final[3]),len(Final[4]))
 #plt.xlim(0,260)
 #plt.ylim(0,250)
 sns.set_palette(palette)
