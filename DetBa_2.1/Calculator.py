@@ -62,10 +62,10 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
     # source and sink are bins (A,B) that that will direct where counts in the transition matrix will transfer from and to.
     # Counts from T_sink->j, to T_sink->source
     # Modify the transition (count) matrix by moving all counts from sink to source
-    if source != sink:
+    #if source != sink:
         # Convert from z (Å) to bin (i)
-        source  = ZtoBin[source]
-        sink    = ZtoBin[sink]
+        #source  = ZtoBin[source]
+        #sink    = ZtoBin[sink]
         # John Russo's Method
         #for j in range(num_bins):
         #    count_mat[source,j] += count_mat[sink,j]
@@ -97,8 +97,12 @@ def mfpt(count_mat, num_bins, outname, source, sink, bin_min, bin_max, bin_size,
         # (recall, T_ji corrosponds to the conditional probability that and ion
         # transitions from bin i to j)
         i_list,j_list = [],[]
+        if sink < source:
+            pref = 1
+        else:
+            pref = -1
         for i in range(0,num_bins,1):
-            if i != sink:
+            if i < (pref*sink):
                 i_list.append(i)
             else:
                 j_list.append(i)

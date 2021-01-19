@@ -82,7 +82,7 @@ choice          =    choice.upper()
 out_pop_mat     =    outname + "_pop.mat"
 out_rate_mat    =    outname + "_rate.mat"
 out_IV          =    outname + "_I-V.data"
-out_final       =    outname + "_final.txt"
+out_final       =    outname + "_Pss_final.txt"
 lag_base        =    int(input("What is the step-size per frame? (answer in picoseconds) "))  # the base lag_time, or frame is 2ps...this can be softcoded later.
 
 #################################
