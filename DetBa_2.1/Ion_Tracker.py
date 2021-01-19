@@ -226,7 +226,7 @@ def process(inname, lag_base):
 		Log.write(f'Total Simulation -- Current: {current_tot.coef_ * 160} pA, R^2: {r_sq}\n')
 		# Find the total length of the simulation, then only save entries in the
 		# list that are within the last 20 ns
-		stop = np.round(time[-1]) - 20
+		stop = np.round(time[-1]) - 50
 		timelistl20 = []
 		permlistl20 = []
 		for i in range(len(time)):

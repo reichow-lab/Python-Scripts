@@ -11,8 +11,7 @@ print(RateList,PssList)
 # Final: [Pore] [PMF_Pss] [PMF_rate] [PMF_rate-Pss] [label]
 # Final:   0        1         2            3           4
 Final = [[],[],[],[],[]]
-labels = ["rate","pss"]
-elemC,convF = 1.60217662e-19,(1e-9/1e-12)
+labels = ["all"]
 
 for FILE in RateList:
     with open(FILE, 'r') as file:
@@ -32,7 +31,6 @@ for FILE in PssList:
                 pass
             else:
                 Final[1].append(float(val[1]))
-                Final[4].append(labels[1])
 for i in range(len(Final[0])):
     Final[3].append(Final[2][i]-Final[1][i])
 
@@ -42,15 +40,18 @@ sns.set_palette(palette)
 plt.title('PMF')
 plt.xlabel("Pore Axis (A)")
 plt.ylabel('Energy (Kcal/mol)')
-sns.lineplot(data=Final, x=Final[0], y=Final[1])
+sns.lineplot(data=Final, x=Final[0], y=Final[1], hue=Final[4], style=Final[4])
 plt.savefig(outname+"_PssPMF.png", dpi=400)
+plt.clf()
 plt.title('Driving Potential')
 plt.xlabel("Pore Axis (A)")
 plt.ylabel('Energy (Kcal/mol)')
-sns.lineplot(data=Final, x=Final[0], y=Final[2])
+sns.lineplot(data=Final, x=Final[0], y=Final[2], hue=Final[4], style=Final[4])
 plt.savefig(outname+"_RatesPMF.png", dpi=400)
+plt.clf()
 plt.title('Driving Potential - PMF')
 plt.xlabel("Pore Axis (A)")
 plt.ylabel('Energy (Kcal/mol)')
-sns.lineplot(data=Final, x=Final[0], y=Final[3])
+sns.lineplot(data=Final, x=Final[0], y=Final[3], hue=Final[4], style=Final[4])
 plt.savefig(outname+"_DiffPMF.png", dpi=400)
+plt.clf()
