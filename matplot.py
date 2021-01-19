@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plot
+import matplotlib.pyplot as plt
 import numpy as np
 from sys import argv
 script, matfile = argv
