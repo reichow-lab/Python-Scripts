@@ -3,6 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from glob import glob
 from sys import argv
+import pandas as pd
 
 script, system, outname, palette = argv
 RateList = glob(system+"*rate_final.txt_asym.txt")
