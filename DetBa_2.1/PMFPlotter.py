@@ -34,6 +34,7 @@ for FILE in PssList:
 for i in range(len(Final[0])):
     Final[3].append(Final[2][i]-Final[1][i])
 print(len(Final[0]),len(Final[1]),len(Final[2]),len(Final[3]),len(Final[4]))
+print(Final[0],Final[1],Final[4])
 plt.xlim(-85,85)
 plt.ylim(-0.5,3)
 sns.set_palette(palette)
