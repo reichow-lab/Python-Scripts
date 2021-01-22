@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from glob import glob
 from sys import argv
-
+import pandas as pd
 script, system, start, outname, palette = argv
 
 FileList = glob(system)
