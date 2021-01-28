@@ -84,7 +84,7 @@ def interp(PMF_in):
 #################################################################
 def Prep(PMF_in, outname, bin_dim):
     CUT_NUMS = list(range(-10,11))    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
-    limit = min(80,bin_dim)
+    limit = min(85,bin_dim)
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
     for x in CUT_NUMS:
