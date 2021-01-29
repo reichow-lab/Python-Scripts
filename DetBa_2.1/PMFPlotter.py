@@ -34,21 +34,38 @@ for FILE in PssList:
                 Final[1].append(float(val[1]))
 for i in range(len(Final[0])):
     Final[3].append(Final[2][i]-Final[1][i])
+
 # Calculate the effective voltage drop accross the system by taking the diff-
 # erence between the DiffPont(zmin) and DiffPont(zmax) and converting to mV.
-MinList,MaxList = [],[]
-for x in range(len(Final[0])):
-    if Final[0][i] <= -80:
-        MinList.append(Final[3][i])
-    elif Final[0][i] >= 80:
-        MaxList.append(Final[3][i])
+MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[],[]
+for n in range(len(RateList)):
+    for x in range(len(Final[0])):
+        if Final[0][i] <= -80:
+            MinList[0].append(Final[3][i])
+            MinList[1].append(n)
+        elif Final[0][i] >= 80:
+            MaxList[0].append(Final[3][i])
+            MaxList[1].append(n)
+# In order to properly calculate the variance from these data, I needed to separate
+# the averages into their respective PMFs.
+for n in range(len(RateList)):
+    holdMin,holdMax = []
+    for x in range(len(MaxList[0])/len(RateList)):
+        holdMin.append(MinList[x][n])
+        holdMax.append(MaxList[x][n])
+    MinAvg.append(np.mean(holdMin))
+    MaxAvg.append(np.mean(holdMax))
 # 0.04336 (V*mol)/Kcal
-voltage = np.absolute(np.mean(MaxList) - np.mean(MinList))*(0.04336)*1000
+voltageAvg = np.absolute(np.mean(MaxList) - np.mean(MinList))*(0.04336)*1000
+voltageVar = (np.var(MaxAvg) + np.var(MinAvg))*(0.04336)*1000
+
 with open(outname + "_volt.log", w) as out:
-    out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage")
+    out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage (Avg/Var)")
     for i in range(len(Final[0])):
         if i == 0:
-            out.write(f"{Final[0][i]}\t{Final[1][i]}\t{Final[2][i]}\t{Final[3][i]}\t{voltage}\n")
+            out.write(f"{Final[0][i]}\t{Final[1][i]}\t{Final[2][i]}\t{Final[3][i]}\t{voltageAvg}\n")
+        elif i == 1:
+            out.write(f"{Final[0][i]}\t{Final[1][i]}\t{Final[2][i]}\t{Final[3][i]}\t{voltageVar}\n")
         else:
             out.write(f"{Final[0][i]}\t{Final[1][i]}\t{Final[2][i]}\t{Final[3][i]}\n")
 print(len(Final[0]),len(Final[1]),len(Final[2]),len(Final[3]),len(Final[4]))
