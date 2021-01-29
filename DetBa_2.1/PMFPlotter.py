@@ -53,9 +53,9 @@ for n in RateList:
     holdMin.append([])
     holdMax.append([])
 for x in range(len(MaxList[0])):
-    print(MinList[x][1])
-    holdMin[int(MinList[x][1])].append(MinList[x][0])
-    holdMax[int(MaxList[x][1])].append(MaxList[x][0])
+    print(MinList[1][x])
+    holdMin[int(MinList[1][x])].append(MinList[0][x])
+    holdMax[int(MaxList[1][x])].append(MaxList[0][x])
 for n in range(len(holdMin)):
     MinAvg.append(np.mean(holdMin[n]))
     MaxAvg.append(np.mean(holdMax[n]))
