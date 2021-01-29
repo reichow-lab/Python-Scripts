@@ -40,7 +40,9 @@ for i in range(len(Final[0])):
 MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[],[]
 for n in range(len(RateList)):
     for i in range(len(Final[0])):
+        print(Final[0][i])
         if Final[0][i] <= -75:
+            print(Final[0][i])
             MinList[0].append(Final[3][i])
             MinList[1].append(n)
         elif Final[0][i] >= 75:
@@ -50,7 +52,6 @@ for n in range(len(RateList)):
 # the averages into their respective PMFs.
 for n in range(len(RateList)):
     holdMin,holdMax = [],[]
-    print(Final[0])
     print(len(MaxList[0]),len(MinList),len(RateList))
     for x in range(int(len(MaxList[0])/len(RateList))):
         holdMin.append(MinList[x][n])
