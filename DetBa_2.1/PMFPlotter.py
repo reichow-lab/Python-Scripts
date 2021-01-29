@@ -50,6 +50,7 @@ for n in range(len(RateList)):
 # the averages into their respective PMFs.
 for n in range(len(RateList)):
     holdMin,holdMax = [],[]
+    print(len(MaxList[0]),len(RateList))
     for x in range(len(MaxList[0])/len(RateList)):
         holdMin.append(MinList[x][n])
         holdMax.append(MaxList[x][n])
