@@ -63,7 +63,7 @@ voltageAvg = np.absolute(np.mean(MaxList) - np.mean(MinList))*(0.04336)*1000
 voltageVar = (np.var(MaxAvg) + np.var(MinAvg))*(0.04336)*1000
 
 with open(outname + "_volt.log", 'w') as out:
-    out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage (Avg/Var)")
+    out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage (Avg/Var)\n")
     for i in range(len(Final[0])):
         if i == 0:
             out.write(f"{Final[0][i]}\t{Final[1][i]}\t{Final[2][i]}\t{Final[3][i]}\t{voltageAvg}\n")
