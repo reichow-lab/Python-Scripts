@@ -53,7 +53,6 @@ for n in RateList:
     holdMin.append([])
     holdMax.append([])
 for x in range(len(MaxList[0])):
-    print(MinList[1][x])
     holdMin[int(MinList[1][x])].append(MinList[0][x])
     holdMax[int(MaxList[1][x])].append(MaxList[0][x])
 for n in range(len(holdMin)):
@@ -63,7 +62,7 @@ for n in range(len(holdMin)):
 voltageAvg = np.absolute(np.mean(MaxList) - np.mean(MinList))*(0.04336)*1000
 voltageVar = (np.var(MaxAvg) + np.var(MinAvg))*(0.04336)*1000
 
-with open(outname + "_volt.log", w) as out:
+with open(outname + "_volt.log", 'w') as out:
     out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage (Avg/Var)")
     for i in range(len(Final[0])):
         if i == 0:
