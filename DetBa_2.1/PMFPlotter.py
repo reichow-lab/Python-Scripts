@@ -58,7 +58,7 @@ for x in range(len(MaxList[0])):
 for n in range(len(holdMin)):
     MinAvg.append(np.mean(holdMin[n]))
     MaxAvg.append(np.mean(holdMax[n]))
-print(MinAvg,MaxAvg)
+print(np.mean(MinAvg),np.mean(MaxAvg))
 # 0.04336 (V*mol)/Kcal
 voltageAvg = (np.absolute(np.mean(MaxList)) + np.absolute(np.mean(MinList)))*(0.04336)*1000
 voltageVar = (np.var(MaxAvg) + np.var(MinAvg))*(0.04336)*1000
