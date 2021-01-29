@@ -49,7 +49,7 @@ for n in range(len(RateList)):
 # In order to properly calculate the variance from these data, I needed to separate
 # the averages into their respective PMFs.
 for n in range(len(RateList)):
-    holdMin,holdMax = []
+    holdMin,holdMax = [],[]
     for x in range(len(MaxList[0])/len(RateList)):
         holdMin.append(MinList[x][n])
         holdMax.append(MaxList[x][n])
