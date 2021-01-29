@@ -53,8 +53,8 @@ n = 0
 for x in range(len(MaxList[0])):
     holdMin.append(MinList[x][n])
     holdMax.append(MaxList[x][n])
-    if int(len(MaxList[0])/len(RateList)) % x == 0:
-        n += 1 
+    if (x > 0) and (int(len(MaxList[0])/len(RateList)) % x == 0):
+        n += 1
 MinAvg.append(np.mean(holdMin))
 MaxAvg.append(np.mean(holdMax))
 # 0.04336 (V*mol)/Kcal
