@@ -59,7 +59,7 @@ for n in range(len(holdMin)):
     MinAvg.append(np.mean(holdMin[n]))
     MaxAvg.append(np.mean(holdMax[n]))
 # 0.04336 (V*mol)/Kcal
-voltageAvg = (np.absolute(np.mean(MaxList)) + np.absolute(np.mean(MinList)))
+voltageAvg = print(np.absolute(np.mean(MaxList)),np.absolute(np.mean(MinList)))
 print(voltageAvg)
 voltageAvg = voltageAvg*0.04336*1000
 print(voltageAvg)
