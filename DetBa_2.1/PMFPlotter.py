@@ -39,8 +39,9 @@ for i in range(len(Final[0])):
 # erence between the DiffPont(zmin) and DiffPont(zmax) and converting to mV.
 MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[],[]
 for n in range(len(RateList)):
-    for x in range(len(Final[0])):
+    for i in range(len(Final[0])):
         if Final[0][i] <= -75:
+            print()
             MinList[0].append(Final[3][i])
             MinList[1].append(n)
         elif Final[0][i] >= 75:
