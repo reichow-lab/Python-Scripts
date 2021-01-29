@@ -40,10 +40,10 @@ for i in range(len(Final[0])):
 MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[],[]
 for n in range(len(RateList)):
     for x in range(len(Final[0])):
-        if Final[0][i] <= -80:
+        if Final[0][i] <= -75:
             MinList[0].append(Final[3][i])
             MinList[1].append(n)
-        elif Final[0][i] >= 80:
+        elif Final[0][i] >= 75:
             MaxList[0].append(Final[3][i])
             MaxList[1].append(n)
 # In order to properly calculate the variance from these data, I needed to separate
