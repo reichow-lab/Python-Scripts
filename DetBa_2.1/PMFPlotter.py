@@ -53,6 +53,7 @@ for n in RateList:
     holdMin.append([])
     holdMax.append([])
 for x in range(len(MaxList[0])):
+    print(MinList[x][1])
     holdMin[int(MinList[x][1])].append(MinList[x][0])
     holdMax[int(MaxList[x][1])].append(MaxList[x][0])
 for n in range(len(holdMin)):
