@@ -78,18 +78,33 @@ def interp(PMF_in):
     PMF_fix[1]  =   yout.tolist()
     return  PMF_fix
 #################################################################
+def HetCenter(PMF_in):
+    PeakList,hold = [],[]
+    for i in range(3,len(PMF_in[0])-3):
+        if (PMF_in[1][i-3] < PMF_in[1][i]) and (PMF_in[1][i+3] > PMF_in[1][i]):
+            PeakList.append(i)
+        else:
+            pass
+    # Find the peak nearest x = 0
+    cenI = np.median(PeakList)
+    CutN = int(0 - PMF_in[0][cenI])
+    return CutN
+#################################################################
 #                                                               #
 #                         Main Program                          #
 #                                                               #
 #################################################################
-def Prep(PMF_in, outname, bin_dim):
+def Prep(PMF_in, outname, bin_dim, het=False):
     CUT_NUMS = list(range(-10,11))    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
     limit = min(85,bin_dim)
     PMF_fix  =  interp(PMF_in)
     PMF_trim =  list(PMF_fix)
-    for x in CUT_NUMS:
-        trim(PMF_trim, x, limit)
-    BESTCUT      = min(Error, key=Error.get)
+    if het == False:
+        for x in CUT_NUMS:
+            trim(PMF_trim, x, limit)
+        BESTCUT = min(Error, key=Error.get)
+    elif het == True:
+        BESTCUT = HetCenter(PMF_trim)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, limit, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)

@@ -95,8 +95,9 @@ END    =    False
 
 while END == False:
     if choice == 'M':
-        d_col       =    int(input("Which column from your data_file will you use? "))
-        lag_step    =    int(int(input(f"Choose a lag time. (multiple of {lag_base}ps) "))/lag_base)
+        het         =   bool(input("Homotypic (0), or Heterotypic (1)? "))
+        d_col       =   int(input("Which column from your data_file will you use? "))
+        lag_step    =   int(int(input(f"Choose a lag time. (multiple of {lag_base}ps) "))/lag_base)
         lag_time    =   lag_step * lag_base
         bin_lim     = input('What is the Bin limit? ') # "auto" is acceptable
         array_dim   =    1
@@ -109,11 +110,11 @@ while END == False:
         rate_matrix = normalize(pop_matrix)
         rate_matrix.dump(out_rate_mat)
         gibbs       =   rate2gibbs(num_bins, first_center, rate_matrix, bin_size, str(outname + '_rate'))
-        Prep(gibbs, str(outname + '_rate_final.txt'), bin_dim)
+        Prep(gibbs, str(outname + '_rate_final.txt'), bin_dim, het)
         source      = int(input("Which bin is the source? "))
         sink        = int(input("which bin is the sink? "))
         gibbs,K_AB,MFPT,MSM,Pss =   mfpt(pop_matrix,num_bins,outname,source,sink,bin_min,bin_max,bin_size,ZtoBin,lag_time)
-        Prep(gibbs, out_final, bin_dim)
+        Prep(gibbs, out_final, bin_dim, het)
         check_SS(MSM,Pss,num_bins,lag_time,outname,bin_size)
     elif choice == 'H':
         d_col       = int(input("Which column from your data_file will you use? "))
@@ -132,7 +133,7 @@ while END == False:
         ION        =    Ion_Tracker_DEV.ION()
         ION.tracker(num_files, prefix, outname)
     elif choice == 'I':
-        PMF_txt = input("which PMF file would you like to use?")
+        PMF_txt = input("which PMF file would you like to use? ")
         PMF_0,num_bins  = Text2PMF(PMF_txt)
         pop_mat_EE      = edge_erase(np.load(out_pop_mat,allow_pickle=True),bin_size)
         trans_mat       = normalize(pop_mat_EE)
