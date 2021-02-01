@@ -95,7 +95,7 @@ def HetCenter(PMF_in):
         else:
             pass
     print(i,PMF_in[0][holdi])
-    return round(PMF_in[0][holdi])
+    return -round(PMF_in[0][holdi])
 
 #################################################################
 #                                                               #
