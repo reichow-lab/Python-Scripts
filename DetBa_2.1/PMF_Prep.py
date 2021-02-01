@@ -90,10 +90,11 @@ def HetCenter(PMF_in):
         d = abs(PMF_in[0][i])
         if d <= hold:
             hold = d
+            holdi = i
         else:
             pass
 
-    return (round(hold) + 1)
+    return round(PMF_in[0][i])
 
 #################################################################
 #                                                               #
