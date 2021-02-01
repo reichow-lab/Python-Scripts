@@ -79,16 +79,21 @@ def interp(PMF_in):
     return  PMF_fix
 #################################################################
 def HetCenter(PMF_in):
-    PeakList,hold = [],[]
+    PeakList,hold = [],1000
     for i in range(3,len(PMF_in[0])-3):
         if (PMF_in[1][i-3] < PMF_in[1][i]) and (PMF_in[1][i+3] > PMF_in[1][i]):
             PeakList.append(i)
         else:
             pass
     # Find the peak nearest x = 0
-    cenI = np.median(PeakList)
-    CutN = 0 + PMF_in[0][int(cenI)]
-    return int(CutN)
+    for i in PeakList:
+        d = 0 - abs(PMF_in[0][i])
+        if d <= hold:
+            hold = d
+        else:
+            pass
+    return int(hold)
+
 #################################################################
 #                                                               #
 #                         Main Program                          #
