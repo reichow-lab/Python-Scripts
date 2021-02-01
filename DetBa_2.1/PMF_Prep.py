@@ -80,8 +80,8 @@ def interp(PMF_in):
 #################################################################
 def HetCenter(PMF_in):
     PeakList,hold = [],1000
-    for i in range(3,len(PMF_in[0])-3):
-        if (PMF_in[1][i-3] < PMF_in[1][i]) and (PMF_in[1][i+3] > PMF_in[1][i]):
+    for i in range(1,len(PMF_in[0])-1):
+        if (PMF_in[1][i-1] < PMF_in[1][i]) and (PMF_in[1][i+1] > PMF_in[1][i]):
             PeakList.append(i)
         else:
             pass
