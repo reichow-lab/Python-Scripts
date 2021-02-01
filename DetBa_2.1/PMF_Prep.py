@@ -87,7 +87,7 @@ def HetCenter(PMF_in):
             pass
     # Find the peak nearest x = 0
     for i in PeakList:
-        d = 0 - abs(PMF_in[0][i])
+        d = abs(PMF_in[0][i])
         if d <= hold:
             hold = d
         else:
