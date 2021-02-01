@@ -100,7 +100,7 @@ def HetCenter(PMF_in):
 #                         Main Program                          #
 #                                                               #
 #################################################################
-def Prep(PMF_in, outname, bin_dim, het=False):
+def Prep(PMF_in, outname, bin_dim, het):
     CUT_NUMS = list(range(-10,11))    # Eventually I want to have it more dynamically search for cut nums, but just performing the calculation for all
     limit = min(85,bin_dim)
     PMF_fix  =  interp(PMF_in)
@@ -111,6 +111,7 @@ def Prep(PMF_in, outname, bin_dim, het=False):
         BESTCUT = min(Error, key=Error.get)
     elif het == True:
         BESTCUT = HetCenter(PMF_trim)
+    print(BESTCUT)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, limit, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)
