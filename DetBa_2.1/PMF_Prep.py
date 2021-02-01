@@ -87,7 +87,7 @@ def HetCenter(PMF_in):
             pass
     # Find the peak nearest x = 0
     cenI = np.median(PeakList)
-    CutN = 0 - PMF_in[0][int(cenI)]
+    CutN = 0 + PMF_in[0][int(cenI)]
     return int(CutN)
 #################################################################
 #                                                               #
