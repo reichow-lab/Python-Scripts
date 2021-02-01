@@ -92,6 +92,7 @@ def HetCenter(PMF_in):
             hold = d
         else:
             pass
+    print(hold)
     return int(hold)
 
 #################################################################
