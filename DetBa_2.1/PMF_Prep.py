@@ -113,6 +113,7 @@ def Prep(PMF_in, outname, bin_dim, het):
         BESTCUT = min(Error, key=Error.get)
     elif het == True:
         BESTCUT = HetCenter(PMF_trim)
+    print(BESTCUT)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, limit, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)
