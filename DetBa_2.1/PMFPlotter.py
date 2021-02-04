@@ -6,7 +6,8 @@ from sys import argv
 import pandas as pd
 
 script, system, outname, palette = argv
-het = bool(input("Homotypic (0) or Heterotypic (1)? "))
+#het = bool(int(input("Homotypic (0) or Heterotypic (1)? ")))
+het = True # We've decided to not symmetrize any of our data.
 RateList = glob(system+"*rate_final.txt_asym.txt")
 if het == False:
     PssList = glob(system+"*Pss_final.txt")
