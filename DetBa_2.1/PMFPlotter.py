@@ -8,9 +8,9 @@ import pandas as pd
 script, system, outname, palette = argv
 het = bool(input("Homotypic (0) or Heterotypic (1)? "))
 RateList = glob(system+"*rate_final.txt_asym.txt")
-if het == 0:
+if het == False:
     PssList = glob(system+"*Pss_final.txt")
-elif het == 1:
+elif het == True:
     PssList = glob(system+"*Pss_final.txt_asym.txt")
 print(RateList,PssList)
 # Final: [Pore] [PMF_Pss] [PMF_rate] [PMF_rate-Pss] [label]
