@@ -70,7 +70,7 @@ for n in range(len(holdMin)):
     MinAvg[1].append(np.var(holdMin[n]))
     MaxAvg[0].append(np.mean(holdMax[n]))
     MaxAvg[1].append(np.var(holdMax[n]))
-print(np.mean(MinAvg),np.absolute(np.mean(MaxAvg)))
+print(np.mean(MinAvg[0]),np.absolute(np.mean(MaxAvg[0])))
 # 0.04336 (V*mol)/Kcal
 voltageAvg = (np.absolute(np.mean(MaxAvg[0])) + np.absolute(np.mean(MinAvg[0])))*0.04336*1000
 voltageStD = np.sqrt((np.sum(MaxAvg[1]) + np.sum(MinAvg[1])))*(0.04336)*1000
