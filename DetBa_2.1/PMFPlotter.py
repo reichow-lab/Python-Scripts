@@ -54,6 +54,8 @@ for i in range(len(Final[0])):
     n_counter += 1
     if n_counter == (len(Final[0])/len(RateList)):
         n += 1
+        n_counter = 0
+print(MinList)
 # In order to properly calculate the variance from these data, I needed to separate
 # the averages into their respective PMFs.
 holdMin,holdMax = [],[]
