@@ -1,4 +1,4 @@
-import numpy as np
+DiffPotimport numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from glob import glob
@@ -43,14 +43,17 @@ for i in range(len(Final[0])):
 # Calculate the effective voltage drop accross the system by taking the diff-
 # erence between the DiffPont(zmin) and DiffPont(zmax) and converting to mV.
 MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[],[]
-for n in range(len(RateList)):
-    for i in range(len(Final[0])):
-        if Final[0][i] <= -75:
-            MinList[0].append(Final[3][i])
-            MinList[1].append(n)
-        elif Final[0][i] >= 75:
-            MaxList[0].append(Final[3][i])
-            MaxList[1].append(n)
+n_counter, n = 0, 0
+for i in range(len(Final[0])):
+    if Final[0][i] <= -80:
+        MinList[0].append(Final[3][i])
+        MinList[1].append(n)
+    elif Final[0][i] >= 80:
+        MaxList[0].append(Final[3][i])
+        MaxList[1].append(n)
+    n_counter += 1
+    if n_counter == (len(Final[0])/len(RateList))
+        n += 1
 # In order to properly calculate the variance from these data, I needed to separate
 # the averages into their respective PMFs.
 holdMin,holdMax = [],[]
@@ -78,16 +81,16 @@ with open(outname + "_volt.log", 'w') as out:
         else:
             out.write(f"{Final[0][i]}\t{Final[1][i]}\t{Final[2][i]}\t{Final[3][i]}\n")
 print(len(Final[0]),len(Final[1]),len(Final[2]),len(Final[3]),len(Final[4]))
-plot_data1 = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[1]})
-plot_data2 = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[2]})
-plot_data3 = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[3]})
+PMFPot = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[1]})
+DrivePot = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[2]})
+DiffPot = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[3]})
 plt.xlim(-85,85)
 #plt.ylim(-0.5,3)
 sns.set_palette(palette)
 plt.title('PMF')
 plt.xlabel("Pore Axis (A)")
 plt.ylabel('Energy (Kcal/mol)')
-sns.lineplot(data=plot_data1, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
+sns.lineplot(data=PMFPot, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
 plt.savefig(outname+"_PssPMF.png", dpi=400)
 plt.clf()
 plt.xlim(-85,85)
@@ -95,7 +98,7 @@ plt.xlim(-85,85)
 plt.title('Driving Potential')
 plt.xlabel("Pore Axis (A)")
 plt.ylabel('Energy (Kcal/mol)')
-sns.lineplot(data=plot_data2, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
+sns.lineplot(data=DrivePot, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
 plt.savefig(outname+"_RatesPMF.png", dpi=400)
 plt.clf()
 plt.xlim(-85,85)
@@ -103,6 +106,6 @@ plt.xlim(-85,85)
 plt.title('Difference Potential')
 plt.xlabel("Pore Axis (A)")
 plt.ylabel('Energy (Kcal/mol)')
-sns.lineplot(data=plot_data3, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
+sns.lineplot(data=DiffPot, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
 plt.savefig(outname+"_DiffPMF.png", dpi=400)
 plt.clf()
