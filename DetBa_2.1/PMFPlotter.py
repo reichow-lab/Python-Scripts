@@ -72,7 +72,7 @@ for n in range(len(holdMin)):
 print(MinAvg[1],MaxAvg[1])
 # 0.04336 (V*mol)/Kcal
 voltageAvg = (np.absolute(np.mean(MaxAvg[0])) + np.absolute(np.mean(MinAvg[0])))*0.04336*1000
-voltageStD = np.sqrt((np.sum(MaxAvg[1]) + np.sum(MinAvg[1])))*(0.04336)*1000
+voltageStD = np.sqrt((np.var(MaxAvg[0]) + np.var(MinAvg[0])))*(0.04336)*1000
 
 with open(outname + "_volt.log", 'w') as out:
     out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage (Avg/StdDev)\n")
