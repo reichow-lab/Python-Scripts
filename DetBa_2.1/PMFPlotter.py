@@ -42,7 +42,7 @@ for i in range(len(Final[0])):
 
 # Calculate the effective voltage drop accross the system by taking the diff-
 # erence between the DiffPont(zmin) and DiffPont(zmax) and converting to mV.
-MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[],[]
+MinList,MaxList,MinAvg,MaxAvg = [[],[]],[[],[]],[[],[]],[[],[]]
 n_counter, n = 0, 0
 for i in range(len(Final[0])):
     if Final[0][i] <= -75:
@@ -66,12 +66,14 @@ for x in range(len(MaxList[0])):
     holdMin[int(MinList[1][x])].append(MinList[0][x])
     holdMax[int(MaxList[1][x])].append(MaxList[0][x])
 for n in range(len(holdMin)):
-    MinAvg.append(np.mean(holdMin[n]))
-    MaxAvg.append(np.mean(holdMax[n]))
+    MinAvg[0].append(np.mean(holdMin[n]))
+    MinAvg[1].append(np.var(holdMin[n]))
+    MaxAvg[0].append(np.mean(holdMax[n]))
+    MaxAvg[1].append(np.var(holdMax[n]))
 print(np.mean(MinAvg),np.absolute(np.mean(MaxAvg)))
 # 0.04336 (V*mol)/Kcal
-voltageAvg = (np.absolute(np.mean(MaxAvg)) + np.absolute(np.mean(MinAvg)))*0.04336*1000
-voltageVar = np.sqrt((np.var(MaxAvg) + np.var(MinAvg)))*(0.04336)*1000
+voltageAvg = (np.absolute(np.mean(MaxAvg[0])) + np.absolute(np.mean(MinAvg[0])))*0.04336*1000
+voltageVar = np.sqrt((np.sum(MaxAvg[1]) + np.sum(MinAvg[1])))*(0.04336)*1000
 
 with open(outname + "_volt.log", 'w') as out:
     out.write("Pore-Axis\tPMF\tDriving-Potential\tDifference-Potential\tVoltage (Avg/Var)\n")
