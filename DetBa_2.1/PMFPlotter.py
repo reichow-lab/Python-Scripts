@@ -55,7 +55,6 @@ for i in range(len(Final[0])):
     if n_counter == (len(Final[0])/len(RateList)):
         n += 1
         n_counter = 0
-print(MinList,MaxList)
 # In order to properly calculate the variance from these data, I needed to separate
 # the averages into their respective PMFs.
 holdMin,holdMax = [],[]
@@ -70,7 +69,7 @@ for n in range(len(holdMin)):
     MinAvg[1].append(np.var(holdMin[n]))
     MaxAvg[0].append(np.mean(holdMax[n]))
     MaxAvg[1].append(np.var(holdMax[n]))
-print(np.mean(MinAvg[0]),np.absolute(np.mean(MaxAvg[0])))
+print(MinAvg[0],MaxAvg[0])
 # 0.04336 (V*mol)/Kcal
 voltageAvg = (np.absolute(np.mean(MaxAvg[0])) + np.absolute(np.mean(MinAvg[0])))*0.04336*1000
 voltageStD = np.sqrt((np.sum(MaxAvg[1]) + np.sum(MinAvg[1])))*(0.04336)*1000
