@@ -95,7 +95,7 @@ END    =    False
 
 while END == False:
     if choice == 'M':
-        het         =   bool(input("Homotypic (0), or Heterotypic (1)? "))
+        het         =   bool(int(input("Homotypic (0), or Heterotypic (1)? ")))
         d_col       =   int(input("Which column from your data_file will you use? "))
         lag_step    =   int(int(input(f"Choose a lag time. (multiple of {lag_base}ps) "))/lag_base)
         lag_time    =   lag_step * lag_base
