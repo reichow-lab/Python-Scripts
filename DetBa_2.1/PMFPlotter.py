@@ -12,6 +12,7 @@ RateList = glob(system+"*rate_final.txt_asym.txt")
 if het == False:
     PssList = glob(system+"*Pss_final.txt")
 elif het == True:
+    print("debug")
     PssList = glob(system+"*Pss_final.txt_asym.txt")
 print(RateList,PssList)
 # Final: [Pore] [PMF_Pss] [PMF_rate] [PMF_rate-Pss] [label]
