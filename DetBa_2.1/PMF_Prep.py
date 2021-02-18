@@ -94,7 +94,6 @@ def HetCenter(PMF_in):
             holdi = i
         else:
             pass
-    print(holdi,PMF_in[0][holdi])
     return -round(PMF_in[0][holdi]+0.5)
 
 #################################################################
@@ -113,7 +112,6 @@ def Prep(PMF_in, outname, bin_dim, het):
         BESTCUT = min(Error, key=Error.get)
     elif het == True:
         BESTCUT = HetCenter(PMF_trim)
-    print(BESTCUT)
     Average_PMF,PMF_for,PMF_rev    = trim(PMF_fix, BESTCUT, limit, True)
     Final_PMF    = final(Average_PMF)
     Final_For    = final(PMF_for)
