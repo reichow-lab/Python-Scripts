@@ -210,6 +210,7 @@ def process(inname, lag_base):
 		timelist = []
 		permlist = []
 		Log.write('Time (ns)\tdt\tPermeations\n')
+		Log.write('0\t0\t0')
 		for ion in ions:
 			Log.write(f"{ion[0]}\t{ion[1]}\t{int(ion[2])+hold}\n")
 			hold = int(ion[2]) + hold
