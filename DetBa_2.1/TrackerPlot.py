@@ -41,7 +41,7 @@ for FILE,label,hue in zip(FileList,labels,hues):
                 Semi[4].append(pA)
         f = interp1d(Semi[0],Semi[1],kind="previous")
         # Process the interpolated data
-        xnew = np.arange(0,int(Semi[0][-1]),0.1)
+        xnew = np.arange(0,int(Semi[0][-1]),1)
         ynew = f(xnew)
         for i in range(len(xnew)):
             Final[0].append(float(xnew[i]))
