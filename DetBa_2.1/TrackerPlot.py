@@ -18,7 +18,7 @@ for i in range(len(FileList)):
     hues.append(i)
     labels.append(input("Label? "))
 # Import Data and interpolate. Also import the dts
-fptList = []
+fptList = [[],[]]
 for FILE,label,hue in zip(FileList,labels,hues):
     with open(FILE, 'r') as file:
         Semi = [[],[],[],[],[]]
@@ -40,7 +40,8 @@ for FILE,label,hue in zip(FileList,labels,hues):
                 elif float(val[0]) > 0:
                     pA = (int(val[2])*elemC)/(float(val[0])*1e-9)/(1e-12)
                 Semi[4].append(pA)
-                fptList.append(float(val[1]))
+                fptList[0].append(float(val[1]))
+                fptList[1].append(0)
         f = interp1d(Semi[0],Semi[1],kind="previous")
         # Process the interpolated data
         xnew = np.arange(0,int(Semi[0][-1]),1)
@@ -115,5 +116,5 @@ np.set_printoptions(precision=3)
 plt.title("First-Passage Times")
 plt.xlabel("First Passage Times (ns)")
 plt.ylabel("Probability Mass Function")
-sns.histplot(data=fptList,bins=20,stat='density',kde=True,palette=sns.color_palette(palette))
+sns.histplot(data=fptList[0],bins=20,stat='density',kde=True,hue=fptList[1],palette=sns.color_palette(palette))
 plt.savefig(outname+"_FPT.png", dpi=400)
