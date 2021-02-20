@@ -18,7 +18,7 @@ print(RateList,PssList)
 # Final: [Pore] [PMF_Pss] [PMF_rate] [PMF_rate-Pss] [label]
 # Final:   0        1         2            3           4
 Final = [[],[],[],[],[]]
-labels = ["all"]
+labels = ["booger"]
 
 for FILE in RateList:
     with open(FILE, 'r') as file:
