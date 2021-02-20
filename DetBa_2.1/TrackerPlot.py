@@ -69,7 +69,8 @@ for i in range(len(Final[0])):
     if float(Final[0][i]) <= 0:
         n += 1
     HoldSep[n].append(Final[4][i])
-WinAvg = [[],[],[]]
+# WinAvg: Time  Current  Hue  Label
+WinAvg = [[],[],[],[]]
 h = 0
 for n in HoldSep:
     for i in range(len(n)-WinS):
@@ -79,6 +80,7 @@ for n in HoldSep:
             hold.append(float(n[i+j]))
         WinAvg[1].append(np.mean(hold)*160)
         WinAvg[2].append(h)
+        WinAvg[3].append(labels[h])
     h += 1
 plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
 plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
@@ -88,7 +90,7 @@ plot_data3 = pd.DataFrame({"Time (ns)": Final[0], "<current> (pA)": Final[5]})
 plt.title("Current")
 plt.xlabel("Time (ns)")
 plt.ylabel('Running Avg. Current (pA)')
-sns.lineplot(data=plot_data2, x="Time (ns)", y="current (pA)", hue=WinAvg[2], palette=sns.color_palette(palette, n_colors=len(FileList)))#, edgecolor="none")
+sns.lineplot(data=plot_data2, x="Time (ns)", y="current (pA)", hue=WinAvg[2], label=WinAvg[3], palette=sns.color_palette(palette, n_colors=len(FileList)))#, edgecolor="none")
 plt.savefig(outname+"_current.png", dpi=400)
 plt.clf()
 #plt.xlim(0,260)
@@ -97,12 +99,12 @@ plt.clf()
 plt.title("Flux")
 plt.xlabel("Time (ns)")
 plt.ylabel('Ion Permeations')
-sns.lineplot(data=plot_data1, x="Time (ns)", y="Ion Permeations", hue=Final[3], palette=sns.color_palette(palette, n_colors=len(FileList)))#, edgecolor="none")
+sns.lineplot(data=plot_data1, x="Time (ns)", y="Ion Permeations", hue=Final[3], label=Final[2], palette=sns.color_palette(palette, n_colors=len(FileList)))#, edgecolor="none")
 plt.savefig(outname+"_flux.png", dpi=400)
 plt.clf()
 #sns.set_palette(palette, 4)
 plt.title("Cumulative Current")
 plt.xlabel("Time (ns)")
 plt.ylabel("Cumulative Avg. Current")
-sns.lineplot(data=plot_data3, x="Time (ns)", y="<current> (pA)", hue=Final[3], palette=sns.color_palette(palette, n_colors=len(FileList)))
+sns.lineplot(data=plot_data3, x="Time (ns)", y="<current> (pA)", hue=Final[3], label=Final[2], palette=sns.color_palette(palette, n_colors=len(FileList)))
 plt.savefig(outname+"_CumCurrent.png", dpi=400)
