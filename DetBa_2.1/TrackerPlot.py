@@ -6,7 +6,7 @@ from sys import argv
 import pandas as pd
 from scipy.interpolate import interp1d
 script, system, start, outname, palette, WS, obs = argv
-if obs == True:
+if bool(obs) == True:
     ObsFileList = glob("*.obs.txt")
     ObsFileList.sort()
 WinS = int(WS)
