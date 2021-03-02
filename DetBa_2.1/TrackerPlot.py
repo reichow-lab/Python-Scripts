@@ -139,6 +139,7 @@ if obs == True:
     plt.xlabel("Current")
     plt.ylabel("Observable")
     plt.distplot(data=plot_data5, x="Current (pA)", y="Observable", kind="kde")
+    plt.savefig(outname+"_ObsVsCurr.png")
 #plt.xlim(0,260)
 #plt.ylim(0,200)
 plt.title("Current")
