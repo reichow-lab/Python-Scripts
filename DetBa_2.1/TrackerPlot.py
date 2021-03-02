@@ -134,6 +134,7 @@ plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
 plot_data3 = pd.DataFrame({"Time (ns)": Final[0], "<current> (pA)": Final[5]})
 plot_data4 = pd.DataFrame({"First-Passage Times (ns)": fptList[0]})
 if bool(obs) == True:
+    print(len(WinAvg[1],len(WinObs)))
     plot_data5 = pd.DataFrame({"Current (pA)": WinAvg[1], "Observable": WinObs[1]})
     plt.title("Current vs. Observable")
     plt.xlabel("Current")
