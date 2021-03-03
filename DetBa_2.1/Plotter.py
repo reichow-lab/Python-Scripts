@@ -16,7 +16,14 @@ parser.add_argument("-t", "--track", dest = "Tchoice", action = "store", type=bo
 parser.add_argument("-b", "--obs" dest = "Bchoice", action = "store", type=bool, default = False)
 parser.add_argument("-bs", dest = "ObString", action = "store")
 parser.add_argument("-ws", "--windowsize", dest = "WS", action = "store")
+parser.add_argument("-c", dest = "palette", action = "store", default = "Blues_r")
 
 args = parser.parse_args()
 
 if args.Pchoice == True:
+
+    PMFPlotter(args.datstring,args.outname,args.palette)
+
+if args.Tchoice == True:
+
+    TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice)
