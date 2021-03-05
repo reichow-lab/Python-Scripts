@@ -92,44 +92,45 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT):
             WinAvg[2].append(h)
             WinAvg[3].append(labels[h])
         h += 1
-    # Perform the same data formatting for the new observable such that it has the same window averaging as the current
-    Obs = [[],[]]
-    for FILE in ObsFileList:
-        with open(FILE, 'r') as file:
-            Semi = [[],[]]
-            for line in file:
-                val = line.split()
-                if val[0] == "Time":
-                    pass
-                elif val[0] == "Total" or val[0] == "Last":
-                    pass
-                else:
-                    Semi[0].append(float(val[0])/10)
-                    Semi[1].append(float(val[1]))
-            xnew,ynew = Interp(Semi[0],Semi[1],LT)
-            # Processdd the interpolated data
-            for i in range(len(xnew)):
-                Obs[0].append(float(xnew[i]))
-                Obs[1].append(int(ynew[i]))
-    # Separate to calculate window-averages
-    HoldSep = []
-    for i in range(len(FileList)):
-        HoldSep.append([])
-    n = -1
-    for i in range(len(Obs[0])):
-        if float(Obs[0][i]) <= 0:
-            n += 1
-        HoldSep[n].append(Obs[1][i])
-    # WinAvg: Time  Current  Hue  Label
-    WinObs = [[],[],[],[]]
+    if obs == True:
+        # Perform the same data formatting for the new observable such that it has the same window averaging as the current
+        Obs = [[],[]]
+        for FILE in ObsFileList:
+            with open(FILE, 'r') as file:
+                Semi = [[],[]]
+                for line in file:
+                    val = line.split()
+                    if val[0] == "Time":
+                        pass
+                    elif val[0] == "Total" or val[0] == "Last":
+                        pass
+                    else:
+                        Semi[0].append(float(val[0])/10)
+                        Semi[1].append(float(val[1]))
+                xnew,ynew = Interp(Semi[0],Semi[1],LT)
+                # Processdd the interpolated data
+                for i in range(len(xnew)):
+                    Obs[0].append(float(xnew[i]))
+                    Obs[1].append(int(ynew[i]))
+        # Separate to calculate window-averages
+        HoldSep = []
+        for i in range(len(FileList)):
+            HoldSep.append([])
+        n = -1
+        for i in range(len(Obs[0])):
+            if float(Obs[0][i]) <= 0:
+                n += 1
+            HoldSep[n].append(Obs[1][i])
+        # WinAvg: Time  Current  Hue  Label
+        WinObs = [[],[],[],[]]
 
-    for n in HoldSep:
-        for i in range(len(n)-WinS):
-            WinObs[0].append(Obs[0][i])
-            hold = []
-            for j in range(WinS):
-                hold.append(float(n[i+j]))
-            WinObs[1].append(np.mean(hold))
+        for n in HoldSep:
+            for i in range(len(n)-WinS):
+                WinObs[0].append(Obs[0][i])
+                hold = []
+                for j in range(WinS):
+                    hold.append(float(n[i+j]))
+                WinObs[1].append(np.mean(hold))
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
