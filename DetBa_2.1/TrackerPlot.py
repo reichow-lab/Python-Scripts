@@ -156,7 +156,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         plt.xlabel("Current")
         plt.ylabel("Observable")
         for i in range(1,len(WinObs)):
-            sns.scatterplot(data=plot_data5, x="Current (pA)", y=str(i), linewidth=0)
+            sns.scatterplot(data=plot_data5, x="Current (pA)", y=WinObs[i], linewidth=0)
         plt.savefig(outname+"_ObsVsCurr.png")
         plt.clf()
     fig, ax = plt.subplots()
