@@ -11,7 +11,7 @@ def Interp(xin,yin,LT):
     xnew = np.arange(0,LT,1)
     ynew = f(xnew)
     return xnew,ynew
-def TrackerPlot(system,start,outname,palette,WS,obs,LT):
+def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col):
     if bool(obs) == True:
         ObsFileList = glob("*.obs.txt")
         ObsFileList.sort()
@@ -94,43 +94,61 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT):
         h += 1
     if obs == True:
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
-        Obs = [[],[]]
-        for FILE in ObsFileList:
-            with open(FILE, 'r') as file:
-                Semi = [[],[]]
-                for line in file:
-                    val = line.split()
-                    if val[0] == "Time":
-                        pass
-                    elif val[0] == "Total" or val[0] == "Last":
-                        pass
-                    else:
-                        Semi[0].append(float(val[0])/10)
-                        Semi[1].append(float(val[1]))
+        Obs, Semi, WinObs = [[]], [[]], [[]]
+        for i in range(len(ObsFileList)):
+            Obs.append([])
+            Semi.append([])
+        # Open file, and read all lines in
+        for file in ObsFileList:
+            with open(file, "r") as f:
+                all_lines = f.read().splitlines()
+            # generate list of indexes denoting new ions
+            start_list = []
+            for i in range(len(all_lines)):
+                if all_lines[i].split()[0] == "CHAIN:":
+                    start_list.append(i)
+                else:
+                    pass
+            if len(start_list) == 0:
+                start_list.append(0)
+            start_list.append(-1)
+            # Loop through each ion's index and process their data
+            for i in range(1,len(start_list)):
+                for line in all_lines[start_list[i]:start_list[i+1]]:
+                    Semi[0].append(float(line.split()[0])/10)
+                    Semi[i].append(float(line.split()[d_col]))
                 xnew,ynew = Interp(Semi[0],Semi[1],LT)
                 # Processdd the interpolated data
-                for i in range(len(xnew)):
-                    Obs[0].append(float(xnew[i]))
-                    Obs[1].append(int(ynew[i]))
+                for ii in range(len(xnew)):
+                    if i == 1:
+                        Obs[0].append(float(xnew[ii]))
+                        Obs[i].append(int(ynew[ii]))
+                    else:
+                        Obs[i].append(int(ynew[ii]))
         # Separate to calculate window-averages
-        HoldSep = []
-        for i in range(len(FileList)):
-            HoldSep.append([])
-        n = -1
-        for i in range(len(Obs[0])):
-            if float(Obs[0][i]) <= 0:
-                n += 1
-            HoldSep[n].append(Obs[1][i])
-        # WinAvg: Time  Current  Hue  Label
-        WinObs = [[],[],[],[]]
-
-        for n in HoldSep:
-            for i in range(len(n)-WinS):
-                WinObs[0].append(Obs[0][i])
-                hold = []
-                for j in range(WinS):
-                    hold.append(float(n[i+j]))
-                WinObs[1].append(np.mean(hold))
+        for c in range(1,len(Obs)):
+            HoldSep = []
+            for i in range(len(FileList)):
+                HoldSep.append([])
+            n = -1
+            for i in range(len(Obs[0])):
+                if float(Obs[0][i]) <= 0:
+                    n += 1
+                HoldSep[n].append(Obs[1][i])
+            # WinAvg: Time  Current  Hue  Label
+            for n in HoldSep:
+                for i in range(len(n)-WinS):
+                    if c == 1:
+                        WinObs[0].append(Obs[0][i])
+                        hold = []
+                        for j in range(WinS):
+                            hold.append(float(n[i+j]))
+                        WinObs[c].append(np.mean(hold))
+                    else:
+                        hold = []
+                        for j in range(WinS):
+                            hold.append(float(n[i+j]))
+                        WinObs[c].append(np.mean(hold))
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
@@ -138,14 +156,14 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT):
     plot_data4 = pd.DataFrame({"First-Passage Times (ns)": fptList[0]})
     if bool(obs) == True:
         #print(len(WinAvg[1]),len(WinObs[1]))
-        plot_data5 = pd.DataFrame({"Current (pA)": WinAvg[1], "Observable": WinObs[1]})
-        fig, ax = plt.subplots()
-        ax2 = ax.twinx()
+        plot_data5 = pd.DataFrame({"Current (pA)": WinAvg[1]})
+        for i in range(1,len(WinObs)):
+            plot_data5[str(i)] = WinObs[i]
         plt.title("Current vs. Observable")
         plt.xlabel("Current")
         plt.ylabel("Observable")
-        ax1 = sns.displot(data=plot_data5, x="Current (pA)", y="Observable", kind="kde")
-        ax2 = sns.scatterplot(data=plot_data5, x="Current (pA)", y="Observable", linewidth=0)
+        for i in range(1,len(WinObs)):
+            sns.scatterplot(data=plot_data5, x="Current (pA)", y=str(i), linewidth=0)
         plt.savefig(outname+"_ObsVsCurr.png")
         plt.clf()
     fig, ax = plt.subplots()
