@@ -99,7 +99,7 @@ def PMFPlotter(system,outname,palette):
     plt.savefig(outname+"_PssPMF.png", dpi=400)
     plt.clf()
     plt.xlim(-85,85)
-    plt.ylim(-2,3.5)
+    plt.ylim(-2,5)
     plt.title('Driving Potential')
     plt.xlabel("Pore Axis (A)")
     plt.ylabel('Energy (Kcal/mol)')
