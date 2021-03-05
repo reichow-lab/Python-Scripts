@@ -113,7 +113,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             print(start_list)
             if len(start_list) == 0:
                 start_list.append(0)
-            start_list.append(-1)
+            #start_list.append(-1)
             # Loop through each chain's index and process their data
             for i in range(1,len(start_list)):
                 for line in all_lines[start_list[i]:start_list[i+1]]:
