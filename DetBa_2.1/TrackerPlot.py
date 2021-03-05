@@ -116,7 +116,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                 for line in all_lines[start_list[i]:start_list[i+1]-1]:
                     Semi[0].append(float(line.split()[0])/10)
                     print(line.split()[d_col])
-                    Semi[i].append(float(line.split()[d_col]))
+                    Semi[1].append(float(line.split()[d_col]))
                 # Processdd the interpolated data
                 for ii in range(len(xnew)):
                     if i == 1:
