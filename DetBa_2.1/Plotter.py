@@ -17,7 +17,7 @@ parser.add_argument("-b", "--obs", dest = "Bchoice", action = "store", type=bool
 parser.add_argument("-bs", dest = "ObString", action = "store")
 parser.add_argument("-ws", "--windowsize", dest = "WS", action = "store")
 parser.add_argument("-c", dest = "palette", action = "store", default = "Blues_r")
-parser.add_argument("-lt", dest=LastTime, action = "store", type=int, default = 1800)
+parser.add_argument("-lt", dest = "LastTime", action = "store", type=int, default = 1800)
 
 args = parser.parse_args()
 
