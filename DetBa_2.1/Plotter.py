@@ -28,4 +28,4 @@ if args.Pchoice == True:
 
 if args.Tchoice == True:
 
-    TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col)
+    TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col,args.ObString)
