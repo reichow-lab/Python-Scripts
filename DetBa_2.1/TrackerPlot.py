@@ -93,6 +93,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             WinAvg[3].append(labels[h])
         h += 1
     if obs == True:
+        print('debug')
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
         Obs, Semi, WinObs = [[]], [[]], [[]]
         for i in range(len(ObsFileList)):
