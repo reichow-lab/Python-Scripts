@@ -6,7 +6,11 @@ from sys import argv
 import pandas as pd
 from scipy.interpolate import interp1d
 #script, system, start, outname, palette, WS, obs = argv
-def TrackerPlot(system,start,outname,palette,WS,obs):
+def Interp(xin,yin,LT):
+    f = interp1d(xin,yin,kind="previous")
+    xnew = np.arange(0,LT,1)
+    ynew = f(x)
+def TrackerPlot(system,start,outname,palette,WS,obs,LT):
     if bool(obs) == True:
         ObsFileList = glob("*.obs.txt")
         ObsFileList.sort()
