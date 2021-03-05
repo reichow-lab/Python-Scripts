@@ -107,7 +107,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             start_list = []
             for i in range(len(all_lines)):
                 if all_lines[i].split()[0] == "Chain:":
-                    start_list.append(i)
+                    start_list.append(i+1)
                 else:
                     pass
             print(start_list)
