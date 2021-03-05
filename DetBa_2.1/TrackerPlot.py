@@ -150,6 +150,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         #print(len(WinAvg[1]),len(WinObs[1]))
         plot_data5 = pd.DataFrame({"Current (pA)": WinAvg[1]})
         for i in range(1,len(WinObs)):
+            print('debug')
             plot_data5[str(i)] = WinObs[i]
         print(plot_data5)
         plt.title("Current vs. Observable")
