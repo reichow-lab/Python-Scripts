@@ -11,12 +11,12 @@ def Interp(xin,yin,LT):
     xnew = np.arange(0,LT,1)
     ynew = f(xnew)
     return xnew,ynew
-def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col):
+def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
-        ObsFileList = glob("*.obs.txt")
+        ObsFileList = glob(system+"*.obs.txt")
         ObsFileList.sort()
     WinS = int(WS)
-    FileList = glob(system)
+    FileList = glob(system+"*Tracking.log")
     FileList.sort()
     # Final: [time] [cum. permeations] [label] [hue] [Average Current]
     Final = [[],[],[],[],[],[]]
