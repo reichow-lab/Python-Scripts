@@ -109,46 +109,38 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     start_list.append(i)
                 else:
                     pass
+            print(star_list)
             if len(start_list) == 0:
                 start_list.append(0)
             start_list.append(-1)
-            # Loop through each ion's index and process their data
+            # Loop through each chain's index and process their data
             for i in range(1,len(start_list)):
                 for line in all_lines[start_list[i]:start_list[i+1]]:
                     Semi[0].append(float(line.split()[0])/10)
                     Semi[i].append(float(line.split()[d_col]))
-                xnew,ynew = Interp(Semi[0],Semi[1],LT)
                 # Processdd the interpolated data
                 for ii in range(len(xnew)):
                     if i == 1:
+                        xnew,ynew = Interp(Semi[0],Semi[i])
                         Obs[0].append(float(xnew[ii]))
                         Obs[i].append(int(ynew[ii]))
                     else:
+                        xnew,ynew = Interp(Semi[0],Semi[i])
                         Obs[i].append(int(ynew[ii]))
-        # Separate to calculate window-averages
+        # Data is already in wide-format so no need for separating as we do above.
         for c in range(1,len(Obs)):
-            HoldSep = []
-            for i in range(len(FileList)):
-                HoldSep.append([])
-            n = -1
-            for i in range(len(Obs[0])):
-                if float(Obs[0][i]) <= 0:
-                    n += 1
-                HoldSep[n].append(Obs[1][i])
-            # WinAvg: Time  Current  Hue  Label
-            for n in HoldSep:
-                for i in range(len(n)-WinS):
-                    if c == 1:
-                        WinObs[0].append(Obs[0][i])
-                        hold = []
-                        for j in range(WinS):
-                            hold.append(float(n[i+j]))
-                        WinObs[c].append(np.mean(hold))
-                    else:
-                        hold = []
-                        for j in range(WinS):
-                            hold.append(float(n[i+j]))
-                        WinObs[c].append(np.mean(hold))
+            for i in range(len(n)-WinS):
+                if c == 1:
+                    WinObs[0].append(Obs[0][i])
+                    hold = []
+                    for j in range(WinS):
+                        hold.append(float(Obs[c][i+j]))
+                    WinObs[c].append(np.mean(hold))
+                else:
+                    hold = []
+                    for j in range(WinS):
+                        hold.append(float(Obs[c][i+j]))
+                    WinObs[c].append(np.mean(hold))
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
