@@ -13,7 +13,7 @@ def Interp(xin,yin,LT):
     return xnew,ynew
 def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
-        ObsFileList = glob(system+"*.obs.txt")
+        ObsFileList = glob(ObString+"*.obs.txt")
         ObsFileList.sort()
     WinS = int(WS)
     FileList = glob(system+"*Tracking.log")
@@ -93,7 +93,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             WinAvg[3].append(labels[h])
         h += 1
     if bool(obs) == True:
-        print('debug')
+        print('debug-1')
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
         Obs, Semi, WinObs = [[]], [[]], [[]]
         for i in range(len(ObsFileList)):
@@ -111,7 +111,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     start_list.append(i)
                 else:
                     pass
-            print(star_list)
+            print(start_list)
             if len(start_list) == 0:
                 start_list.append(0)
             start_list.append(-1)
