@@ -112,17 +112,19 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     pass
             # Loop through each chain's index and process their data
             start_list.append(-1)
-            for i in range(len(start_list)):
+            for i in range(1,len(start_list)):
                 for line in all_lines[start_list[i]:start_list[i+1]-1]:
-                    if i == 0:
+                    if i == 1:
                         Semi[0].append(float(line.split()[0])/10)
+                        Semi[i].append(float(line.split()[d_col]))
                     else:
                         Semi[i].append(float(line.split()[d_col]))
                 # Processdd the interpolated data
                 for ii in range(len(xnew)):
-                    if i == 0:
+                    if i == 1:
                         xnew,ynew = Interp(Semi[0],Semi[i],LT)
                         Obs[0].append(float(xnew[ii]))
+                        Obs[i].append(int(ynew[ii]))
                     else:
                         xnew,ynew = Interp(Semi[0],Semi[i],LT)
                         Obs[i].append(int(ynew[ii]))
