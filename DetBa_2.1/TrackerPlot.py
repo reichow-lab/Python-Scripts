@@ -95,10 +95,6 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
         Obs, Semi, WinObs = [[]], [[]], [[]]
-        for i in range(6):
-            Obs.append([])
-            Semi.append([])
-            WinObs.append([])
         # Open file, and read all lines in
         for file in ObsFileList:
             with open(file, "r") as f:
@@ -110,6 +106,10 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     start_list.append(i+1)
                 else:
                     pass
+            for i in range(len(start_list)):
+                Obs.append([])
+                Semi.append([])
+                WinObs.append([])
             # Loop through each chain's index and process their data
             start_list.append(-1)
             for i in range(1,len(start_list)):
