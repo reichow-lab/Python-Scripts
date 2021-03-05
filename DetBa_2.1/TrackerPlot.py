@@ -10,6 +10,7 @@ def Interp(xin,yin,LT):
     f = interp1d(xin,yin,kind="previous")
     xnew = np.arange(0,LT,1)
     ynew = f(x)
+    return xnew,ynew
 def TrackerPlot(system,start,outname,palette,WS,obs,LT):
     if bool(obs) == True:
         ObsFileList = glob("*.obs.txt")
@@ -50,10 +51,8 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT):
                     Semi[4].append(pA)
                     fptList[0].append(float(val[1]))
                     fptList[1].append(0)
-            f = interp1d(Semi[0],Semi[1],kind="previous")
+            xnew,ynew = Interp(Semi[0],Semi[1],LT)
             # Process the interpolated data
-            xnew = np.arange(0,1800,1)
-            ynew = f(xnew)
             for i in range(len(xnew)):
                 Final[0].append(float(xnew[i]))
                 Final[1].append(int(ynew[i]))
@@ -107,10 +106,8 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT):
                 else:
                     Semi[0].append(float(val[0])/10)
                     Semi[1].append(float(val[1]))
-            f = interp1d(Semi[0],Semi[1],kind="previous")
-            # Process the interpolated data
-            xnew = np.arange(0,1800,1)
-            ynew = f(xnew)
+            xnew,ynew = Interp(Semi[0],Semi[1],LT)
+            # Processdd the interpolated data
             for i in range(len(xnew)):
                 Obs[0].append(float(xnew[i]))
                 Obs[1].append(int(ynew[i]))
