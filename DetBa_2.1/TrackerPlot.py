@@ -98,6 +98,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         for i in range(len(ObsFileList)):
             Obs.append([])
             Semi.append([])
+            WinObs.append([])
         # Open file, and read all lines in
         for file in ObsFileList:
             with open(file, "r") as f:
