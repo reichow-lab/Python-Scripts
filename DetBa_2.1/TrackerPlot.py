@@ -116,8 +116,8 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     i += 1
                 else:
                     Semi[i].append(float(line.split()[d_col]))
+            print(Semi[3])
             # Processdd the interpolated data
-            print(len(Semi[0]),len(Semi[i]))
             xnew,ynew = Interp(Semi[0],Semi[i],LT)
             for ii in range(len(xnew)):
                 if i == 0:
