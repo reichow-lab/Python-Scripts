@@ -99,13 +99,17 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         for file in ObsFileList:
             with open(file, "r") as f:
                 all_lines = f.read().splitlines()
+            i = 0
             for line in all_lines:
                 if line.split()[0] == "Chain:":
                     Obs.append([])
                     Semi.append([])
                     WinObs.append([])
-                else:
+                    i += 1
+                elif i == 1:
                     Semi[0].append(float(line.split()[0])/10)
+                else:
+                    pass
             i = 0
             for line in all_lines:
                 if line.split()[0] == "Chain:":
