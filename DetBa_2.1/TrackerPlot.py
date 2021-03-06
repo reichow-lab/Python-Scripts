@@ -130,9 +130,9 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     else:
                         Obs[i].append(int(ynew[ii]))
         # Data is already in wide-format so no need for separating as we do above.
-        for c in range(len(Obs)):
-            for i in range(len(n)-WinS):
-                if c == 0:
+        for c in range(1,len(Obs)):
+            for i in range(len(Obs[0])-WinS):
+                if c == 1:
                     WinObs[0].append(Obs[0][i])
                     hold = []
                     for j in range(WinS):
