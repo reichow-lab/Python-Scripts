@@ -143,7 +143,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     for j in range(WinS):
                         hold.append(float(Obs[c][i+j]))
                     WinObs[c].append(np.mean(hold))
-    print(WinObs)
+    print(len(WinObs))
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
