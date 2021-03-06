@@ -99,36 +99,28 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         for file in ObsFileList:
             with open(file, "r") as f:
                 all_lines = f.read().splitlines()
-            # generate list of indexes denoting new ions
-            start_list = []
-            for i in range(len(all_lines)):
-                if all_lines[i].split()[0] == "Chain:":
-                    start_list.append(i)
+            for line in all_lines:
+                if line.split()[0] == "Chain:":
+                    Obs.append([])
+                    Semi.append([])
+                    WinObs.append([])
                 else:
-                    pass
-            for i in range(len(start_list)):
-                Obs.append([])
-                Semi.append([])
-                WinObs.append([])
-            # Loop through each chain's index and process their data
-            start_list.append(0)
-            for i in range(len(start_list)):
-                print(i)
-                for line in all_lines[start_list[i]+1:start_list[i+1]-1]:
-                    if i == 0:
-                        Semi[0].append(float(line.split()[0])/10)
-                        #Semi[i].append(float(line.split()[d_col]))
-                    else:
-                        Semi[i].append(float(line.split()[d_col]))
-                # Processdd the interpolated data
-                print(len(Semi[0]),len(Semi[i]))
-                xnew,ynew = Interp(Semi[0],Semi[i],LT)
-                for ii in range(len(xnew)):
-                    if i == 0:
-                        Obs[0].append(float(xnew[ii]))
-                        #Obs[i].append(int(ynew[ii]))
-                    else:
-                        Obs[i].append(int(ynew[ii]))
+                    Semi[0].append(float(line.split()[0])/10)
+            i = 0
+            for line in all_lines:
+                if line.split()[0] == "Chain:":
+                    i += 1
+                else:
+                    Semi[i].append(float(line.split()[d_col]))
+            # Processdd the interpolated data
+            print(len(Semi[0]),len(Semi[i]))
+            xnew,ynew = Interp(Semi[0],Semi[i],LT)
+            for ii in range(len(xnew)):
+                if i == 0:
+                    Obs[0].append(float(xnew[ii]))
+                    #Obs[i].append(int(ynew[ii]))
+                else:
+                    Obs[i].append(int(ynew[ii]))
         # Data is already in wide-format so no need for separating as we do above.
         for c in range(1,len(Obs)):
             for i in range(len(Obs[0])-WinS):
