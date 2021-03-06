@@ -116,15 +116,15 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     i += 1
                 else:
                     Semi[i].append(float(line.split()[d_col]))
-            print(Semi[3])
             # Processdd the interpolated data
-            xnew,ynew = Interp(Semi[0],Semi[i],LT)
-            for ii in range(len(xnew)):
-                if i == 0:
-                    Obs[0].append(float(xnew[ii]))
-                    #Obs[i].append(int(ynew[ii]))
-                else:
-                    Obs[i].append(int(ynew[ii]))
+            for i in range(1,len(Semi)):
+                xnew,ynew = Interp(Semi[0],Semi[i],LT)
+                for ii in range(len(xnew)):
+                    if i == 1:
+                        Obs[0].append(float(xnew[ii]))
+                        Obs[i].append(int(ynew[ii]))
+                    else:
+                        Obs[i].append(int(ynew[ii]))
         # Data is already in wide-format so no need for separating as we do above.
         for c in range(1,len(Obs)):
             for i in range(len(Obs[0])-WinS):
