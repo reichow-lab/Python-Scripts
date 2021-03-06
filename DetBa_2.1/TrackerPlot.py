@@ -111,7 +111,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                 Semi.append([])
                 WinObs.append([])
             # Loop through each chain's index and process their data
-            start_list.append(0)
+            start_list.append(-1)
             for i in range(len(start_list)):
                 for line in all_lines[start_list[i]+1:start_list[i+1]]:
                     if i == 0:
