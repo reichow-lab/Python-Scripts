@@ -92,7 +92,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             WinAvg[2].append(h)
             WinAvg[3].append(labels[h])
         h += 1
-    with open('outname_wa.txt', 'w') as out:
+    with open(outname+'_wa.txt', 'w') as out:
         for i in range(len(WinAvg[0])):
             out.write(f"{WinAvg[0]}\t{WinAvg[1]}\t{WinAvg[2]}\n")
     if bool(obs) == True:
