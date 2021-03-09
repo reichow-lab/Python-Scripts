@@ -92,6 +92,9 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             WinAvg[2].append(h)
             WinAvg[3].append(labels[h])
         h += 1
+    with open('outname_wa.txt', 'w') as out:
+        for i in range(len(WinAvg[0])):
+            out.write(f"{WinAvg[0]}\t{WinAvg[1]}\t{WinAvg[2]}\n")
     if bool(obs) == True:
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
         Obs, Semi, WinObs = [[]], [[]], [[]]
@@ -139,7 +142,6 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     for j in range(WinS):
                         hold.append(float(Obs[c][i+j]))
                     WinObs[c].append(np.mean(hold))
-    print(len(WinObs))
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
