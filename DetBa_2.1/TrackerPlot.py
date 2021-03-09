@@ -94,7 +94,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         h += 1
     with open(outname+'_wa.txt', 'w') as out:
         for i in range(len(WinAvg[0])):
-            out.write(f"{WinAvg[0]}\t{WinAvg[1]}\t{WinAvg[2]}\n")
+            out.write(f"{WinAvg[0][i]}\t{WinAvg[1][i]}\t{WinAvg[2][i]}\n")
     if bool(obs) == True:
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
         Obs, Semi, WinObs = [[]], [[]], [[]]
