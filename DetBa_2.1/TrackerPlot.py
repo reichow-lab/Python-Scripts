@@ -150,7 +150,6 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
-    print(f"{count_dist_peaks(plot_data2[1])}")
     plot_data3 = pd.DataFrame({"Time (ns)": Final[0], "<current> (pA)": Final[5]})
     plot_data4 = pd.DataFrame({"Transition Times (ns)": fptList[0]})
     if bool(obs) == True:
@@ -178,6 +177,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     sns.displot(data=plot_data2, x="current (pA)", kind="kde")
     plt.savefig(outname+"_current-hist.png", dpi=400)
     plt.clf()
+    peaks = count_dist_peaks(plot_data2[1])
     #plt.xlim(0,260)
     #plt.ylim(0,500)
     #sns.set_palette(palette, 4)
