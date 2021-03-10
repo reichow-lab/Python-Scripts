@@ -14,7 +14,7 @@ def Interp(xin,yin,LT):
     return xnew,ynew
 def count_dist_peaks(series, bins=50):
     count, division = np.histogram(series, bins=bins)
-    peaks, props = find_peaks(count, prominence=100)
+    peaks, props = find_peaks(count, prominence=70)
     return peaks
 def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
