@@ -171,6 +171,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     plt.clf()
     sns.displot(data=plot_data2[1], kind='kde', palette=sns.color_palette(palette, n_colors=1))
     plt.savefig(outname+"_current-hist.png", dpi=400)
+    plt.clf()
     #plt.xlim(0,260)
     #plt.ylim(0,500)
     #sns.set_palette(palette, 4)
