@@ -15,7 +15,7 @@ def Interp(xin,yin,LT):
 def count_dist_peaks(series, bins=50):
     count, division = np.histogram(series, bins=bins)
     peaks, props = find_peaks(count, prominence=50)
-    return peaks
+    return peaks, count
 def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
         ObsFileList = glob(ObString+"*.obs.txt")
@@ -147,9 +147,9 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     for j in range(WinS):
                         hold.append(float(Obs[c][i+j]))
                     WinObs[c].append(np.mean(hold))
-    peaks = count_dist_peaks(WinAvg[1])
+    peaks, hist = count_dist_peaks(WinAvg[1])
     for peak in peaks:
-        print(f"{WinAvg[0][peak]}")
+        print(f"{hist[peak]}")
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
