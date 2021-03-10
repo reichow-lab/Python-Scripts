@@ -177,7 +177,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     sns.displot(data=plot_data2, x="current (pA)", kind="kde")
     plt.savefig(outname+"_current-hist.png", dpi=400)
     plt.clf()
-    #print(count_dist_peaks(plot_data2[1]))
+    print(count_dist_peaks(plot_data2[1]))
     #plt.xlim(0,260)
     #plt.ylim(0,500)
     #sns.set_palette(palette, 4)
