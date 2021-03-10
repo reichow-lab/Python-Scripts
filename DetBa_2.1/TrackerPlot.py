@@ -148,6 +148,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                         hold.append(float(Obs[c][i+j]))
                     WinObs[c].append(np.mean(hold))
     peaks = count_dist_peaks(WinAvg[1])
+    print(peaks)
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
