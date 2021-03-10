@@ -14,7 +14,7 @@ def Interp(xin,yin,LT):
     return xnew,ynew
 def count_dist_peaks(series, bins=50):
     count, division = np.histogram(series, bins=bins)
-    peaks, props = find_peaks(count, prominence=70)
+    peaks, props = find_peaks(count, prominence=50)
     return peaks
 def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
@@ -148,7 +148,8 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                         hold.append(float(Obs[c][i+j]))
                     WinObs[c].append(np.mean(hold))
     peaks = count_dist_peaks(WinAvg[1])
-    print(peaks)
+    for peak in peaks:
+        print(WinAvg[1][peak])
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
     plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
