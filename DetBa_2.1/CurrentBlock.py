@@ -12,13 +12,13 @@ N = int(b)
 Bins = [[]]
 for i in range(1,N+1):
     Bins[0].append(i)
+F = 1
 for FILE in FileList:
     Bins.append([])
     with open(FILE, 'r') as f:
         all_lines = f.read().splitlines()
     # find the final Time, and cal
     FinalTime = float(all_lines[-3].split()[0])
-    j = 1
     for i in range(1,N+1):
         hold, count = 0, 0
         for line in all_lines:
@@ -27,8 +27,8 @@ for FILE in FileList:
             elif float(line.split()[0]) > (i-1)*(FinalTime/N) and float(line.split()[0]) <= (i)*(FinalTime/N):
                 count += (int(line.split()[2]) - hold)
                 hold = int(line.split()[2])
-        Bins[j].append((count/(FinalTime/N))*160)
-        j += 1
+        Bins[F].append((count/(FinalTime/N))*160)
+    F += 1
 with open(system+"Block.txt", w) as out:
     for i in range(N):
         out.write(f"{Bins[0][i]}\t")
