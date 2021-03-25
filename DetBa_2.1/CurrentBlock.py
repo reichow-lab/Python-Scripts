@@ -7,9 +7,10 @@ import pandas as pd
 script, system, N = argv
 FileList = glob(system+"*Tracking.log")
 FileList.sort()
+N = int(N)
 # Bins: bin_range   count
 Bins = [[]]
-for i in range(1,int(N)+1):
+for i in range(1,N+1):
     Bins.append(i)
 for FILE in FileList:
     Bins.append([])
