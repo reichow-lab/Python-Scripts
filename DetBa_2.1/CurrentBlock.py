@@ -11,7 +11,7 @@ N = int(b)
 # Bins: bin_range   count
 Bins = [[]]
 for i in range(1,N+1):
-    Bins.append(i)
+    Bins[0].append(i)
 for FILE in FileList:
     Bins.append([])
     with open(FILE, 'r') as f:
