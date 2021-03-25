@@ -175,6 +175,8 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     sns.lineplot(data=plot_data2, x="Time (ns)", y="current (pA)", hue=WinAvg[3], palette=sns.color_palette(palette, n_colors=len(FileList)))
     plt.savefig(outname+"_current.png", dpi=400)
     plt.clf()
+    plt.xlim(-10,130)
+    plt.ylim(0,0.035)
     sns.displot(data=plot_data2, x="current (pA)", kind="kde")
     plt.savefig(outname+"_current-hist.png", dpi=400)
     plt.clf()
