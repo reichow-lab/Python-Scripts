@@ -19,8 +19,9 @@ for FILE in FileList:
         all_lines = f.read().splitlines()
     # find the final Time, and cal
     FinalTime = float(all_lines[-3].split()[0])
+    hold = 0
     for i in range(1,N+1):
-        hold, count = 0, 0
+        count = 0
         for line in all_lines:
             if line.split()[0] == "Time" or line.split()[0] == "Total" or line.split()[0] == "Last":
                 pass
