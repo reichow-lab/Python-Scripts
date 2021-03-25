@@ -23,7 +23,7 @@ for FILE in FileList:
         for line in all_lines:
             if line.split()[0] == "Time" or line.split()[0] == "Total" or line.split()[0] == "Last":
                 pass
-            elif float(line.split()[0]) > (i-1)*(FinalTime/N) and float(line.split()[0]) <= (i)*(FinalTime/N):
+            elif float(line.split()[0]) > (int(i)-1)*(FinalTime/N) and float(line.split()[0]) <= (int(i))*(FinalTime/N):
                 count += (line.split()[2] - hold)
                 hold = line.split()[2]
         Bins[i].append((count/(FinalTime/N))*160)
