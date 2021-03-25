@@ -7,7 +7,7 @@ import pandas as pd
 script, system, b = argv
 FileList = glob(system+"*Tracking.log")
 FileList.sort()
-N = int(b)
+N = float(b)
 # Bins: bin_range   count
 Bins = [[]]
 for i in range(1,N+1):
