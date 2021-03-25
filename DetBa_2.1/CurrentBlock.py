@@ -13,7 +13,7 @@ for i in range(1,int(N)+1):
     Bins.append(i)
 for FILE in FileList:
     Bins.append([])
-    with open(FILE, 'r') as file:
+    with open(FILE, 'r') as f:
         all_lines = f.read().splitlines()
     # find the final Time, and cal
     FinalTime = all_lines[-1].split()[0]
