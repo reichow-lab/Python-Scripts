@@ -18,6 +18,7 @@ for FILE in FileList:
         all_lines = f.read().splitlines()
     # find the final Time, and cal
     FinalTime = all_lines[-3].split()[0]
+    print(FinalTime)
     for i in range(1,N+1):
         hold, count = 0, 0
         for line in all_lines:
