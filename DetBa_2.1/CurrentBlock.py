@@ -29,11 +29,11 @@ for FILE in FileList:
                 hold = int(line.split()[2])
         Bins[F].append((count/(FinalTime/N))*160)
     F += 1
-with open(system+"Block.txt", 'w') as out:
+with open(system+"_Block.txt", 'w') as out:
     for i in range(N):
         out.write(f"{Bins[0][i]}\t")
         for j in range(len(FileList)):
-            if (j-1) == len(FileList):
+            if (j+1) == len(FileList):
                 out.write(f"{Bins[j][i]}\n")
             else:
                 out.write(f"{Bins[j][i]}\t")
