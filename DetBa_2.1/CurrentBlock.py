@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 from glob import glob
 from sys import argv
 import pandas as pd
-script, system, N = argv
+script, system, b = argv
 FileList = glob(system+"*Tracking.log")
 FileList.sort()
-N = int(N)
+N = int(b)
 # Bins: bin_range   count
 Bins = [[]]
 for i in range(1,N+1):
