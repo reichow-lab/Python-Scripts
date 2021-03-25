@@ -7,7 +7,7 @@ import pandas as pd
 script, system, b = argv
 FileList = glob(system+"*Tracking.log")
 FileList.sort()
-N = float(b)
+N = int(b)
 # Bins: bin_range   count
 Bins = [[]]
 for i in range(1,N+1):
@@ -17,8 +17,7 @@ for FILE in FileList:
     with open(FILE, 'r') as f:
         all_lines = f.read().splitlines()
     # find the final Time, and cal
-    FinalTime = all_lines[-3].split()[0]
-    print(FinalTime)
+    FinalTime = float(all_lines[-3].split()[0])
     for i in range(1,N+1):
         hold, count = 0, 0
         for line in all_lines:
