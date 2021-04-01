@@ -88,7 +88,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Running Avg. Water Flux (ns^-1)')
-        sns.scatterplot(data=RunningAverage, x="Time (ns)", y="Running Average Water Flux", hue=RunAvg[3])
+        sns.lineplot(data=RunningAverage, x="Time (ns)", y="Running Average Water Flux", hue=RunAvg[3])
         plt.savefig(outname+"_RunWatFlux.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
@@ -100,7 +100,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
-        sns.lineplot(data=CumAverage, x="Time (ns)", y="Cumulative Average Water Flux", hue=Final[2])
+        sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average Water Flux", hue=Final[2])
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
 
