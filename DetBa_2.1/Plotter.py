@@ -42,7 +42,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
                 if line.split()[0] == "Time(ns)":
                     pass
                 else:
-                    Final[0].append(int(line.split()[0]))
+                    Final[0].append(float(line.split()[0]))
                     Final[1].append(int(line.split()[1]))
                     Final[3].append(label)
         # generate the cumulative flux
