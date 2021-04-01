@@ -26,19 +26,36 @@ def WatFluxTrack(system,start,outname,palette,WS,LT,d_col):
     WinS = int(WS)
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
-    # Final: [time] [cum. permeations] [label] [hue] [Average Flux]
+    # Final: [time] [instant Permeations] [cum. permeations] [label] [Average Flux]
     Final = [[],[],[],[],[],[]]
-    labels, hues = [],[]
+    labels = []
     for i in range(len(FileList)):
-        hues.append(i)
         labels.append(input("Label? "))
-    for FILE in FileList:
+    for FILE, label in zip(FileList, labels):
         with open(FILE, 'r') as f:
             all_lines = f.read().splitlines()
-    for line in all_lines:
-            if line.split()[0] == "Time(ns)":
-                pass
+        # extract pertinent water tracking
+        for line in all_lines:
+                if line.split()[0] == "Time(ns)":
+                    pass
+                else:
+                    Final[0].append(line.split()[0])
+                    Final[1].append(line.split()[1])
+                    Final[3].append(label)
+        # generate the cumulative flux
+        # generate the cumulative permeations
+        for i in range(len(Final[0])):
+            if i == 0:
+                Final[2].append(0)
+                Final[4].append(0)
             else:
+                Final[2].append(Final[2][i-1] + Final[1][i])
+                Final[4].append(Final[2][i] / Final[0][i])
+        # generate the running average of water flux
+        for i in range(len(Final[0])):
+
+
+
 
 
 if args.Pchoice == True:
