@@ -22,6 +22,25 @@ parser.add_argument("-dc", dest = "d_col", action = "store", type=int, default =
 
 args = parser.parse_args()
 
+def WatFluxTrack(system,start,outname,palette,WS,LT,d_col):
+    WinS = int(WS)
+    FileList = glob(system+"*WatFlux*")
+    FileList.sort()
+    # Final: [time] [cum. permeations] [label] [hue] [Average Flux]
+    Final = [[],[],[],[],[],[]]
+    labels, hues = [],[]
+    for i in range(len(FileList)):
+        hues.append(i)
+        labels.append(input("Label? "))
+    for FILE in FileList:
+        with open(FILE, 'r') as f:
+            all_lines = f.read().splitlines()
+    for line in all_lines:
+            if line.split()[0] == "Time(ns)":
+                pass
+            else:
+
+
 if args.Pchoice == True:
 
     PMFPlotter(args.datstring,args.outname,args.palette)
