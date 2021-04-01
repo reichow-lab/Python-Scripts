@@ -81,7 +81,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
                 out.write(f"{RunAvg[0][i]}\t{RunAvg[1][i]}\t{RunAvg[2][i]}\n")
 
         # Create dataframes for plotting with seaborn
-        CumPermeations  = pd.DataFrame({"Time (ns)": Final[0], "Cumulative Water Permeations": Final[1]})
+        CumPermeations  = pd.DataFrame({"Time (ns)": Final[0], "Cumulative Water Permeations": Final[2]})
         CumAverage      = pd.DataFrame({"Time (ns)": Final[0], "Cumulative Average Water Flux": Final[4]})
         RunningAverage  = pd.DataFrame({"Time (ns)": RunAvg[0], "Running Average Water Flux": RunAvg[1]})
 
