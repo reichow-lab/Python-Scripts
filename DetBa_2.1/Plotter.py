@@ -28,6 +28,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
     WinS = int(WS)
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
+    print(FileList)
     # Final: [time] [instant Permeations] [cum. permeations] [label] [Average Flux]
     Final = [[],[],[],[],[],[]]
     labels = []
