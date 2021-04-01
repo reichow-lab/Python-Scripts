@@ -100,7 +100,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
-        sns.lineplot(data=CumAverage, x="Time (ns)", y="<current> (pA)", hue=Final[2])
+        sns.lineplot(data=CumAverage, x="Time (ns)", y="Cumulative Average Water Flux", hue=Final[2])
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
 
