@@ -29,7 +29,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
     print(FileList)
-    # Final: [time] [instant Permeations] [cum. permeations] [label] [Average Flux]
+    # Final: [time] [instant Permeations] [cum. permeations] [label] [Average Flux] [instant current]
     Final = [[],[],[],[],[],[]]
     labels = []
     for i in range(len(FileList)):
@@ -51,9 +51,11 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
             if i == 0:
                 Final[2].append(0)
                 Final[4].append(0)
+                Final[5].append(0)
             else:
                 Final[2].append(Final[2][i-1] + Final[1][i])
                 Final[4].append(Final[2][i] / Final[0][i])
+                Final[5].append((Final[1][i] - Final[1][i-1])/(Final[0][i] - Final[0][i-1]))
         # Separate to calculate running-averages
         HoldSep = []
         for i in range(len(FileList)):
@@ -62,7 +64,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         for i in range(len(Final[0])):
             if float(Final[0][i]) <= 0:
                 n += 1
-            HoldSep[n].append(Final[2][i])
+            HoldSep[n].append(Final[5][i])
         # RunAvg: Time  Current  Hue  Label
         RunAvg = [[],[],[],[]]
         h = 0
