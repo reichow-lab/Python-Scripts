@@ -23,7 +23,7 @@ for FILE in FileList:
     for i in range(1,N+1):
         count = 0
         for line in all_lines:
-            if line.split()[0] == "Time" or line.split()[0] == "Total" or line.split()[0] == "Last":
+            if line.split()[0] == "Time" or line.split()[0] == "Total" or line.split()[0] == "Last" or line.split()[0] == "Time(ns)":
                 pass
             elif float(line.split()[0]) > (i-1)*(FinalTime/N) and float(line.split()[0]) <= (i)*(FinalTime/N):
                 count += (int(line.split()[2]) - hold)
