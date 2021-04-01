@@ -13,6 +13,7 @@ parser.add_argument("-dat", dest = "datstring", action = "store")
 parser.add_argument("-out", dest = "outname", action = "store", default = "OUTFILE")
 parser.add_argument("-p", "--pmf", dest = "Pchoice", action = "store", type=bool, default = False)
 parser.add_argument("-t", "--track", dest = "Tchoice", action = "store", type=bool, default = False)
+parser.add_argument("-w", "--water", dest = "Wchoice", action = "store", type=bool, default = False)
 parser.add_argument("-b", "--obs", dest = "Bchoice", action = "store", type=bool, default = False)
 parser.add_argument("-bs", dest = "ObString", action = "store")
 parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "store", default = 100)
@@ -22,7 +23,7 @@ parser.add_argument("-dc", dest = "d_col", action = "store", type=int, default =
 
 args = parser.parse_args()
 
-def WatFluxTrack(system,start,outname,palette,WS,LT,d_col):
+def WatFluxTrack(system,outname,palette,WS,LT,d_col):
     WinS = int(WS)
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
@@ -51,11 +52,55 @@ def WatFluxTrack(system,start,outname,palette,WS,LT,d_col):
             else:
                 Final[2].append(Final[2][i-1] + Final[1][i])
                 Final[4].append(Final[2][i] / Final[0][i])
-        # generate the running average of water flux
+        # Separate to calculate running-averages
+        HoldSep = []
+        for i in range(len(FileList)):
+            HoldSep.append([])
+        n = -1
         for i in range(len(Final[0])):
+            if float(Final[0][i]) <= 0:
+                n += 1
+            HoldSep[n].append(Final[4][i])
+        # RunAvg: Time  Current  Hue  Label
+        RunAvg = [[],[],[],[]]
+        h = 0
+        for n in HoldSep:
+            for i in range(len(n)-WinS):
+                RunAvg[0].append(Final[0][i])
+                hold = []
+                for j in range(WinS):
+                    hold.append(float(n[i+j]))
+                RunAvg[1].append(np.mean(hold)*160)
+                RunAvg[2].append(h)
+                RunAvg[3].append(labels[h])
+            h += 1
+        with open(outname+'_wa.txt', 'w') as out:
+            for i in range(len(RunAvg[0])):
+                out.write(f"{RunAvg[0][i]}\t{RunAvg[1][i]}\t{RunAvg[2][i]}\n")
 
+        # Create dataframes for plotting with seaborn
+        CumPermeations  = pd.DataFrame({"Time (ns)": Final[0], "Cumulative Water Permeations": Final[1]})
+        CumAverage      = pd.DataFrame({"Time (ns)": Final[0], "Cumulative Average Water Flux": Final[4]})
+        RunningAverage  = pd.DataFrame({"Time (ns)": RunAvg[0], "Running Average Water Flux": RunAvg[1]})
 
-
+        # Plot DataFrame
+        plt.xlabel("Time (ns)")
+        plt.ylabel('Running Avg. Water Flux (ns^-1)')
+        sns.lineplot(data=RunningAverage, x="Time (ns)", y="Running Average Water Flux", hue=RunAvg[3], palette=sns.color_palette(palette, n_colors=len(FileList)))
+        plt.savefig(outname+"_RunWatFlux.png", dpi=400)
+        plt.clf()
+        fig, ax = plt.subplots()
+        plt.xlabel("Time (ns)")
+        plt.ylabel('Cumulative Water Permeations')
+        sns.lineplot(data=plot_data1, x="Time (ns)", y="Cumulative Water Permeations", hue=Final[2], palette=sns.color_palette(palette, n_colors=len(FileList)))
+        plt.savefig(outname+"_CumWaterPerm.png", dpi=400)
+        plt.clf()
+        fig, ax = plt.subplots()
+        plt.xlabel("Time (ns)")
+        plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
+        sns.lineplot(data=plot_data3, x="Time (ns)", y="<current> (pA)", hue=Final[2], palette=sns.color_palette(palette, n_colors=len(FileList)))
+        plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
+        plt.clf()
 
 
 if args.Pchoice == True:
@@ -65,3 +110,7 @@ if args.Pchoice == True:
 if args.Tchoice == True:
 
     TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col,args.ObString)
+
+if args.Wchoice == True:
+
+    WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col)

@@ -75,7 +75,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                 elif xnew[i] > 0:
                     pA = (int(ynew[i])*elemC)/(float(xnew[i])*1e-9)/(1e-12)
                 Final[5].append(pA)
-    # Separate to calculate window-averages
+    # Separate to calculate running-averages
     HoldSep = []
     for i in range(len(FileList)):
         HoldSep.append([])
@@ -84,22 +84,22 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
         if float(Final[0][i]) <= 0:
             n += 1
         HoldSep[n].append(Final[4][i])
-    # WinAvg: Time  Current  Hue  Label
-    WinAvg = [[],[],[],[]]
+    # RunAvg: Time  Current  Hue  Label
+    RunAvg = [[],[],[],[]]
     h = 0
     for n in HoldSep:
         for i in range(len(n)-WinS):
-            WinAvg[0].append(Final[0][i])
+            RunAvg[0].append(Final[0][i])
             hold = []
             for j in range(WinS):
                 hold.append(float(n[i+j]))
-            WinAvg[1].append(np.mean(hold)*160)
-            WinAvg[2].append(h)
-            WinAvg[3].append(labels[h])
+            RunAvg[1].append(np.mean(hold)*160)
+            RunAvg[2].append(h)
+            RunAvg[3].append(labels[h])
         h += 1
     with open(outname+'_wa.txt', 'w') as out:
-        for i in range(len(WinAvg[0])):
-            out.write(f"{WinAvg[0][i]}\t{WinAvg[1][i]}\t{WinAvg[2][i]}\n")
+        for i in range(len(RunAvg[0])):
+            out.write(f"{RunAvg[0][i]}\t{RunAvg[1][i]}\t{RunAvg[2][i]}\n")
     if bool(obs) == True:
         # Perform the same data formatting for the new observable such that it has the same window averaging as the current
         Obs, Semi, WinObs = [[]], [[]], [[]]
@@ -150,12 +150,12 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
 
     ################################################################################
     plot_data1 = pd.DataFrame({"Time (ns)": Final[0], "Ion Permeations": Final[1]})
-    plot_data2 = pd.DataFrame({"Time (ns)": WinAvg[0], "current (pA)": WinAvg[1]})
+    plot_data2 = pd.DataFrame({"Time (ns)": RunAvg[0], "current (pA)": RunAvg[1]})
     plot_data3 = pd.DataFrame({"Time (ns)": Final[0], "<current> (pA)": Final[5]})
     plot_data4 = pd.DataFrame({"Transition Times (ns)": fptList[0]})
     if bool(obs) == True:
-        #print(len(WinAvg[1]),len(WinObs[1]))
-        plot_data5 = pd.DataFrame({"Current (pA)": WinAvg[1]})
+        #print(len(RunAvg[1]),len(WinObs[1]))
+        plot_data5 = pd.DataFrame({"Current (pA)": RunAvg[1]})
         for i in range(1,len(WinObs)):
             plot_data5[str(i)] = pd.Series(WinObs[i])
         print(plot_data5)
@@ -172,10 +172,10 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     plt.title("Current")
     plt.xlabel("Time (ns)")
     plt.ylabel('Windowed Avg. Current (pA)')
-    sns.lineplot(data=plot_data2, x="Time (ns)", y="current (pA)", hue=WinAvg[3], palette=sns.color_palette(palette, n_colors=len(FileList)))
+    sns.lineplot(data=plot_data2, x="Time (ns)", y="current (pA)", hue=RunAvg[3], palette=sns.color_palette(palette, n_colors=len(FileList)))
     plt.savefig(outname+"_current.png", dpi=400)
     plt.clf()
-    sns.displot(data=WinAvg[1], kind="kde")
+    sns.displot(data=RunAvg[1], kind="kde")
     plt.xlim(0,160)
     plt.ylim(0,0.025)
     plt.savefig(outname+"_current-hist.png", dpi=400)
