@@ -88,7 +88,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Running Avg. Water Flux (ns^-1)')
-        sns.lineplot(data=RunningAverage, x="Time (ns)", y="Running Average Water Flux", hue=RunAvg[3], palette=sns.color_palette(palette, n_colors=len(FileList)))
+        sns.lineplot(data=RunningAverage, x="Time (ns)", y="Running Average Water Flux", hue=RunAvg[3])
         plt.savefig(outname+"_RunWatFlux.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
