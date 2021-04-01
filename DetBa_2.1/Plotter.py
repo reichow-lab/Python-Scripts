@@ -39,12 +39,12 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
             all_lines = f.read().splitlines()
         # extract pertinent water tracking
         for line in all_lines:
-                if line.split()[0] == "Time(ns)":
-                    pass
-                else:
-                    Final[0].append(float(line.split()[0]))
-                    Final[1].append(int(line.split()[1]))
-                    Final[3].append(label)
+            if line.split()[0] == "Time(ns)":
+                pass
+            else:
+                Final[0].append(float(line.split()[0]))
+                Final[1].append(int(line.split()[d_col]))
+                Final[3].append(label)
         # generate the cumulative flux
         # generate the cumulative permeations
         for i in range(len(Final[0])):
