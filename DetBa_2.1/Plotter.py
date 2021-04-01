@@ -72,7 +72,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
                 hold = []
                 for j in range(WinS):
                     hold.append(float(n[i+j]))
-                RunAvg[1].append(np.mean(hold)*160)
+                RunAvg[1].append(np.mean(hold))
                 RunAvg[2].append(h)
                 RunAvg[3].append(labels[h])
             h += 1
