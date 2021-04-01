@@ -62,7 +62,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         for i in range(len(Final[0])):
             if float(Final[0][i]) <= 0:
                 n += 1
-            HoldSep[n].append(Final[4][i])
+            HoldSep[n].append(Final[2][i])
         # RunAvg: Time  Current  Hue  Label
         RunAvg = [[],[],[],[]]
         h = 0
