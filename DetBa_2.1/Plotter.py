@@ -124,4 +124,4 @@ if args.Tchoice == True:
 
 if args.Wchoice == True:
 
-    WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col)
+    WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
