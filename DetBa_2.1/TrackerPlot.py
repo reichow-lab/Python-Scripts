@@ -18,7 +18,7 @@ def count_dist_peaks(series, bins=50):
     return peaks, count
 def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     if bool(obs) == True:
-        ObsFileList = glob(ObString+"*.obs.txt")
+        ObsFileList = glob(ObString)
         ObsFileList.sort()
     WinS = int(WS)
     FileList = glob(system+"*Tracking.log")
