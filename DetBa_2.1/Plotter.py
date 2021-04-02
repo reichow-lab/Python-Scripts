@@ -15,6 +15,7 @@ parser.add_argument("-out", dest = "outname", action = "store", default = "OUTFI
 parser.add_argument("-p", "--pmf", dest = "Pchoice", action = "store", type=bool, default = False)
 parser.add_argument("-t", "--track", dest = "Tchoice", action = "store", type=bool, default = False)
 parser.add_argument("-w", "--water", dest = "Wchoice", action = "store", type=bool, default = False)
+parser.add_argument("-wl", "--watlimit", dest = "watlim", action = "store", type=bool, default = 60)
 parser.add_argument("-b", "--obs", dest = "Bchoice", action = "store", type=bool, default = False)
 parser.add_argument("-bs", dest = "ObString", action = "store")
 parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "store", default = 100)
@@ -24,7 +25,7 @@ parser.add_argument("-dc", dest = "d_col", action = "store", type=int, default =
 
 args = parser.parse_args()
 
-def WatFluxTrack(system,outname,palette,WS,LT,d_col):
+def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
     WinS = int(WS)
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
@@ -94,7 +95,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
         plt.savefig(outname+"_RunWatFlux.png", dpi=400)
         plt.clf()
         sns.displot(data=RunAvg[1], kind="kde")
-        plt.xlim(-60,60)
+        plt.xlim(-int(watlim),int(watlim))
         plt.ylim(0,0.05)
         plt.savefig(outname+"_flux-hist.png", dpi=400)
         plt.clf()
