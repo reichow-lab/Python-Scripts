@@ -55,7 +55,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col):
             else:
                 Final[2].append(Final[2][i-1] + Final[1][i])
                 Final[4].append(Final[2][i] / Final[0][i])
-                Final[5].append((Final[1][i] - Final[1][i-1])/(Final[0][i] - Final[0][i-1]))
+                Final[5].append((Final[2][i] - Final[2][i-1])/(Final[0][i] - Final[0][i-1]))
         # Separate to calculate running-averages
         HoldSep = []
         for i in range(len(FileList)):
