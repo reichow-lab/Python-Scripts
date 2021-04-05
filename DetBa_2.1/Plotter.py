@@ -34,7 +34,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
     Final = []
     labels = []
     for j in range(5):
-        Final.append([[[],[],[],[],[]],[[],[],[],[],[]],[[],[],[],[],[]],[[],[],[],[],[]],[[],[],[],[],[]]])
+        Final.append([[[],[],[],[],[],[]],[[],[],[],[],[].[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]]])
         for i in range(len(FileList)):
             labels.append(input("Label? "))
         for FILE, label in zip(FileList, labels):
