@@ -68,19 +68,19 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     n += 1
                 HoldSep[n].append(Final[j][5][i])
             # RunAvg: Time  Current  Hue  Label
-            RunAvg = [[],[],[],[]]
+            RunAvg = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]]
             h = 0
             for n in HoldSep:
                 for i in range(len(n)-WinS):
-                    RunAvg[0].append(Final[j][0][i])
+                    RunAvg[j][0].append(Final[j][0][i])
                     hold = []
                     for j in range(WinS):
                         hold.append(float(n[i+j]))
-                    RunAvg[1].append(np.mean(hold))
-                    RunAvg[2].append(h)
-                    RunAvg[3].append(labels[h])
+                    RunAvg[j][1].append(np.mean(hold))
+                    RunAvg[j][2].append(h)
+                    RunAvg[j][3].append(labels[h])
                 h += 1
-            with open(outname+'_wa.txt', 'w') as out:
+            with open(outname+f'_wa_{j}.txt', 'w') as out:
                 for i in range(len(RunAvg[0])):
                     out.write(f"{RunAvg[0][i]}\t{RunAvg[1][i]}\t{RunAvg[2][i]}\n")
 
