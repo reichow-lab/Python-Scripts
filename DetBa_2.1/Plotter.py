@@ -69,7 +69,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     n += 1
                 HoldSep[n].append(Final[j][5][i])
             # WinAVG: Time  Current  Hue  Label
-            WinAVG = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]]
+            # Defined at the top, outside of the j-loop
             h = 0
             for n in HoldSep:
                 for i in range(len(n)-WinS):
