@@ -101,6 +101,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     WindowAverage[0].append(WinAVG[0][0][i])
                 else:
                     WindowAverage[z].append(WinAVG[z][1][i])
+        plot_CumPerm = pd.DataFrame({"Time (ns)": CumPermeations[0]})
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
@@ -115,7 +116,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel('Cumulative Water Permeations')
-        sns.scatterplot(data=CumPermeations, edgecolor="none")
+        sns.scatterplot(data=CumPermeations, x=CumPermeations[0], edgecolor="none")
         plt.savefig(outname+"_CumWaterPerm.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
