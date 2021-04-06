@@ -89,7 +89,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         CumAverage      = [[],[],[],[],[],[]]
         WindowAverage   = [[],[],[],[],[],[]]
         for z in range(-1,5):
-            for i in range(len(Final[0][0]))
+            for i in range(len(Final[0][0])):
                 if z == -1:
                     CumPermeations[0].append(Final[0][0][i])
                     CumAverage[0].append(Final[0][0][i])
