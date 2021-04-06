@@ -96,8 +96,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 CumAverage[1].append(Final[z][4][i])
             for i in range(len(WinAVG[0][0])):
                 WindowAverage[0].append(WinAVG[0][1][i])
-                WindowAverage[z].append(WinAVG[z][1][i])
-        
+                WindowAverage[1].append(WinAVG[z][1][i])
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
