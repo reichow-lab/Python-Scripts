@@ -31,7 +31,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
     FileList.sort()
     print(FileList)
     # Final[i]: [[time] [instant Permeations] [cum. permeations] [label] [Average Flux] [instant current]]
-    Final = [[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]]]
+    Final  = [[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]],[[],[],[],[],[],[]]]
     WinAVG = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]]
     labels = []
     for i in range(len(FileList)):
@@ -45,49 +45,49 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 if line.split()[0] == "Time(ns)":
                     pass
                 else:
-                    Final[j][0].append(float(line.split()[0]))
-                    Final[j][1].append(int(line.split()[d_col]))
-                    Final[j][3].append(label)
+                    Final[z][0].append(float(line.split()[0]))
+                    Final[z][1].append(int(line.split()[d_col]))
+                    Final[z][3].append(label)
             # generate the cumulative flux
             # generate the cumulative permeations
-            for i in range(len(Final[j][0])):
+            for i in range(len(Final[z][0])):
                 if i == 0:
-                    Final[j][2].append(0)
-                    Final[j][4].append(0)
-                    Final[j][5].append(0)
+                    Final[z][2].append(0)
+                    Final[z][4].append(0)
+                    Final[z][5].append(0)
                 else:
-                    Final[j][2].append(Final[j][2][i-1] + Final[j][1][i])
-                    Final[j][4].append(Final[j][2][i] / Final[j][0][i])
-                    Final[j][5].append((Final[j][2][i] - Final[j][2][i-1])/(Final[j][0][i] - Final[j][0][i-1]))
+                    Final[z][2].append(Final[z][2][i-1] + Final[z][1][i])
+                    Final[z][4].append(Final[z][2][i] / Final[z][0][i])
+                    Final[z][5].append((Final[z][2][i] - Final[z][2][i-1])/(Final[z][0][i] - Final[z][0][i-1]))
             # Separate to calculate running-averages
             HoldSep = []
             for i in range(len(FileList)):
                 HoldSep.append([])
             n = -1
-            for i in range(len(Final[j][0])):
-                if float(Final[j][0][i]) <= 0:
+            for i in range(len(Final[z][0])):
+                if float(Final[z][0][i]) <= 0:
                     n += 1
-                HoldSep[n].append(Final[j][5][i])
+                HoldSep[n].append(Final[z][5][i])
             # WinAVG: Time  Current  Hue  Label
             # Defined at the top, outside of the j-loop
             h = 0
             for n in HoldSep:
                 for i in range(len(n)-WinS):
-                    WinAVG[j][0].append(Final[j][0][i])
+                    WinAVG[z][0].append(Final[z][0][i])
                     hold = []
                     for j in range(WinS):
                         hold.append(float(n[i+j]))
-                    WinAVG[j][1].append(np.mean(hold))
-                    WinAVG[j][2].append(h)
-                    WinAVG[j][3].append(labels[h])
+                    WinAVG[z][1].append(np.mean(hold))
+                    WinAVG[z][2].append(h)
+                    WinAVG[z][3].append(labels[h])
                 h += 1
             with open(outname+f'_wa_{j}.txt', 'w') as out:
                 for i in range(len(WinAVG[0])):
                     out.write(f"{WinAVG[0][i]}\t{WinAVG[1][i]}\t{WinAVG[2][i]}\n")
 
         # Create dataframes for plotting with seaborn
-        CumPermeations  = pd.DataFrame({"Time (ns)": Final[j][0], "Cumulative Water Permeations": Final[j][2]})
-        CumAverage      = pd.DataFrame({"Time (ns)": Final[j][0], "Cumulative Average Water Flux": Final[j][4]})
+        CumPermeations  = pd.DataFrame({"Time (ns)": Final[z][0], "Cumulative Water Permeations": Final[z][2]})
+        CumAverage      = pd.DataFrame({"Time (ns)": Final[z][0], "Cumulative Average Water Flux": Final[z][4]})
         RunningAverage  = pd.DataFrame({"Time (ns)": WinAVG[0], "Running Average Water Flux": WinAVG[1]})
 
         # Plot DataFrame
@@ -104,13 +104,13 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel('Cumulative Water Permeations')
-        sns.scatterplot(data=CumPermeations, x="Time (ns)", y="Cumulative Water Permeations", edgecolor="none", hue=Final[j][3])
+        sns.scatterplot(data=CumPermeations, x="Time (ns)", y="Cumulative Water Permeations", edgecolor="none", hue=Final[z][3])
         plt.savefig(outname+"_CumWaterPerm.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
-        sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average Water Flux", edgecolor="none", hue=Final[j][3])
+        sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average Water Flux", edgecolor="none", hue=Final[z][3])
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
 
