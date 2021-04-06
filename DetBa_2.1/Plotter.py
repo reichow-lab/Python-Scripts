@@ -85,23 +85,19 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 for i in range(len(WinAVG[z][0])):
                     out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
 
-        CumPermeations  = [[],[],[],[],[],[]]
-        CumAverage      = [[],[],[],[],[],[]]
-        WindowAverage   = [[],[],[],[],[],[]]
+        CumPermeations  = [[],[]]
+        CumAverage      = [[],[]]
+        WindowAverage   = [[],[]]
         for z in range(5):
             for i in range(len(Final[0][0])):
-                if z == 0:
-                    CumPermeations[0].append(Final[0][0][i])
-                    CumAverage[0].append(Final[0][0][i])
-                else:
-                    CumPermeations[z].append(Final[z][2][i])
-                    CumAverage[z].append(Final[z][4][i])
+                CumPermeations[0].append(Final[0][2][i])
+                CumPermeations[1].append(Final[z][2][i])
+                CumAverage[0].append(Final[0][4][i])
+                CumAverage[1].append(Final[z][4][i])
             for i in range(len(WinAVG[0][0])):
-                if z == 0:
-                    WindowAverage[0].append(WinAVG[0][0][i])
-                else:
-                    WindowAverage[z].append(WinAVG[z][1][i])
-        plot_CumPerm = pd.DataFrame({"Time (ns)": CumPermeations[0]})
+                WindowAverage[0].append(WinAVG[0][1][i])
+                WindowAverage[z].append(WinAVG[z][1][i])
+        
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
