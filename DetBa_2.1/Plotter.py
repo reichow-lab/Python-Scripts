@@ -81,9 +81,9 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     WinAVG[z][2].append(h)
                     WinAVG[z][3].append(labels[h])
                 h += 1
-            with open(outname+f'_wa_{j}.txt', 'w') as out:
-                for i in range(len(WinAVG[0])):
-                    out.write(f"{WinAVG[0][i]}\t{WinAVG[1][i]}\t{WinAVG[2][i]}\n")
+            with open(outname+f'_wa_{z}.txt', 'w') as out:
+                for i in range(len(WinAVG[z][0])):
+                    out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
 
         # Create dataframes for plotting with seaborn
         CumPermeations  = pd.DataFrame({"Time (ns)": Final[z][0], "Cumulative Water Permeations": Final[z][2]})
