@@ -85,18 +85,29 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 for i in range(len(WinAVG[z][0])):
                     out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
 
-        # Create dataframes for plotting with seaborn
-        CumPermeations  = pd.DataFrame({"Time (ns)": Final[z][0], "Cumulative Water Permeations": Final[z][2]})
-        CumAverage      = pd.DataFrame({"Time (ns)": Final[z][0], "Cumulative Average Water Flux": Final[z][4]})
-        RunningAverage  = pd.DataFrame({"Time (ns)": WinAVG[0], "Running Average Water Flux": WinAVG[1]})
-
+        CumPermeations  = [[],[],[],[],[],[]]
+        CumAverage      = [[],[],[],[],[],[]]
+        WindowAverage   = [[],[],[],[],[],[]]
+        for z in range(-1,5):
+            for i in range(len(Final[0][0]))
+                if z == -1:
+                    CumPermeations[0].append(Final[0][0][i])
+                    CumAverage[0].append(Final[0][0][i])
+                else:
+                    CumPermeations[z].append(Final[z][2][i])
+                    CumAverage[z].append(Final[z][4][i])
+            for i in range(len(WinAVG[0][0])):
+                if z == -1:
+                    WindowAverage[0].append(WinAVG[0][0][i])
+                else:
+                    WindowAverage[z].append(WinAVG[z][1][i])
         # Plot DataFrame
         plt.xlabel("Time (ns)")
-        plt.ylabel('Running Avg. Water Flux (ns^-1)')
-        sns.lineplot(data=RunningAverage, x="Time (ns)", y="Running Average Water Flux", hue=WinAVG[3])
-        plt.savefig(outname+"_RunWatFlux.png", dpi=400)
+        plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
+        sns.lineplot(data=WindowAverage)
+        plt.savefig(outname+"_WinWatFlux.png", dpi=400)
         plt.clf()
-        sns.displot(data=WinAVG[1], kind="kde")
+        sns.displot(data=WindowAverage, kind="kde")
         plt.xlim(-(args.watlim),args.watlim)
         plt.ylim(0,0.05)
         plt.savefig(outname+"_flux-hist.png", dpi=400)
@@ -104,13 +115,13 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel('Cumulative Water Permeations')
-        sns.scatterplot(data=CumPermeations, x="Time (ns)", y="Cumulative Water Permeations", edgecolor="none", hue=Final[z][3])
+        sns.scatterplot(data=CumPermeations, edgecolor="none")
         plt.savefig(outname+"_CumWaterPerm.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
-        sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average Water Flux", edgecolor="none", hue=Final[z][3])
+        sns.scatterplot(data=CumAverage, edgecolor="none")
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
 
