@@ -167,5 +167,5 @@ if args.Wchoice == True:
         ax2.set_ylabel("Water Flux (ns^-1)")
         ax = sns.lineplot(x=IonWindow[0],y=Final[0],palette=sns.color_palette("Blues_r", n_colors=1))
         ax2 = sns.lineplot(x=IonWindow[0],y=Final[0],palette=sns.color_palette("Reds_r", n_colors=1))
-        plt.savefig(outname+"_WatVsCurr_line.png", dpi=400)
+        plt.savefig(args.outname+"_WatVsCurr_line.png", dpi=400)
         plt.clf()
