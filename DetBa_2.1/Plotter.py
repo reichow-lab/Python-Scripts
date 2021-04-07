@@ -8,6 +8,7 @@ import sys
 import argparse
 from PMFPlotter import PMFPlotter
 from TrackerPlot import TrackerPlot
+from tqdm import tqdm
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
