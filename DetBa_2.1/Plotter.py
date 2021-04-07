@@ -46,7 +46,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     pass
                 else:
                     Final[z][0].append(float(line.split()[0]))
-                    Final[z][1].append(int(line.split()[d_col]))
+                    Final[z][1].append(int(line.split()[z+1]))
                     Final[z][3].append(label)
             # generate the cumulative flux
             # generate the cumulative permeations
@@ -122,7 +122,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         plt.savefig(outname+"_CumWaterPerm.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
-        plt.ylim(0,10)
+        plt.ylim(-10,10)
         plt.xlabel("Time (ns)")
         plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
         sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average", edgecolor="none", hue="Pore Height")
