@@ -129,7 +129,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         sns.lineplot(data=CumAverageDF, x="Time (ns)", y="Cumulative Average", hue="Pore Height", palette=sns.color_palette(palette, n_colors=5))
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
-        return WindowAverage
+        return Final[0], Final[5]
 
 
 if args.Pchoice == True:
@@ -142,21 +142,16 @@ if args.Tchoice == True:
 
 if args.Wchoice == True:
 
-    WatWindow = WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
+    time,flux = WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
 
     if args.Wchoice == True and args.Tchoice == True:
         # only extract the z = +45 Å
-        WatHold = [[],[]]
         Final   = [[],[]]
-        for i in range(len(WatWindow[0])):
-            if WatWindow[2][i] == " 45 Å":
-                WatHold[0].append(WatWindow[0][i])
-                WatHold[1].append(WatWindow[1][i])
-        watx, waty = Interp(WatHold[0],WatHold[1],args.LastTime)
-        ionx, iony = Interp(IonWindow[0],IonWindow[1],args.LastTime)
+
+        watx, waty = Interp(time,flux,args.LastTime)
         for i in range(len(watx)):
             Final[0].append(waty[i])
-            Final[1].append(iony[i])
+            Final[1].append(RunAvg[1][i])
         FinalDF = pd.DataFrame({"Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
         plt.xlabel("Water Flux (ns^-1)")
         plt.ylabel("Current (pA)")
