@@ -110,7 +110,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         sns.lineplot(data=WindowAverage, x="Time (ns)", y="Windowed Average Flux (ns^-1)", hue="Pore Height", palette=sns.color_palette(palette, n_colors=5))
         plt.savefig(outname+"_WinWatFlux.png", dpi=400)
         plt.clf()
-        sns.displot(data=WindowAverage, kind="kde")
+        sns.displot(data=WindowAverage[1], kind="kde")
         plt.xlim(-(args.watlim),args.watlim)
         plt.ylim(0,0.05)
         plt.savefig(outname+"_flux-hist.png", dpi=400)
