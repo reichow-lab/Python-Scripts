@@ -90,7 +90,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         CumAverage      = [[],[],[]]
         WindowAverage   = [[],[],[]]
         zables          = ["45 Å","30 Å","0 Å","-30 Å","-45 Å"]
-        for z in range(5):
+        for z in tqdm(range(5)):
             for i in range(len(Final[0][0])):
                 CumPermeations[0].append(Final[0][2][i])
                 CumPermeations[1].append(Final[z][2][i])
