@@ -27,7 +27,7 @@ parser.add_argument("-dc", dest = "d_col", action = "store", type=int, default =
 args = parser.parse_args()
 
 def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
-    WinS = int(WS)
+    WinS = int(WS)*10
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
     print(FileList)
@@ -148,6 +148,7 @@ if args.Wchoice == True:
         Final = [[],[]]
         watx, waty = Interp(WatWindow[0],WatWindow[1],args.LastTime)
         print(watx)
+        print(IonWindow[0])
         for i in range(len(watx)):
             Final[0].append(waty[i])
             Final[1].append(IonWindow[1][i])
