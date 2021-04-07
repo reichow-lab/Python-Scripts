@@ -156,5 +156,5 @@ if args.Wchoice == True:
         plt.xlabel("Water Flux (ns^-1)")
         plt.ylabel("Current (pA)")
         sns.scatterplot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", linewidth=0)
-        plt.savefig(outname+"_ObsVsCurr.png")
+        plt.savefig(args.outname+"_WatVsCurr.png")
         plt.clf()
