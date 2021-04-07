@@ -88,7 +88,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         CumPermeations  = [[],[],[]]
         CumAverage      = [[],[],[]]
         WindowAverage   = [[],[],[]]
-        zables          = ["45 Å","30 Å","0 Å","-30 Å","-45 Å"]
+        zables          = [" 45 Å"," 30 Å","  0 Å","-30 Å","-45 Å"]
         for z in range(5):
             for i in range(len(Final[0][0])):
                 CumPermeations[0].append(Final[0][2][i])
@@ -101,6 +101,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 WindowAverage[0].append(WinAVG[0][1][i])
                 WindowAverage[1].append(WinAVG[z][1][i])
                 WindowAverage[2].append(zables[z])
+        print(CumPermeations)
         CumPermeations  = pd.DataFrame({"Time (ns)": CumPermeations[0], "Cumulative Permeations": CumPermeations[1], "Pore Height": CumPermeations[2]})
         CumAverage      = pd.DataFrame({"Time (ns)": CumAverage[0], "Cumulative Average": CumAverage[1], "Pore Height": CumAverage[2]})
         WindowAverage   = pd.DataFrame({"Time (ns)": WindowAverage[0], "Windowed Average Flux (ns^-1)": WindowAverage[1], "Pore Height": WindowAverage[2]})
