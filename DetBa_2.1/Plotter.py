@@ -149,7 +149,7 @@ if args.Wchoice == True:
         watx, waty = Interp(WatWindow[0],WatWindow[1],args.LastTime)
         print(watx)
         print(IonWindow[0])
-        for i in range(len(watx)):
+        for i in range(len(IonWindow[0])):
             Final[0].append(waty[i])
             Final[1].append(IonWindow[1][i])
         FinalDF = pd.DataFrame({"Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
