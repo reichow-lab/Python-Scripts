@@ -56,9 +56,9 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     Final[z][4].append(0)
                     Final[z][5].append(0)
                 else:
-                    Final[z][2].append(Final[z][2][i-1] + Final[z][1][i])
-                    Final[z][4].append(Final[z][2][i] / Final[z][0][i])
-                    Final[z][5].append((Final[z][2][i] - Final[z][2][i-1])/(Final[z][0][i] - Final[z][0][i-1]))
+                    Final[z][2].append(Final[z][2][i-1] + Final[z][1][i])                                       # cumulative water permeations
+                    Final[z][4].append(Final[z][2][i] / Final[z][0][i])                                         # Running Average water flux
+                    Final[z][5].append((Final[z][2][i] - Final[z][2][i-1])/(Final[z][0][i] - Final[z][0][i-1])) # Instantaneous water flux
             # Separate to calculate running-averages
             HoldSep = []
             for i in range(len(FileList)):
@@ -85,21 +85,25 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 for i in range(len(WinAVG[z][0])):
                     out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
 
-        CumPermeations  = [[],[]]
-        CumAverage      = [[],[]]
-        WindowAverage   = [[],[]]
+        CumPermeations  = [[],[],[]]
+        CumAverage      = [[],[],[]]
+        WindowAverage   = [[],[],[]]
+        zables          = ["45 Å","30 Å","0 Å","-30 Å","-45 Å"]
         for z in range(5):
             for i in range(len(Final[0][0])):
                 CumPermeations[0].append(Final[0][2][i])
                 CumPermeations[1].append(Final[z][2][i])
+                CumPermeations[2].append(zables[z])
                 CumAverage[0].append(Final[0][4][i])
                 CumAverage[1].append(Final[z][4][i])
+                CumAverage[2].append(zables[z])
             for i in range(len(WinAVG[0][0])):
                 WindowAverage[0].append(WinAVG[0][1][i])
                 WindowAverage[1].append(WinAVG[z][1][i])
-        CumPermeations  = pd.DataFrame({"Time (ns)": CumPermeations[0], "Cumulative Permeations": CumPermeations[1]})
-        CumAverage      = pd.DataFrame({"Time (ns)": CumAverage[0], "Cumulative Average": CumAverage[1]})
-        WindowAverage   = pd.DataFrame({"Time (ns)": WindowAverage[0], "Windowed Average Flux (ns^-1)": WindowAverage[1]})
+                WindowAverage[2].append(zables[z])
+        CumPermeations  = pd.DataFrame({"Time (ns)": CumPermeations[0], "Cumulative Permeations": CumPermeations[1], "Pore Height": CumPermeations[2]})
+        CumAverage      = pd.DataFrame({"Time (ns)": CumAverage[0], "Cumulative Average": CumAverage[1], "Pore Height": CumAverage[2]})
+        WindowAverage   = pd.DataFrame({"Time (ns)": WindowAverage[0], "Windowed Average Flux (ns^-1)": WindowAverage[1], "Pore Height": WindowAverage[2]})
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
