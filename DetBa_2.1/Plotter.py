@@ -145,6 +145,7 @@ if args.Wchoice == True:
     WatWindow = WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
 
     if args.Wchoice == True and args.Tchoice == True:
+        Final = [[],[]]
         watx, waty = Interp(WatWindow[0],WatWindow[1],args.LastTime)
         for i in range(len(watx)):
             Final[0].append(waty[i])
