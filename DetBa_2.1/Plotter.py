@@ -147,6 +147,7 @@ if args.Wchoice == True:
     if args.Wchoice == True and args.Tchoice == True:
         Final = [[],[]]
         watx, waty = Interp(WatWindow[0],WatWindow[1],args.LastTime)
+        print(watx)
         for i in range(len(watx)):
             Final[0].append(waty[i])
             Final[1].append(IonWindow[1][i])
