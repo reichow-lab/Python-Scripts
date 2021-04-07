@@ -102,9 +102,13 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 WindowAverage[0].append(WinAVG[0][1][i])
                 WindowAverage[1].append(WinAVG[z][1][i])
                 WindowAverage[2].append(zables[z])
+        print("debug-1")
         CumPermeations  = pd.DataFrame({"Time (ns)": CumPermeations[0], "Cumulative Permeations": CumPermeations[1], "Pore Height": CumPermeations[2]})
+        print("debug-2")
         CumAverage      = pd.DataFrame({"Time (ns)": CumAverage[0], "Cumulative Average": CumAverage[1], "Pore Height": CumAverage[2]})
+        print("debug-3")
         WindowAverage   = pd.DataFrame({"Time (ns)": WindowAverage[0], "Windowed Average Flux (ns^-1)": WindowAverage[1], "Pore Height": WindowAverage[2]})
+        print("debug-4")
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
