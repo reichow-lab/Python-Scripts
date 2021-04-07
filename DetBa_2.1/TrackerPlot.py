@@ -124,7 +124,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
                     i += 1
                 else:
                     Semi[i].append(float(line.split()[d_col]))
-            # Processdd the interpolated data
+            # Process the interpolated data
             for i in range(1,len(Semi)):
                 xnew,ynew = Interp(Semi[0],Semi[i],LT)
                 for ii in range(len(xnew)):
@@ -208,3 +208,5 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     ax = sns.histplot(data=plot_data4,stat='probability',palette=sns.color_palette(palette, n_colors=1))
     ax2 = sns.ecdfplot(data=plot_data4,stat='proportion',palette=sns.color_palette("Greys_r", n_colors=1))
     plt.savefig(outname+"_FPT.png", dpi=400)
+
+    return RunAvg

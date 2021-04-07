@@ -8,6 +8,7 @@ import sys
 import argparse
 from PMFPlotter import PMFPlotter
 from TrackerPlot import TrackerPlot
+from TrackerPlot import Interp
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
@@ -59,7 +60,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                     Final[z][2].append(Final[z][2][i-1] + Final[z][1][i])                                       # cumulative water permeations
                     Final[z][4].append(Final[z][2][i] / Final[z][0][i])                                         # Running Average water flux
                     Final[z][5].append((Final[z][2][i] - Final[z][2][i-1])/(Final[z][0][i] - Final[z][0][i-1])) # Instantaneous water flux
-            # Separate to calculate running-averages
+            # Separate to calculate windowed-averages
             HoldSep = []
             for i in range(len(FileList)):
                 HoldSep.append([])
@@ -128,7 +129,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         sns.lineplot(data=CumAverageDF, x="Time (ns)", y="Cumulative Average", hue="Pore Height", palette=sns.color_palette(palette, n_colors=5))
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
-
+        return WindowAverage
 
 
 if args.Pchoice == True:
@@ -137,8 +138,28 @@ if args.Pchoice == True:
 
 if args.Tchoice == True:
 
-    TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col,args.ObString)
+    IonWindow = TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col,args.ObString)
 
 if args.Wchoice == True:
 
-    WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
+    WatWindow = WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
+
+    if args.Wchoice == True and args.Tchoice == True:
+        # only extract the z = +45 Å
+        WatHold = [[],[]]
+        Final   = [[],[]]
+        for i in range(len(WatWindow[0])):
+            if WatWindow[2][i] == " 45 Å":
+                WatHold[0].append(WatWindow[0][i])
+                WatHold[1].append(WatWindow[1][i])
+        watx, waty = Interp(WatHold[0],WatHold[1],args.LastTime)
+        ionx, iony = Interp(IonWindow[0],IonWindow[1],args.LastTime)
+        for i in range(len(watx)):
+            Final[0].append(waty[i])
+            Final[1].append(iony[i])
+        FinalDF = pd.DataFrame({"Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
+        plt.xlabel("Water Flux (ns^-1)")
+        plt.ylabel("Current (pA)")
+        sns.scatterplot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", linewidth=0)
+        plt.savefig(outname+"_ObsVsCurr.png")
+        plt.clf()
