@@ -41,7 +41,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         with open(FILE, 'r') as f:
             all_lines = f.read().splitlines()
         # extract pertinent water tracking
-        for z in range(5):
+        for z in tqdm(range(5)):
             for line in all_lines:
                 if line.split()[0] == "Time(ns)":
                     pass
