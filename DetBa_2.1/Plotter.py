@@ -8,7 +8,6 @@ import sys
 import argparse
 from PMFPlotter import PMFPlotter
 from TrackerPlot import TrackerPlot
-from tqdm import tqdm
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
@@ -41,7 +40,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         with open(FILE, 'r') as f:
             all_lines = f.read().splitlines()
         # extract pertinent water tracking
-        for z in tqdm(range(5)):
+        for z in range(5):
             for line in all_lines:
                 if line.split()[0] == "Time(ns)":
                     pass
@@ -90,7 +89,7 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         CumAverage      = [[],[],[]]
         WindowAverage   = [[],[],[]]
         zables          = ["45 Å","30 Å","0 Å","-30 Å","-45 Å"]
-        for z in tqdm(range(5)):
+        for z in range(5):
             for i in range(len(Final[0][0])):
                 CumPermeations[0].append(Final[0][2][i])
                 CumPermeations[1].append(Final[z][2][i])
@@ -102,17 +101,13 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                 WindowAverage[0].append(WinAVG[0][1][i])
                 WindowAverage[1].append(WinAVG[z][1][i])
                 WindowAverage[2].append(zables[z])
-        print("debug-1")
         CumPermeations  = pd.DataFrame({"Time (ns)": CumPermeations[0], "Cumulative Permeations": CumPermeations[1], "Pore Height": CumPermeations[2]})
-        print("debug-2")
         CumAverage      = pd.DataFrame({"Time (ns)": CumAverage[0], "Cumulative Average": CumAverage[1], "Pore Height": CumAverage[2]})
-        print("debug-3")
         WindowAverage   = pd.DataFrame({"Time (ns)": WindowAverage[0], "Windowed Average Flux (ns^-1)": WindowAverage[1], "Pore Height": WindowAverage[2]})
-        print("debug-4")
         # Plot DataFrame
         plt.xlabel("Time (ns)")
         plt.ylabel('Windowed Avg. Water Flux (ns^-1)')
-        sns.lineplot(data=WindowAverage, x="Time (ns)", y="Windowed Average Flux (ns^-1)")
+        sns.lineplot(data=WindowAverage, x="Time (ns)", y="Windowed Average Flux (ns^-1)", hue="Pore Height")
         plt.savefig(outname+"_WinWatFlux.png", dpi=400)
         plt.clf()
         sns.displot(data=WindowAverage, kind="kde")
@@ -123,13 +118,13 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel('Cumulative Water Permeations')
-        sns.scatterplot(data=CumPermeations, x="Time (ns)", y="Cumulative Permeations", edgecolor="none")
+        sns.scatterplot(data=CumPermeations, x="Time (ns)", y="Cumulative Permeations", edgecolor="none", hue="Pore Height")
         plt.savefig(outname+"_CumWaterPerm.png", dpi=400)
         plt.clf()
         fig, ax = plt.subplots()
         plt.xlabel("Time (ns)")
         plt.ylabel("Cumulative Avg. Water Flux (ns^-1)")
-        sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average", edgecolor="none")
+        sns.scatterplot(data=CumAverage, x="Time (ns)", y="Cumulative Average", edgecolor="none", hue="Pore Height")
         plt.savefig(outname+"_CumWaterFlux.png", dpi=400)
         plt.clf()
 
