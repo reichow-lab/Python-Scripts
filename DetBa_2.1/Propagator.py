@@ -111,7 +111,7 @@ def populate(file_list, pop_mat, bin_min, bin_max, bin_s, num_bins, array_dim, d
         for i in range(len(start_list)-1):
             bin_j = 'new'
             for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
-                if abs(float(line.split()[d_col])) > bin_max:
+                if (abs(float(line.split()[d_col])) > bin_max) or (all_lines[i].split()[0] == "IonID:"):
                     pass
                 elif bin_j == 'new':
                     bin_j = ZtoBin[int(float(line.split()[d_col]))]
@@ -122,5 +122,4 @@ def populate(file_list, pop_mat, bin_min, bin_max, bin_s, num_bins, array_dim, d
                         pop_mat[bin_j,bin_i] += 1
                     elif array_dim == 0:    # Histogram calculation: choice == 'H'
                         hist_pop(bin_j)
-                print("Debug-1")
     return pop_mat
