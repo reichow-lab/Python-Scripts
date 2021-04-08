@@ -152,7 +152,7 @@ if args.Wchoice == True:
         for i in range(len(IonWindow[0])):
             Final[0].append(waty[i])
             Final[1].append(IonWindow[1][i])
-        FinalDF = pd.DataFrame({"Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
+        FinalDF = pd.DataFrame({"Time (ns)": IonWindow[0], "Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
         plt.xlabel("Water Flux (ns^-1)")
         plt.ylabel("Current (pA)")
         sns.scatterplot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", linewidth=0)
@@ -165,7 +165,7 @@ if args.Wchoice == True:
         plt.xlabel("Time (ns)")
         ax.set_ylabel("Water Flux (ns^-1)")
         ax2.set_ylabel("Current (pA)")
-        ax = sns.lineplot(x=IonWindow[0],y=Final[0],palette=sns.color_palette("Blues_r", n_colors=1))
-        ax2 = sns.lineplot(x=IonWindow[0],y=Final[1],palette=sns.color_palette("Reds_r", n_colors=1))
+        ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",palette=sns.color_palette("Blues_r", n_colors=1))
+        ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",palette=sns.color_palette("Reds_r", n_colors=1))
         plt.savefig(args.outname+"_WatVsCurr_line.png", dpi=400)
         plt.clf()
