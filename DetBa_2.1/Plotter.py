@@ -155,7 +155,7 @@ if args.Wchoice == True:
         FinalDF = pd.DataFrame({"Time (ns)": IonWindow[0], "Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
         plt.xlabel("Water Flux (ns^-1)")
         plt.ylabel("Current (pA)")
-        sns.scatterplot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", linewidth=0)
+        sns.scatterplot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", kind='kde', linewidth=0)
         plt.savefig(args.outname+"_WatVsCurr_hmap.png")
         plt.clf()
 
@@ -165,6 +165,6 @@ if args.Wchoice == True:
         plt.xlabel("Time (ns)")
         ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",ax=ax,color="#00A6ED",label='Water',legend=False)
         ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='K+',legend=False)
-        fig.legend(loc=0)
+        fig.legend()
         plt.savefig(args.outname+"_WatVsCurr_line.png", dpi=400)
         plt.clf()
