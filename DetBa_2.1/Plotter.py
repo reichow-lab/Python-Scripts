@@ -163,7 +163,7 @@ if args.Wchoice == True:
         ax2 = ax.twinx()
         plt.title("Water & Ionic Flux")
         plt.xlabel("Time (ns)")
-        ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",ax=ax,palette=sns.color_palette("Blues_r", n_colors=1))
+        ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",palette=sns.color_palette("Blues_r", n_colors=1))
         ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,palette=sns.color_palette("Reds_r", n_colors=1))
         plt.savefig(args.outname+"_WatVsCurr_line.png", dpi=400)
         plt.clf()
