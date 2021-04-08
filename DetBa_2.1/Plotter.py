@@ -163,10 +163,8 @@ if args.Wchoice == True:
         ax2 = ax.twinx()
         plt.title("Water & Ionic Flux")
         plt.xlabel("Time (ns)")
-        ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",ax=ax,color="#00A6ED")
-        ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D")
-        axs = ax+ax2
-        labs = ["Water","K+"]
-        ax.legend(axs,labs,loc=1)
+        ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",ax=ax,color="#00A6ED",label='Water',legend=False)
+        ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='K+',legend=False)
+        fig.legend()
         plt.savefig(args.outname+"_WatVsCurr_line.png", dpi=400)
         plt.clf()
