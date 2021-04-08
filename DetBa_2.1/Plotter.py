@@ -165,6 +165,6 @@ if args.Wchoice == True:
         plt.xlabel("Time (ns)")
         ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Water Flux (ns^-1)",ax=ax,color="#8DA9C4")
         ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#134074")
-        ax.figure.legend()
+        plt.legend()
         plt.savefig(args.outname+"_WatVsCurr_line.png", dpi=400)
         plt.clf()
