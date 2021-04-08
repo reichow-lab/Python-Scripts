@@ -111,7 +111,7 @@ def populate(file_list, pop_mat, bin_min, bin_max, bin_s, num_bins, array_dim, d
         for i in range(len(start_list)-1):
             bin_j = 'new'
             for line in all_lines[start_list[i]:start_list[i+1]:lag_step]:
-                if all_lines[i].split()[0] == "IonID:":
+                if line.split()[0] == "IonID:":
                     pass
                 elif abs(float(line.split()[d_col])) > bin_max:
                     pass

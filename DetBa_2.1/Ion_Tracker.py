@@ -175,7 +175,7 @@ class ION:
 			# Loop through each ion's index and process their data
 			for i in range(0,len(start_list[0])-1,1):
 				for line in all_lines[start_list[0][i]:start_list[0][i+1]]:
-					if all_lines[i].split()[0] == "IonID:":
+					if line.split()[0] == "IonID:":
 						pass
 					elif float(line.split()[d_col]) > self.BsA_upper or float(line.split()[d_col]) < self.BsB_lower:
 						pass
