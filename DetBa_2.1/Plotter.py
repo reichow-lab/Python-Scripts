@@ -155,7 +155,7 @@ if args.Wchoice == True:
         FinalDF = pd.DataFrame({"Time (ns)": IonWindow[0], "Water Flux (ns^-1)": Final[0], "Ionic Current (pA)": Final[1]})
         plt.xlabel("Water Flux (ns^-1)")
         plt.ylabel("Current (pA)")
-        sns.displot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", kind='kde', linewidth=0)
+        sns.displot(data=FinalDF, x="Water Flux (ns^-1)", y="Ionic Current (pA)", kind='kde')
         plt.savefig(args.outname+"_WatVsCurr_hmap.png")
         plt.clf()
 
