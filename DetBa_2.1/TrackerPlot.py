@@ -17,6 +17,7 @@ def count_dist_peaks(series, bins=50):
     peaks, props = find_peaks(count, prominence=50)
     return peaks, count
 def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
+    LT = LT + WS
     if bool(obs) == True:
         ObsFileList = glob(ObString)
         ObsFileList.sort()
