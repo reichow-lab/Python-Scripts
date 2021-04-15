@@ -79,9 +79,9 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                         hold.append(float(n[i+j]))
                     WinAVG[z][1].append(np.mean(hold))
                     WinAVG[z][2].append(z)
-            with open(outname+f'_wa_{z}.txt', 'w') as out:
-                for i in range(len(WinAVG[z][0])):
-                    out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
+        with open(outname+f'_WA.txt', 'w') as out:
+            for i in range(len(WinAVG[z][0])):
+                out.write(f"{WinAVG[0][0][i]}\t{WinAVG[0][1][i]}\t{WinAVG[1][1][i]}\t{WinAVG[2][1][i]}\t{WinAVG[3][1][i]}\t{WinAVG[4][1][i]}\n")
         with open(outname+f"_CA.txt", 'w') as out:
             out.write(f"Time (ns)\tz = 45\tz = 30\tz = 0\tz = -30\tz = -45\n")
             for i in range(1,15):
