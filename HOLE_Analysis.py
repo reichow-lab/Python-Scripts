@@ -31,10 +31,9 @@ for hole_file in hole_file_list:
                 Pore_Radii_Time[0].append(float(val[0]))
                 Pore_Radii_Time[1].append(float(val[1]))
                 Pore_Radii_Time[2].append(h)
-                h += 1
         if len(temp_radii) > 0:
             Pore_Radii.append(temp_radii)
-
+        h += 1
 
 # Save Extracted data for future processing
 with open(str(globstring + '_data.pkl'), 'wb') as out:
