@@ -41,7 +41,6 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
         with open(FILE, 'r') as f:
             all_lines = f.read().splitlines()
         # extract pertinent water tracking
-
         for z in range(5):
             for line in all_lines:
                 if line.split()[0] == "Time(ns)":
@@ -80,8 +79,6 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
                         hold.append(float(n[i+j]))
                     WinAVG[z][1].append(np.mean(hold))
                     WinAVG[z][2].append(z)
-                    WinAVG[z][3].append(labels[h])
-                h += 1
             with open(outname+f'_wa_{z}.txt', 'w') as out:
                 for i in range(len(WinAVG[z][0])):
                     out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
