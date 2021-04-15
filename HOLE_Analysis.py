@@ -17,22 +17,21 @@ up_lim  = 65
 low_lim = -65
 Pore_Radii = []
 Pore_Axis  = np.arange(-65,66)
-Pore_Radii_Time = [[]]
-for i in range(-65,66):
-    Pore_Radii_Time[0].append(i)
-i = 0
+Pore_Radii_Time = [[],[],[]]
 print(len(hole_file_list))
 # Extract relevant data from HOLE output files
+h = 1
 for hole_file in hole_file_list:
-    i += 1
-    Pore_Radii_Time.append([])
     with open(hole_file) as FileIN:
         temp_radii = []
         for line in FileIN:
             val = line.split()
             if (float(val[0]) <= up_lim and float(val[0]) >= low_lim):
                 temp_radii.append(float(val[1]))
-                Pore_Radii_Time[i].append(float(val[1]))
+                Pore_Radii_Time[0].append(float(val[0]))
+                Pore_Radii_Time[1].append(float(val[1]))
+                Pore_Radii_Time[2].append(h)
+                h += 1
         if len(temp_radii) > 0:
             Pore_Radii.append(temp_radii)
 
@@ -43,9 +42,9 @@ with open(str(globstring + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Axis, out)
 with open(str(globstring + '_Time.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii_Time, out)
-print(len(Pore_Radii_Time))
+PoreRadiiDF = pd.DataFrame({"Pore Axis": Pore_Radii_Time[0], "Pore Radii": Pore_Radii_Time[1]})
 plt.xlabel("Pore Axis")
 plt.ylabel('Pore Radii')
-sns.lineplot(data=Pore_Radii_Time, palette=sns.color_palette('Blues_r', n_colors = 10))
+sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", palette=sns.color_palette('Blues_r', n_colors = h))
 plt.savefig(globstring+"_TEST.png", dpi=400)
 plt.clf()
