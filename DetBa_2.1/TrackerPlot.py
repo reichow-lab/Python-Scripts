@@ -98,7 +98,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
             RunAvg[2].append(h)
             RunAvg[3].append(labels[h])
         h += 1
-    with open(outname+'_wa.txt', 'w') as out:
+    with open(outname+'_CurrWA.txt', 'w') as out:
         for i in range(len(RunAvg[0])):
             out.write(f"{RunAvg[0][i]}\t{RunAvg[1][i]}\t{RunAvg[2][i]}\n")
     if bool(obs) == True:
