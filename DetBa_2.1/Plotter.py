@@ -82,9 +82,10 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
             with open(outname+f'_wa_{z}.txt', 'w') as out:
                 for i in range(len(WinAVG[z][0])):
                     out.write(f"{WinAVG[z][0][i]}\t{WinAVG[z][1][i]}\t{WinAVG[z][2][i]}\n")
-            with open(outname+f"_ca_{z}.txt", 'w') as out:
-                for i in range(1,15):
-                    out.write(f"{Final[z][0][-(i*10)]}\t{Final[z][4][-(i*10)]}\n")
+        with open(outname+f"_ca_{z}.txt", 'w') as out:
+            out.write(f"Time (ns)\tz = 45\tz = 30\tz = 0\tz = -30\tz = -45\n")
+            for i in range(1,15):
+                out.write(f"{Final[0][0][-(i*10)]}\t{Final[0][4][-(i*10)]}\t{Final[1][4][-(i*10)]}\t{Final[2][4][-(i*10)]}\t{Final[3][4][-(i*10)]}\t{Final[4][4][-(i*10)]}\n")
 
         CumPermeations  = [[],[],[]]
         CumAverage      = [[],[],[]]
