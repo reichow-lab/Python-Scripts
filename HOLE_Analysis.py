@@ -45,6 +45,6 @@ with open(str(globstring + '_Time.pkl'), 'wb') as out:
 print(len(Pore_Radii_Time))
 plt.xlabel("Pore Axis")
 plt.ylabel('Pore Radii')
-sns.lineplot(data=Pore_Radii_Time, palette=sns.color_palette('Blues_r', n_colors=199))
+sns.lineplot(data=Pore_Radii_Time, palette=sns.color_palette('Blues_r'))
 plt.savefig(globstring+"_TEST.png", dpi=400)
 plt.clf()
