@@ -23,10 +23,11 @@ parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "stor
 parser.add_argument("-c", dest = "palette", action = "store", default = "Blues_r")
 parser.add_argument("-lt", dest = "LastTime", action = "store", type=int, default = 1800)
 parser.add_argument("-dc", dest = "d_col", action = "store", type=int, default = 1)
+parser.add_argument("-EP", dest = "EP", action = "store", type=bool, default = False)
 
 args = parser.parse_args()
 
-def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
+def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim,EP):
     WinS = int(WS)*10
     FileList = glob(system+"*WatFlux*")
     FileList.sort()
@@ -36,7 +37,10 @@ def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim):
     WinAVG = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]]
     labels = []
     for i in range(len(FileList)):
-        labels.append(input("Label? "))
+        if EP == True:
+            labels.append("Water")
+        else:
+            labels.append(input("Label? "))
     for FILE, label in zip(FileList, labels):
         with open(FILE, 'r') as f:
             all_lines = f.read().splitlines()
@@ -139,11 +143,11 @@ if args.Pchoice == True:
 
 if args.Tchoice == True:
 
-    IonWindow = TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col,args.ObString)
+    IonWindow = TrackerPlot(args.datstring,0,args.outname,args.palette,args.WS,args.Bchoice,args.LastTime,args.d_col,args.ObString,args.EP)
 
 if args.Wchoice == True:
 
-    WatWindow = WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim)
+    WatWindow = WatFluxTrack(args.datstring,args.outname,args.palette,args.WS,args.LastTime,args.d_col,args.watlim,args.EP)
 
     if args.Wchoice == True and args.Tchoice == True:
         Final = [[],[]]

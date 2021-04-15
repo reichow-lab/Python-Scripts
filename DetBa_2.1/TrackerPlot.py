@@ -16,7 +16,7 @@ def count_dist_peaks(series, bins=50):
     count, division = np.histogram(series, bins=bins)
     peaks, props = find_peaks(count, prominence=50)
     return peaks, count
-def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
+def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString,EP):
     LT = LT + WS
     if bool(obs) == True:
         ObsFileList = glob(ObString)
@@ -30,7 +30,10 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString):
     elemC,convF = 1.60217662e-19,(1e-9/1e-12)
     for i in range(len(FileList)):
         hues.append(i)
-        labels.append(input("Label? "))
+        if EP == True:
+            labels.append("K+")
+        else:
+            labels.append(input("Label? "))
     # Import Data and interpolate. Also import the dts
     # fpt or First Passage Time (properly the first transition time)
     fptList = [[],[]]
