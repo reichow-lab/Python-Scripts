@@ -20,7 +20,7 @@ Pore_Axis  = np.arange(-65,66)
 Pore_Radii_Time = [[],[],[]]
 print(len(hole_file_list))
 # Extract relevant data from HOLE output files
-h = 1
+h = 0
 for hole_file in hole_file_list:
     with open(hole_file) as FileIN:
         temp_radii = []
