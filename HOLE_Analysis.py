@@ -3,6 +3,7 @@ from glob import glob
 from sys import argv
 import pickle as pkl
 import pandas as pd
+import matplotlib.pyplot as plt
 script, globstring = argv
 
 # Create list of the appropriate HOLE files
