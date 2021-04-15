@@ -2,7 +2,7 @@ import numpy as np
 from glob import glob
 from sys import argv
 import pickle as pkl
-
+import pandas as pd
 script, globstring = argv
 
 # Create list of the appropriate HOLE files
@@ -40,3 +40,9 @@ with open(str(globstring + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Axis, out)
 with open(str(globstring + '_Time.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii_Time, out)
+
+plt.xlabel("Pore Axis")
+plt.ylabel('Pore Radii')
+sns.lineplot(data=Pore_Radii_Time palette=sns.color_palette(palette, n_colors=199))
+plt.savefig(globstring+"_TEST.png", dpi=400)
+plt.clf()
