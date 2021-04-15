@@ -42,7 +42,7 @@ with open(str(globstring + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Axis, out)
 with open(str(globstring + '_Time.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii_Time, out)
-
+print(len(Pore_Radii_Time))
 plt.xlabel("Pore Axis")
 plt.ylabel('Pore Radii')
 sns.lineplot(data=Pore_Radii_Time, palette=sns.color_palette('Blues_r', n_colors=199))
