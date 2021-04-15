@@ -21,6 +21,7 @@ Pore_Radii_Time = [[]]
 for i in range(-65,66):
     Pore_Radii_Time[0].append(i)
 i = 0
+print(len(hole_file_list))
 # Extract relevant data from HOLE output files
 for hole_file in hole_file_list:
     i += 1
