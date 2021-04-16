@@ -10,7 +10,7 @@ parser.add_argument("-dat", dest = "datfile", action = "store")
 parser.add_argument("-out", dest = "outname", action = "store", default = "OUTFILE")
 parser.add_argument("-c", "--choice", dest = "choice", action = "store")
 parser.add_argument("-exp", dest = "exp", action = "store")
-parser.add_argument("-color", dest = "color", action = "store")
+parser.add_argument("-color", dest = "color", action = "store", default = "blue")
 parser.add_argument("-sym")
 args = parser.parse_args()
 
