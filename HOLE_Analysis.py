@@ -36,14 +36,14 @@ for hole_file in hole_file_list:
         h += 1
 print(h)
 # Save Extracted data for future processing
-with open(str(globstring + '_data.pkl'), 'wb') as out:
-    pkl.dump(Pore_Radii, out)
-    pkl.dump(Pore_Axis, out)
-with open(str(globstring + '_Time.pkl'), 'wb') as out:
-    pkl.dump(Pore_Radii_Time, out)
+#with open(str(globstring + '_data.pkl'), 'wb') as out:
+#    pkl.dump(Pore_Radii, out)
+#    pkl.dump(Pore_Axis, out)
+#with open(str(globstring + '_Time.pkl'), 'wb') as out:
+#    pkl.dump(Pore_Radii_Time, out)
 PoreRadiiDF = pd.DataFrame({"Pore Axis": Pore_Radii_Time[0], "Pore Radii": Pore_Radii_Time[1]})
 plt.xlabel("Pore Axis")
 plt.ylabel('Pore Radii')
-sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", hue=Pore_Radii_Time[2], palette=sns.color_palette('Blues_r', n_colors = (h-1)))
+sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", hue=Pore_Radii_Time[2])
 plt.savefig(globstring+"_TEST.png", dpi=400)
 plt.clf()
