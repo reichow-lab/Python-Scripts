@@ -20,8 +20,6 @@ if args.outname == None:
 	print("Output name is unspecified. Using default: OUTFILE.png/txt")
 if args.choice != 'apbs' and args.choice != 'hole':
 	print("make a choice! hole or apbs")
-if args.color == None:
-	print("Pick a color")
 
 # Set color scheme
 
