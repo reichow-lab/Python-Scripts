@@ -34,7 +34,7 @@ for hole_file in hole_file_list:
         if len(temp_radii) > 0:
             Pore_Radii.append(temp_radii)
         h += 1
-
+print(h)
 # Save Extracted data for future processing
 with open(str(globstring + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii, out)
