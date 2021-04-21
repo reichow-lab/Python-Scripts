@@ -13,10 +13,10 @@ hole_file_list = glob(globstring)
 hole_file_list.sort()
 
 # Load HOLE output files
-up_lim  = 65
-low_lim = -65
+up_lim  = 75
+low_lim = -75
 Pore_Radii = []
-Pore_Axis  = np.arange(-65,66)
+Pore_Axis  = np.arange(-75,76)
 Pore_Radii_Time = [[],[],[]]
 print(len(hole_file_list))
 # Extract relevant data from HOLE output files
