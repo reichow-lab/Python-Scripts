@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
+from scipy.interpolate import interp1d
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
