@@ -55,7 +55,7 @@ for i in range(h):
             hold_upper.append(Pore_Radii_Time[1][j])
         elif Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] >= (-1*args.max) and Pore_Radii_Time[0][j] <= (-1*args.min):
             hold_lower.append(Pore_Radii_Time[1][j])
-    Pore_UpVsLow[0].append(h*10)
+    Pore_UpVsLow[0].append(i*10)
     Pore_UpVsLow[1].append(np.mean(hold_upper))
     Pore_UpVsLow[2].append(np.mean(hold_lower))
 print(Pore_UpVsLow)
