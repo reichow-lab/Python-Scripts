@@ -6,13 +6,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
-
+from TrackerPlot import Interp
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
 parser.add_argument("-out", dest = "outname", action = "store", default = "OUTFILE")
 parser.add_argument("-min", dest = "min", action = "store", type = int, default = "45")
 parser.add_argument("-max", dest = "max", action = "store", type = int, default = "60")
+parser.add_argument("-lt", dest = "LastTime", action = "store", type=int, default = 1800)
+parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "store", default = 100)
 
 args = parser.parse_args()
 
@@ -64,8 +66,21 @@ with open(str(args.outname + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Axis, out)
 with open(str(args.outname + '_Time.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii_Time, out)
+# Calculate sliding window average
+HUx, HUy = Interp(Pore_UpVsLow[0],Pore_UpVsLow[1],args.LastTime)
+HLx, HLy = Interp(Pore_UpVsLow[0],Pore_UpVsLow[2],args.LastTime)
+WinAVG = [[],[],[]]
+for i in range(len(HUx)-args.WS):
+    WinAVG[0].append(HUx[i])
+    holdU, holdL = [], []
+    for j in range(args.WS):
+        holdU.append(float(HUy[i+j]))
+        holdL.append(float(HLy[i+j]))
+    WinAVG[1].append(np.mean(holdU))
+    WinAVG[2].append(np.mean(holdL))
+
 PoreRadiiDF = pd.DataFrame({"Pore Axis": Pore_Radii_Time[0], "Pore Radii": Pore_Radii_Time[1]})
-PoreTimeDF  = pd.DataFrame({"Time (ns)": Pore_UpVsLow[0], "Upper Radii (Å)": Pore_UpVsLow[1], "Lower Radii (Å)": Pore_UpVsLow[2]})
+PoreTimeDF  = pd.DataFrame({"Time (ns)": WinAVG[0], "Upper Radii (Å)": WinAVG[1], "Lower Radii (Å)": WinAVG[2]})
 plt.xlabel("Pore Axis")
 plt.ylabel('Pore Radii')
 sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", hue=Pore_Radii_Time[2])
