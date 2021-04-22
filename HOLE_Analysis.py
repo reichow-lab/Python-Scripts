@@ -63,8 +63,8 @@ for i in range(h):
         elif Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] >= (-1*args.max) and Pore_Radii_Time[0][j] <= (-1*args.min):
             hold_lower.append(Pore_Radii_Time[1][j])
     Pore_UpVsLow[0].append(i*10)
-    Pore_UpVsLow[1].append(np.mean(hold_upper))
-    Pore_UpVsLow[2].append(np.mean(hold_lower))
+    Pore_UpVsLow[1].append(np.min(hold_upper))
+    Pore_UpVsLow[2].append(np.min(hold_lower))
 #fss Save Extracted data for future processing
 with open(str(args.outname + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii, out)
