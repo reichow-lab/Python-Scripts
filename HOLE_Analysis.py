@@ -59,10 +59,10 @@ for i in range(h):
     Pore_UpVsLow[1].append(np.mean(hold_upper))
     Pore_UpVsLow[2].append(np.mean(hold_lower))
 #fss Save Extracted data for future processing
-with open(str(globstring + '_data.pkl'), 'wb') as out:
+with open(str(args.datstring + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii, out)
     pkl.dump(Pore_Axis, out)
-with open(str(globstring + '_Time.pkl'), 'wb') as out:
+with open(str(args.datstring + '_Time.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii_Time, out)
 PoreRadiiDF = pd.DataFrame({"Pore Axis": Pore_Radii_Time[0], "Pore Radii": Pore_Radii_Time[1]})
 PoreTimeDF  = pd.DataFrame({"Time (ns)": Pore_UpVsLow[0], "Upper Radii (Å)": Pore_UpVsLow[1], "Lower Radii (Å)": Pore_UpVsLow[2]})
