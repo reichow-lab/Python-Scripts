@@ -6,7 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
-from TrackerPlot import Interp
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
@@ -18,6 +17,11 @@ parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "stor
 
 args = parser.parse_args()
 
+def Interp(xin,yin,LT):
+    f = interp1d(xin,yin,kind="previous")
+    xnew = np.arange(0,LT,1)
+    ynew = f(xnew)
+    return xnew,ynew
 # Create list of the appropriate HOLE files
 
 hole_file_list = glob(args.datstring)
