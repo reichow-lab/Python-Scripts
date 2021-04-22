@@ -48,6 +48,7 @@ print(h)
 # Pore_UpVsLow: [[Time (ns)],[Upper Avg],[Lower Avg]]
 Pore_UpVsLow = [[],[],[]]
 for i in range(h):
+    hold_upper, hold_lower = [], []
     for j in range(len(Pore_Radii_Time[0])):
         # separate the two halves of the channel.
         if Pore_Radii_Time[2] == i and Pore_Radii_Time[0] <= args.max and Pore_Radii_Time[0] >= args.min:
