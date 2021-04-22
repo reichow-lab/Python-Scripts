@@ -11,8 +11,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
 parser.add_argument("-out", dest = "outname", action = "store", default = "OUTFILE")
-parser.add_argument("-min", dest = "min", action = "store", default = "45")
-parser.add_argument("-max", dest = "max", action = "store", default = "60")
+parser.add_argument("-min", dest = "min", action = "store", type = int, default = "45")
+parser.add_argument("-max", dest = "max", action = "store", type = int, default = "60")
 
 args = parser.parse_args()
 
@@ -51,7 +51,7 @@ for i in range(h):
     hold_upper, hold_lower = [], []
     for j in range(len(Pore_Radii_Time[0])):
         # separate the two halves of the channel.
-        if Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] <= args.max and Pore_Radii_Time[0][j] >= args.min:
+        if float(Pore_Radii_Time[2][j]) == i and float(Pore_Radii_Time[0][j]) <= args.max and float(Pore_Radii_Time[0][j]) >= args.min:
             hold_upper.append(Pore_Radii_Time[1][j])
         elif Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] >= (-1*args.max) and Pore_Radii_Time[0][j] <= (-1*args.min):
             hold_lower.append(Pore_Radii_Time[1][j])
