@@ -5,11 +5,20 @@ import pickle as pkl
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-script, globstring = argv
+import argparse
+
+# Parse inputs
+parser = argparse.ArgumentParser()
+parser.add_argument("-dat", dest = "datstring", action = "store")
+parser.add_argument("-out", dest = "outname", action = "store", default = "OUTFILE")
+parser.add_argument("-min", dest = "min", action = "store", default = "45")
+parser.add_argument("-max", dest = "max", action = "store", default = "60")
+
+args = parser.parse_args()
 
 # Create list of the appropriate HOLE files
 
-hole_file_list = glob(globstring)
+hole_file_list = glob(datstring)
 hole_file_list.sort()
 
 # Load HOLE output files
@@ -35,15 +44,33 @@ for hole_file in hole_file_list:
             Pore_Radii.append(temp_radii)
         h += 1
 print(h)
-# Save Extracted data for future processing
-#with open(str(globstring + '_data.pkl'), 'wb') as out:
-#    pkl.dump(Pore_Radii, out)
-#    pkl.dump(Pore_Axis, out)
-#with open(str(globstring + '_Time.pkl'), 'wb') as out:
-#    pkl.dump(Pore_Radii_Time, out)
+# define pore-region of interest, and record the averages through time.
+# Pore_UpVsLow: [[Time (ns)],[Upper Avg],[Lower Avg]]
+Pore_UpVsLow = [[],[],[]]
+for i in range(h):
+    for j in range(len(Pore_Radii_Time[0])):
+        # separate the two halves of the channel.
+        if Pore_Radii_Time[2] == i and Pore_Radii_Time[0] <= max and Pore_Radii_Time[0] >= min:
+            hold_upper.append(Pore_Radii_Time[1])
+        elif Pore_Radii_Time[2] == i and Pore_Radii_Time[0] >= (-1*max) and Pore_Radii_Time[0] <= (-1*min):
+            hold_lower.append(Pore_Radii_Time[1])
+    Pore_UpVsLow[0].append(h*10)
+    Pore_UpVsLow[1].append(np.mean(hold_upper))
+    Pore_UpVsLow[2].append(np.mean(hold_lower))
+#fss Save Extracted data for future processing
+with open(str(globstring + '_data.pkl'), 'wb') as out:
+    pkl.dump(Pore_Radii, out)
+    pkl.dump(Pore_Axis, out)
+with open(str(globstring + '_Time.pkl'), 'wb') as out:
+    pkl.dump(Pore_Radii_Time, out)
 PoreRadiiDF = pd.DataFrame({"Pore Axis": Pore_Radii_Time[0], "Pore Radii": Pore_Radii_Time[1]})
+PoreTimeDF  = pd.DataFrame({"Time (ns)": Pore_UpVsLow[0], "Upper Radii (Å)": Pore_UpVsLow[1], "Lower Radii (Å)": Pore_UpVsLow[2]})
 plt.xlabel("Pore Axis")
 plt.ylabel('Pore Radii')
 sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", hue=Pore_Radii_Time[2])
-plt.savefig(globstring+"_TEST.png", dpi=400)
+plt.savefig(globstring+"_TTime.png", dpi=400)
+plt.clf()
+sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Upper Radii (Å)", palette=sns.color_palette(Reds_r, n_colors=1))
+sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Lower Radii (Å)", palette=sns.color_palette(Blues_r, n_colors=1))
+plt.savefig(globstring+"_RTime.png", dpi=400)
 plt.clf()
