@@ -76,3 +76,7 @@ sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Upper Radii (Å)", palette=sns.c
 sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Lower Radii (Å)", palette=sns.color_palette('Blues_r', n_colors=1))
 plt.savefig(args.outname+"_RTime.png", dpi=400)
 plt.clf()
+with open(args.outname+"_RTime.txt", 'w') as out:
+    out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
+    for i in range(len(Pore_UpVsLow[0])):
+        out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
