@@ -51,13 +51,14 @@ for i in range(h):
     hold_upper, hold_lower = [], []
     for j in range(len(Pore_Radii_Time[0])):
         # separate the two halves of the channel.
-        if float(Pore_Radii_Time[2][j]) == i and float(Pore_Radii_Time[0][j]) <= args.max and float(Pore_Radii_Time[0][j]) >= args.min:
+        if Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] <= args.max and Pore_Radii_Time[0][j] >= args.min:
             hold_upper.append(Pore_Radii_Time[1][j])
         elif Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] >= (-1*args.max) and Pore_Radii_Time[0][j] <= (-1*args.min):
             hold_lower.append(Pore_Radii_Time[1][j])
     Pore_UpVsLow[0].append(h*10)
     Pore_UpVsLow[1].append(np.mean(hold_upper))
     Pore_UpVsLow[2].append(np.mean(hold_lower))
+print(Pore_UpVsLow)
 #fss Save Extracted data for future processing
 with open(str(args.outname + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii, out)
