@@ -51,18 +51,18 @@ for i in range(h):
     hold_upper, hold_lower = [], []
     for j in range(len(Pore_Radii_Time[0])):
         # separate the two halves of the channel.
-        if Pore_Radii_Time[2] == i and Pore_Radii_Time[0] <= args.max and Pore_Radii_Time[0] >= args.min:
-            hold_upper.append(Pore_Radii_Time[1])
-        elif Pore_Radii_Time[2] == i and Pore_Radii_Time[0] >= (-1*args.max) and Pore_Radii_Time[0] <= (-1*args.min):
-            hold_lower.append(Pore_Radii_Time[1])
+        if Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] <= args.max and Pore_Radii_Time[0][j] >= args.min:
+            hold_upper.append(Pore_Radii_Time[1][j])
+        elif Pore_Radii_Time[2][j] == i and Pore_Radii_Time[0][j] >= (-1*args.max) and Pore_Radii_Time[0][j] <= (-1*args.min):
+            hold_lower.append(Pore_Radii_Time[1][j])
     Pore_UpVsLow[0].append(h*10)
     Pore_UpVsLow[1].append(np.mean(hold_upper))
     Pore_UpVsLow[2].append(np.mean(hold_lower))
 #fss Save Extracted data for future processing
-with open(str(args.datstring + '_data.pkl'), 'wb') as out:
+with open(str(args.outname + '_data.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii, out)
     pkl.dump(Pore_Axis, out)
-with open(str(args.datstring + '_Time.pkl'), 'wb') as out:
+with open(str(args.outname + '_Time.pkl'), 'wb') as out:
     pkl.dump(Pore_Radii_Time, out)
 PoreRadiiDF = pd.DataFrame({"Pore Axis": Pore_Radii_Time[0], "Pore Radii": Pore_Radii_Time[1]})
 PoreTimeDF  = pd.DataFrame({"Time (ns)": Pore_UpVsLow[0], "Upper Radii (Å)": Pore_UpVsLow[1], "Lower Radii (Å)": Pore_UpVsLow[2]})
