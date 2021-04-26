@@ -103,7 +103,7 @@ with open(args.outname+"_RTime.txt", 'w') as out:
     out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
     for i in range(len(Pore_UpVsLow[0])):
         out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
-if tchoice == True:
+if args.tchoice == True:
     IonWindow = TrackerPlot("Cx",0,args.outname,"Blues_r",args.WS,False,args.LastTime,1,"N/A",False)
     #Final: [[Ionic Current],[UpperHole],[LowerHole]]
     Final = [[],[],[]]
