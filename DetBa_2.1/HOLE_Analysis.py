@@ -109,10 +109,9 @@ if args.tchoice == True:
     Final = [[],[],[]]
     for i in range(len(IonWindow[0])):
         Final[0].append(IonWindow[1][i])
-        Final[1].append(HUy[i])
-        Final[2].append(HLy[i])
+        Final[1].append(WinAVG[1][i])
+        Final[2].append(WinAVG[2][i])
     FinalDF = pd.DataFrame({"Time (ns)": IonWindow[0], "Ionic Current (pA)": Final[0], "Upper Radii (Å)": Final[1], "Lower Radii (Å)": Final[2]})
-
     fig, ax = plt.subplots()
     ax2 = ax.twinx()
     plt.xlabel("Time (ns)")
