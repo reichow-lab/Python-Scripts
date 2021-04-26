@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
 from scipy.interpolate import interp1d
+from TrackerPlot import TrackerPlot
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
@@ -15,7 +16,7 @@ parser.add_argument("-min", dest = "min", action = "store", type = int, default 
 parser.add_argument("-max", dest = "max", action = "store", type = int, default = "60")
 parser.add_argument("-lt", dest = "LastTime", action = "store", type=int, default = 1800)
 parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "store", default = 100)
-
+parser.add_argument("-t", dest = "tchoice", type=bool, action="store", default=False)
 args = parser.parse_args()
 
 def Interp(xin,yin,LT):
@@ -102,3 +103,22 @@ with open(args.outname+"_RTime.txt", 'w') as out:
     out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
     for i in range(len(Pore_UpVsLow[0])):
         out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
+if tchoice == True:
+    IonWindow = TrackerPlot(args.datstring,0,args.outname,"Blues_r",args.WS,False,args.LastTime,1,"N/A",False)
+    #Final: [[Ionic Current],[UpperHole],[LowerHole]]
+    Final = [[],[],[]]
+    for i in range(len(IonWindow[0])):
+        Final[0].append(IonWindow[1][i])
+        Final[1].append(HUy[i])
+        Final[2].append(HLy[i])
+    FinalDF = pd.DataFrame({"Time (ns)": IonWindow[0], "Ionic Current (pA)": Final[0], "Upper Radii (Å)": Final[1], "Lower Radii (Å)": Final[2]})
+
+    fig, ax = plt.subplots()
+    ax2 = ax.twinx()
+    plt.xlabel("Time (ns)")
+    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Upper Radii (Å)",ax=ax,color="#00A6ED",label='Upper Radii',legend=False,linewidth=1)
+    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Lower Radii (Å)",ax=ax,color="#01A6ED",label='Lower Radii',legend=False,linewidth=1)
+    ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='Current',legend=False,linewidth=1)
+    fig.legend()
+    plt.savefig(args.outname+"_HoleVsCurr_line.png", dpi=400)
+    plt.clf()
