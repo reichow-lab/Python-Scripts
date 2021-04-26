@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
 from scipy.interpolate import interp1d
-from DetBa_2.1/TrackerPlot import TrackerPlot
+TrackerPlot import TrackerPlot
 # Parse inputs
 parser = argparse.ArgumentParser()
 parser.add_argument("-dat", dest = "datstring", action = "store")
