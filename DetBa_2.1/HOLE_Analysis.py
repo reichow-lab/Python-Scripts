@@ -118,6 +118,7 @@ if args.tchoice == True:
     ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Upper Radii (Å)",ax=ax,color="#00A6ED",label='Upper Radii',legend=False,linewidth=1.5)
     ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Lower Radii (Å)",ax=ax,color="#7D5BA6",label='Lower Radii',legend=False,linewidth=1.5)
     ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='Current',legend=False,linewidth=1)
+    fig.set_size_inches(8, 8)
     fig.legend()
     plt.savefig(args.outname+"_HoleVsCurr_line.png", dpi=400)
     plt.clf()
