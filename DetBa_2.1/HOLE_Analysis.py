@@ -132,7 +132,8 @@ if args.tchoice and args.hole:
     plt.clf()
 if args.apbs:
     # Unpickle the APBS data.
-    with open(args.apbsdat, 'rb') as datin:
+    APBSFILE = glob(args.apbsdat)
+    with open(APBSFILE, 'rb') as datin:
     	CenterPots = pkl.load(datin)
     	CenterPore = pkl.load(datin)
     # Load HOLE output files
