@@ -139,7 +139,7 @@ if args.apbs:
     # Extract relevant data from HOLE output files
     h = 0
     for potfile in CenterPots:
-        temp_potential = []
+        temp_Potential = []
         for i in range(len(CenterPore)):
             if (float(CenterPore[i]) <= up_lim and float(CenterPore[i]) >= low_lim):
                 temp_Potential.append(float(potfile[i]))
