@@ -4,8 +4,8 @@ import gridData as gd
 from glob import glob
 from sys import argv
 import pickle as pkl
-
-script, globstring, rmin = argv
+from tqdm import tqdm
+script, globstring, outname, rmin = argv
 
 # Create list of the appropriate volume files
 
@@ -13,8 +13,8 @@ volume_file_list = glob(globstring)
 volume_file_list.sort()
 # Load volume files
 Volume_List = []
-for file in volume_file_list:
-        Volume_List.append(gd.Grid(file))
+for i in tqdm(range(len(volume_file_list))):
+        Volume_List.append(gd.Grid(volume_file_list[i]))
 # Find center (x,y) of array (i.e. center of the Gap Junction pore – aligned using VMD)
 Xo_list = []
 Yo_list = []
@@ -48,7 +48,7 @@ for den in Volume_List:
         x,y,z     = den.edges
         Pore_Axes.append(z[0:-1])
         PotentialTemp = []
-        for z in range(0,lenz,1):
+        for z in tqdm(range(0,lenz,1)):
                 Avg_pot   = 0
                 total_pot = 0
                 for i in range(0,len(x_list[denN]),1):
@@ -59,6 +59,6 @@ for den in Volume_List:
         CenterPots.append(PotentialTemp)
         denN += 1
 # Save Extracted data for future processing
-with open(str(globstring + '_data.pkl'), 'wb') as out:
+with open(str(outname + '_apbs.pkl'), 'wb') as out:
         pkl.dump(CenterPots, out)
         pkl.dump(Pore_Axes[0], out)
