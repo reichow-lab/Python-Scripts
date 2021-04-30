@@ -11,29 +11,18 @@ script, globstring, rmin = argv
 
 volume_file_list = glob(globstring)
 volume_file_list.sort()
-
 # Load volume files
-
 Volume_List = []
-
 for file in volume_file_list:
-
         Volume_List.append(gd.Grid(file))
-
 # Find center (x,y) of array (i.e. center of the Gap Junction pore – aligned using VMD)
-
 Xo_list = []
 Yo_list = []
-
 for den in Volume_List:
-
         lenx, leny, lenz = den.grid.shape
-
         Xo_list.append(int(lenx/2))
         Yo_list.append(int(leny/2))
-
 # Find list of all (x,y) pairs that are within core of radius = rmin
-
 rmin = int(rmin)
 xmax = int(rmin)
 ymax = int(rmin)
@@ -52,12 +41,10 @@ for xo,yo in zip(Xo_list,Yo_list):
         x_list.append(x_list_temp)
         y_list.append(y_list_temp)
 # Average the potentials from each point in the circular plane for a given z-value
-
 CenterPots = []
 Pore_Axes  = []
 denN       = 0
 for den in Volume_List:
-
         x,y,z     = den.edges
         Pore_Axes.append(z[0:-1])
         PotentialTemp = []
@@ -71,28 +58,7 @@ for den in Volume_List:
                 PotentialTemp.append(Avg_pot)
         CenterPots.append(PotentialTemp)
         denN += 1
-
 # Save Extracted data for future processing
-
 with open(str(globstring + '_data.pkl'), 'wb') as out:
-
         pkl.dump(CenterPots, out)
         pkl.dump(Pore_Axes[0], out)
-
-# Calculate mean and error
-
-#Final = []
-##
-#Final.append(np.mean(CenterPots, axis=0))
-#Final.append(np.mean(CenterPots, axis=0) + np.std(CenterPots, axis=0))
-#Final.append(np.mean(CenterPots, axis=0) - np.std(CenterPots, axis=0))
-#
-## Plot Data
-#
-#for i in range(0,len(Final),1):
-#	plt.plot(Pore_Axes[0],Final[i])
-#plt.title("TEST")
-#plt.xlabel('Pore-Axis (A)')
-#plt.ylabel('Potential (kT/e)')
-##plt.ylim(-20,10)
-#plt.savefig("TEST.png",dpi=600)
