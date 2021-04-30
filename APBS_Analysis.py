@@ -4,7 +4,7 @@ import gridData as gd
 from glob import glob
 from sys import argv
 import pickle as pkl
-
+from tqdm import tqdm
 script, globstring, rmin = argv
 
 # Create list of the appropriate volume files
@@ -44,7 +44,7 @@ for xo,yo in zip(Xo_list,Yo_list):
 CenterPots = []
 Pore_Axes  = []
 denN       = 0
-for den in Volume_List:
+for den in tqdm(Volume_List):
         x,y,z     = den.edges
         Pore_Axes.append(z[0:-1])
         PotentialTemp = []
