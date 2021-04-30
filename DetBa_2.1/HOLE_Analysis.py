@@ -135,7 +135,7 @@ if args.apbs:
     low_lim = -75
     Pore_Potential = []
     Pore_Axis  = np.arange(-75,76)
-    Pore_Radii_Time = [[],[],[]]
+    Pore_Potential_Time = [[],[],[]]
     # Extract relevant data from HOLE output files
     h = 0
     for potfile in CenterPots:
