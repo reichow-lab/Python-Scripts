@@ -94,16 +94,16 @@ if args.hole:
     plt.xlabel("Pore Axis")
     plt.ylabel('Pore Radii')
     sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", hue=Pore_Radii_Time[2])
-    plt.savefig(args.outname+"_TTime.png", dpi=400)
+    plt.savefig(args.outname+"_HOLE_TTime.png", dpi=400)
     plt.clf()
     plt.xlabel("Time (ns)")
     plt.ylabel('Pore Radii (Å)')
     sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Upper Radii (Å)",label='Upper Half',legend=False, color="#00A6ED")
     sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Lower Radii (Å)",label='Lower Half',legend=False, color="#F6511D")
     plt.legend()
-    plt.savefig(args.outname+"_RTime.png", dpi=400)
+    plt.savefig(args.outname+"_HOLE_RTime.png", dpi=400)
     plt.clf()
-    with open(args.outname+"_RTime.txt", 'w') as out:
+    with open(args.outname+"_HOLE_RTime.txt", 'w') as out:
         out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
         for i in range(len(Pore_UpVsLow[0])):
             out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
@@ -186,16 +186,16 @@ if args.apbs:
     plt.xlabel("Pore Axis")
     plt.ylabel('Pore Radii')
     sns.lineplot(data=PoreRadiiDF, x="Pore Axis", y="Pore Radii", hue=Pore_Potential_Time[2])
-    plt.savefig(args.outname+"_TTime.png", dpi=400)
+    plt.savefig(args.outname+"_APBS_TTime.png", dpi=400)
     plt.clf()
     plt.xlabel("Time (ns)")
     plt.ylabel('Pore Radii (Å)')
     sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Upper Radii (Å)",label='Upper Half',legend=False, color="#00A6ED")
     sns.lineplot(data=PoreTimeDF, x="Time (ns)", y="Lower Radii (Å)",label='Lower Half',legend=False, color="#F6511D")
     plt.legend()
-    plt.savefig(args.outname+"_RTime.png", dpi=400)
+    plt.savefig(args.outname+"_APBS_RTime.png", dpi=400)
     plt.clf()
-    with open(args.outname+"_RTime.txt", 'w') as out:
+    with open(args.outname+"_APBS_RTime.txt", 'w') as out:
         out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
         for i in range(len(Pore_UpVsLow[0])):
             out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
@@ -218,5 +218,5 @@ if args.tchoice and args.apbs:
     ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='Current',legend=False,linewidth=1)
     fig.set_size_inches(8, 8)
     fig.legend()
-    plt.savefig(args.outname+"_HoleVsCurr_line.png", dpi=400)
+    plt.savefig(args.outname+"_APBSVsCurr_line.png", dpi=400)
     plt.clf()
