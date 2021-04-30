@@ -106,6 +106,27 @@ if args.hole:
         out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
         for i in range(len(Pore_UpVsLow[0])):
             out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
+if args.tchoice and args.hole:
+    IonWindow = TrackerPlot("Cx",0,args.outname,"Blues_r",args.WS,False,args.LastTime,1,"N/A",False)
+    #Final: [[Ionic Current],[UpperHole],[LowerHole]]
+    Final = [[],[],[]]
+    for i in range(len(WinAVG[0])):
+        Final[0].append(IonWindow[1][i])
+        Final[1].append(WinAVG[1][i])
+        Final[2].append(WinAVG[2][i])
+    FinalDF = pd.DataFrame({"Time (ns)": WinAVG[0], "Ionic Current (pA)": Final[0], "Upper Radii (Å)": Final[1], "Lower Radii (Å)": Final[2]})
+    fig, ax = plt.subplots()
+    ax2 = ax.twinx()
+    plt.xlabel("Time (ns)")
+    plt.xlim(-80,80)
+    ax.ylim(0,18)
+    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Upper Radii (Å)",ax=ax,color="#00A6ED",label='Upper Radii',legend=False,linewidth=1.5)
+    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Lower Radii (Å)",ax=ax,color="#7D5BA6",label='Lower Radii',legend=False,linewidth=1.5)
+    ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='Current',legend=False,linewidth=1)
+    fig.set_size_inches(8, 8)
+    fig.legend()
+    plt.savefig(args.outname+"_HoleVsCurr_line.png", dpi=400)
+    plt.clf()
 if args.apbs:
     # Unpickle the APBS data.
     with open(args.datstring, 'rb') as datin:
@@ -177,7 +198,7 @@ if args.apbs:
         out.write("Time (ns)\tUpper Radii (Å)\tLower Radii (Å)\n")
         for i in range(len(Pore_UpVsLow[0])):
             out.write(f"{Pore_UpVsLow[0][i]}\t{Pore_UpVsLow[1][i]}\t{Pore_UpVsLow[2][i]}\n")
-if args.tchoice:
+if args.tchoice and args.apbs:
     IonWindow = TrackerPlot("Cx",0,args.outname,"Blues_r",args.WS,False,args.LastTime,1,"N/A",False)
     #Final: [[Ionic Current],[UpperHole],[LowerHole]]
     Final = [[],[],[]]
@@ -185,12 +206,14 @@ if args.tchoice:
         Final[0].append(IonWindow[1][i])
         Final[1].append(WinAVG[1][i])
         Final[2].append(WinAVG[2][i])
-    FinalDF = pd.DataFrame({"Time (ns)": WinAVG[0], "Ionic Current (pA)": Final[0], "Upper Radii (Å)": Final[1], "Lower Radii (Å)": Final[2]})
+    FinalDF = pd.DataFrame({"Time (ns)": WinAVG[0], "Ionic Current (pA)": Final[0], "Upper Potential (Kcal/mol)": Final[1], "Lower Potential (Kcal/mol)": Final[2]})
     fig, ax = plt.subplots()
     ax2 = ax.twinx()
     plt.xlabel("Time (ns)")
-    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Upper Radii (Å)",ax=ax,color="#00A6ED",label='Upper Radii',legend=False,linewidth=1.5)
-    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Lower Radii (Å)",ax=ax,color="#7D5BA6",label='Lower Radii',legend=False,linewidth=1.5)
+    plt.xlim(-80,80)
+    ax.ylim(-150,150)
+    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Upper Potential (Kcal/mol)",ax=ax,color="#00A6ED",label='Upper Potential (Kcal/mol)',legend=False,linewidth=1.5)
+    ax = sns.lineplot(data=FinalDF,x="Time (ns)",y="Lower Potential (Kcal/mol)",ax=ax,color="#7D5BA6",label='Lower Potential (Kcal/mol)',legend=False,linewidth=1.5)
     ax2 = sns.lineplot(data=FinalDF,x="Time (ns)",y="Ionic Current (pA)",ax=ax2,color="#F6511D",label='Current',legend=False,linewidth=1)
     fig.set_size_inches(8, 8)
     fig.legend()
