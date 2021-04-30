@@ -136,7 +136,6 @@ if args.apbs:
     Pore_Potential = []
     Pore_Axis  = np.arange(-75,76)
     Pore_Radii_Time = [[],[],[]]
-    print(len(hole_file_list))
     # Extract relevant data from HOLE output files
     h = 0
     for potfile in CenterPots:
