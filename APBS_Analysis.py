@@ -13,8 +13,8 @@ volume_file_list = glob(globstring)
 volume_file_list.sort()
 # Load volume files
 Volume_List = []
-for file in volume_file_list:
-        Volume_List.append(gd.Grid(file))
+for i in tqdm(range(len(volume_file_list))):
+        Volume_List.append(gd.Grid(volume_file_list[i]))
 # Find center (x,y) of array (i.e. center of the Gap Junction pore – aligned using VMD)
 Xo_list = []
 Yo_list = []
