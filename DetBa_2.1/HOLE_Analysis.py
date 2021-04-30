@@ -18,6 +18,7 @@ parser.add_argument("-lt", dest = "LastTime", action = "store", type=int, defaul
 parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "store", default = 100)
 parser.add_argument("-t", dest = "tchoice", type=bool, action="store", default=False)
 parser.add_argument("-apbs", dest = "apbs", type=bool, action="store", default=False)
+parser.add_argument("-as", dest = "apbsdat", action = "store")
 parser.add_argument("-hole", dest = "hole", type=bool, action="store", default=False)
 args = parser.parse_args()
 
@@ -129,7 +130,7 @@ if args.tchoice and args.hole:
     plt.clf()
 if args.apbs:
     # Unpickle the APBS data.
-    with open(args.datstring, 'rb') as datin:
+    with open(args.apbsdat, 'rb') as datin:
     	CenterPots = pkl.load(datin)
     	CenterPore = pkl.load(datin)
     # Load HOLE output files
