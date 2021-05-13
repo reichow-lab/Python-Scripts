@@ -35,9 +35,9 @@ def ObsPlot(system,outname,colnum):
     FinalU, FinalL = [[],[],[]], [[],[],[]]
     label = 0
     for Ufile, Lfile in zip(UList,LList):
-        with (open Ufile 'r') as UF:
+        with open(Ufile, 'r') as UF:
             U_all_lines = f.read().splitlines()
-        with (open Lfile 'r') as LF:
+        with open(Lfile, 'r') as LF:
             L_all_lines = f.read().splitlines()
         for Uline, Lline in zip(U_all_lines,L_all_lines):
             if Uline.split()[0] == "Chain:":
