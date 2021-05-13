@@ -62,9 +62,10 @@ def ObsPlot(system,outname,colnum):
     ax.set_ylabel("Probability Mass Function")
     ax2.set_ylabel("Cumulative Distribution Function")
     ax = sns.histplot(data=UObsDF,x="Obs",stat='probability',label='Upper',legend=False,color="#7400B8")
-    ax2 = sns.ecdfplot(data=UObsDF,x="Obs",stat='proportion',color="#5E60CE")
+    #ax2 = sns.ecdfplot(data=UObsDF,x="Obs",stat='proportion',color="#5E60CE")
     ax = sns.histplot(data=LObsDF,x="Obs",stat='probability',label='Lower',legend=False,color="#80FFDB")
-    ax2 = sns.ecdfplot(data=LObsDF,x="Obs",stat='proportion',color="#64DFDF")
+    #ax2 = sns.ecdfplot(data=LObsDF,x="Obs",stat='proportion',color="#64DFDF")
+    fig.legend()
     plt.savefig(outname+"_LvsU_Obs.png", dpi=400)
     plt.clf()
 
