@@ -42,7 +42,7 @@ def ObsPlot(system,outname,colnum):
         for Uline, Lline in zip(U_all_lines,L_all_lines):
             if Uline.split()[0] == "Chain:":
                 pass
-            if Lline.split()[0] == "chain:":
+            if Lline.split()[0] == "Chain:":
                 pass
             FinalU[0].append(float(Uline.split()[0])/10)
             FinalU[1].append(float(Uline.split()[colnum]))
