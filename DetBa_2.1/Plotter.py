@@ -45,7 +45,7 @@ def ObsPlot(system,outname,colnum):
             if Lline.split()[0] == "chain:":
                 pass
             FinalU[0].append(Uline.split()[float(0)/10])
-            FinalU[1].append(Uline.split()[colnum])ObsPlot(system,outname,colnum)
+            FinalU[1].append(Uline.split()[colnum])
             FinalU[2].append(label)
             FinalL[0].append(Lline.split()[float(0)/10])
             FinalL[1].append(Lline.split()[colnum])
