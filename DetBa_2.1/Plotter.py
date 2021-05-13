@@ -17,15 +17,54 @@ parser.add_argument("-p", "--pmf", dest = "Pchoice", action = "store", type=bool
 parser.add_argument("-t", "--track", dest = "Tchoice", action = "store", type=bool, default = False)
 parser.add_argument("-w", "--water", dest = "Wchoice", action = "store", type=bool, default = False)
 parser.add_argument("-wl", "--watlimit", dest = "watlim", action = "store", type=float, default = 60)
-parser.add_argument("-b", "--obs", dest = "Bchoice", action = "store", type=bool, default = False)
+parser.add_argument("-b", dest = "Bchoice", action = "store", type=bool, default = False)
 parser.add_argument("-bs", dest = "ObString", action = "store")
 parser.add_argument("-ws", "--windowsize", dest = "WS", type=int, action = "store", default = 100)
 parser.add_argument("-c", dest = "palette", action = "store", default = "Blues_r")
 parser.add_argument("-lt", dest = "LastTime", action = "store", type=int, default = 1800)
 parser.add_argument("-dc", dest = "d_col", action = "store", type=int, default = 1)
 parser.add_argument("-EP", dest = "EP", action = "store", type=bool, default = False)
+parser.add_argument("-obs", dest = "Obschoice", action = "store", type=bool, default = False)
 
 args = parser.parse_args()
+def ObsPlot(system,outname,colnum):
+    UList = glob(system+"*.U.obs")
+    LList = glob(system+"*.L.obs")
+    UList.sort()
+    LList.sort()
+    FinalU, FinalL = [[],[],[]], [[],[],[]]
+    label = 0
+    for Ufile, Lfile in zip(UList,LList):
+        with (open Ufile 'r') as UF:
+            U_all_lines = f.read().splitlines()
+        with (open Lfile 'r') as LF:
+            L_all_lines = f.read().splitlines()
+        for Uline, Lline in zip(U_all_lines,L_all_lines):
+            if Uline.split()[0] == "Chain:":
+                pass
+            if Lline.split()[0] == "chain:":
+                pass
+            FinalU[0].append(Uline.split()[float(0)/10])
+            FinalU[1].append(Uline.split()[colnum])
+            FinalU[2].append(label)
+            FinalL[0].append(Lline.split()[float(0)/10])
+            FinalL[1].append(Lline.split()[colnum])
+            FinalL[2].append(label)
+        label += 1
+    UObsDF = pd.DataFrame({"Time (ns)": FinalU[0], "Obs": FinalU[1]})
+    LObsDF = pd.DataFrame({"Time (ns)": FinalL[0], "Obs": FinalL[1]})
+    fig, ax = plt.subplots()
+    ax2 = ax.twinx()
+    np.set_printoptions(precision=3)
+    plt.xlabel("Obs")
+    ax.set_ylabel("Probability Mass Function")
+    ax2.set_ylabel("Cumulative Distribution Function")
+    ax = sns.histplot(data=UObsDF,x="Obs",stat='probability',label='Upper',legend=False,color="7400B8")
+    ax2 = sns.ecdfplot(data=UObsDF,x="Obs",stat='proportion',color="5E60CE")
+    ax = sns.histplot(data=LObsDF,x="Obs",stat='probability',label='Lower',legend=False,color="80FFDB")
+    ax2 = sns.ecdfplot(data=LObsDF,x="Obs",stat='proportion',color="64DFDF")
+    plt.savefig(outname+"_LvsU_Obs.png", dpi=400)
+    plt.clf()
 
 def WatFluxTrack(system,outname,palette,WS,LT,d_col,watlim,EP):
     WinS = int(WS)*10
