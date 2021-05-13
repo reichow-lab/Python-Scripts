@@ -42,14 +42,16 @@ def ObsPlot(system,outname,colnum):
         for Uline, Lline in zip(U_all_lines,L_all_lines):
             if Uline.split()[0] == "Chain:":
                 pass
+            else:
+                FinalU[0].append(float(Uline.split()[0])/10)
+                FinalU[1].append(float(Uline.split()[colnum]))
+                FinalU[2].append(label)
             if Lline.split()[0] == "Chain:":
                 pass
-            FinalU[0].append(float(Uline.split()[0])/10)
-            FinalU[1].append(float(Uline.split()[colnum]))
-            FinalU[2].append(label)
-            FinalL[0].append(float(Lline.split()[0])/10)
-            FinalL[1].append(float(Lline.split()[colnum]))
-            FinalL[2].append(label)
+            else:
+                FinalL[0].append(float(Lline.split()[0])/10)
+                FinalL[1].append(float(Lline.split()[colnum]))
+                FinalL[2].append(label)
         label += 1
     UObsDF = pd.DataFrame({"Time (ns)": FinalU[0], "Obs": FinalU[1]})
     LObsDF = pd.DataFrame({"Time (ns)": FinalL[0], "Obs": FinalL[1]})
