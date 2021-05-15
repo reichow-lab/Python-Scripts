@@ -191,7 +191,7 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString,EP):
     plt.xlabel("Time (ns)")
     plt.ylabel('Ion Permeations')
     plt.xlim(0,260)
-    plt.ylim(0,500)
+    plt.ylim(0,200)
     sns.lineplot(data=plot_data1, x="Time (ns)", y="Ion Permeations", hue=Final[2], linewidth=4, palette=sns.color_palette(palette, n_colors=len(FileList)))
     plt.savefig(outname+"_flux.png", transparent=True, dpi=400)
     plt.clf()
