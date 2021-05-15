@@ -95,7 +95,7 @@ def PMFPlotter(system,outname,palette):
     plt.title('PMF')
     plt.xlabel("Pore Axis (A)")
     plt.ylabel('Energy (Kcal/mol)')
-    sns.lineplot(data=PMFPot, x="Pore-Axis (A)", y="Energy (Kcal/mol)", hue=Final[4], style=Final[4])
+    sns.lineplot(data=PMFPot, x="Pore-Axis (A)", y="Energy (Kcal/mol)", transparent=True, hue=Final[4], style=Final[4])
     plt.savefig(outname+"_PssPMF.png", dpi=400)
     plt.clf()
     plt.xlim(-85,85)
