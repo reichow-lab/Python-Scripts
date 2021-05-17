@@ -11,7 +11,7 @@ parser.add_argument("-o",dest="outname",action="store")
 args = parser.parse_args()
 # Open the .dx from PMEPot, and calculate grid-demensions
 PMEPotIN = Grid(args.infile)
-lenx, leny, lenz = PMEPot.grid.shape
+lenx, leny, lenz = PMEPotIN.grid.shape
 # loop through the z-axis of the reaction potential and add the applied linear-potential
 for z in range(lenz):
     for x in range(lenx):
