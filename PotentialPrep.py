@@ -1,5 +1,5 @@
 import numpy as np
-import from gridData import Grid
+from gridData import Grid
 import sys
 import argparse
 # one PMEpot unit (kT/e) of electrostatic potential is equivalent to 0.0258 Volts. (or 25.8 mV)
