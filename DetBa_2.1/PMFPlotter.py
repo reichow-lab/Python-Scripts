@@ -90,7 +90,7 @@ def PMFPlotter(system,outname,palette):
     DrivePot = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[2]})
     DiffPot = pd.DataFrame({"Pore-Axis (A)":Final[0], "Energy (Kcal/mol)": Final[3]})
     plt.xlim(-85,85)
-    plt.ylim(-0.5,3)
+    plt.ylim(-0.5,1.5)
     sns.set_palette(palette)
     plt.title('PMF')
     plt.xlabel("Pore Axis (A)")
