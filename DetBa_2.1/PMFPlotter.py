@@ -7,7 +7,8 @@ import pandas as pd
 
 #script, system, outname, palette = argv
 #het = bool(int(input("Homotypic (0) or Heterotypic (1)? ")))
-def PMFPlotter(system,outname,palette):
+def PMFPlotter(system,outname,pal):
+    palette = {"Avg. PMF": pal}
     het = True # We've decided to not symmetrize any of our data.
     RateList = glob(system+"*rate_final.txt_asym.txt")
     if het == False:
