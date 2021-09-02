@@ -214,5 +214,6 @@ def TrackerPlot(system,start,outname,palette,WS,obs,LT,d_col,ObString,EP):
     ax2 = sns.ecdfplot(data=plot_data4,stat='proportion',palette=sns.color_palette("Greys_r", n_colors=1))
     plt.savefig(outname+"_FPT.png", dpi=400)
     plt.clf()
+    plot_data4.to_CSV(outname+"_FPT.csv")
 
     return RunAvg
